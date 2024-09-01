@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
 
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pet',
-    'customer',
     'accounts'
 ]
 
@@ -132,6 +132,10 @@ STATICFILES_DIRS=[
 MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media/')
 
+# settings.py
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Ensure this is included
+]
 
 
 # Default primary key field type
