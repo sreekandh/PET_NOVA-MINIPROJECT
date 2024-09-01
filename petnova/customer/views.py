@@ -29,7 +29,7 @@ def show_account(request):
             success_message="User registered successfully"
             messages.success(request,success_message)
         except Exception as e:
-            error_message="bla bla bla invalid inputs"
+            error_message="invalid inputs"
             messages.error(request,error_message)
     
 
