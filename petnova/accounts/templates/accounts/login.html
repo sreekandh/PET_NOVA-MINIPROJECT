@@ -1,16 +1,84 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login Form</title>
+    <style>
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        
+        form input[type="email"],
+        form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        
+        form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        form button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        
+        form a {
+            display: block;
+            margin-top: 10px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        
+        form a:hover {
+            text-decoration: underline;
+        }
+        
+        .google-signin {
+            margin-top: 20px;
+            display: inline-block;
+            background-color: #db4437;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .google-signin:hover {
+            background-color: #c33c2d;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+    <center>
+        <form action="{% url 'home' %}" method="POST">
+            {% csrf_token %}
+            <input type="email" name="email" required placeholder="Email">
+            <input type="password" name="password" required minlength="5" placeholder="Password">
+            <button type="submit" name="login" class="btn">Login</button>
+            <a href="{% url 'register' %}">Don't have an account? Sign up</a>
+        </form>
+    </center>
 </body>
 </html>
+{% endblock banner %}
