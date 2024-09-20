@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Details</title>
+    <style>
+        .pet-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .pet-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pet-item img {
+            width: 100px; /* Set the image size */
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cat or Dog</h1>
+
+    <div class="pet-container">
+        <!-- Cat Details -->
+        <div class="pet-item">
+            <a href="{% url 'cat_details' %}">
+                <img src="" alt="Cats">
+                Cats
+            </a>
+        </div>
+
+        <!-- Dog Details -->
+        <div class="pet-item">
+            <a href="{% url 'dog_details' %}">
+                <img src="" alt="Dogs">
+                Dogs
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
