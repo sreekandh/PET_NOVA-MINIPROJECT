@@ -1,49 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Details</title>
-    <style>
-        .pet-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        .pet-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .pet-item img {
-            width: 100px; /* Set the image size */
-            height: 100px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Cat or Dog</h1>
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
 
-    <div class="pet-container">
-        <!-- Cat Details -->
-        <div class="pet-item">
-            <a href="{% url 'cat_details' %}">
-                <img src="" alt="Cats">
-                Cats
-            </a>
-        </div>
+<h1 class="title">Choose Your Pet: Cat or Dog</h1>
 
-        <!-- Dog Details -->
-        <div class="pet-item">
-            <a href="{% url 'dog_details' %}">
-                <img src="" alt="Dogs">
-                Dogs
-            </a>
-        </div>
+<!-- Back Button to Home Page --><br>
+ <br>
+ <br>
+<a href="{% url 'home' %}" class="back-button"><<--</a>
+
+<div class="pet-container">
+    <!-- Cat Details -->
+    <div class="pet-item">
+        <a href="{% url 'cat_details' %}" class="pet-link">
+            <img src="{% static 'images/cat.jpg' %}" alt="Cats" class="pet-image">
+            <span></span>
+        </a>
     </div>
 
-</body>
-</html>
+    <!-- Dog Details -->
+    <div class="pet-item">
+        <a href="{% url 'dog_details' %}" class="pet-link">
+            <img src="{% static 'images/dog.jpg' %}" alt="Dogs" class="pet-image">
+            <span></span><br><br><br><br>
+            <br><br><br><br>
+        </a>
+    </div>
+</div>
+
+<style>
+    /* General Page Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        height: 100vh;
+        position: relative; /* To position the back button */
+    }
+
+    /* Title Styling */
+    .title {
+        font-size: 36px;
+        color: #333;
+        margin: 40px 0;
+    }
+
+    /* Back Button Styling */
+    .back-button {
+        position: absolute; /* Position the button absolutely */
+        top: 60px; /* Distance from the top */
+        left: 20px; /* Distance from the left */
+        padding: 10px 20px;
+        background-color: transparent; /* Transparent background */
+        color: white; /* White text color */
+        text-decoration: none;
+        border: 1px solid white; /* White border for the button */
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* Slight background color change on hover */
+    }
+
+    /* Container for the Pet Items */
+    .pet-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        gap: 40px;
+    }
+
+    /* Individual Pet Item Styling */
+    .pet-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Link Styling */
+    .pet-link {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        font-size: 22px;
+        transition: transform 0.3s ease;
+        text-align: center;
+    }
+
+    /* Image Styling */
+    .pet-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    /* Hover Effect on Image and Link */
+    .pet-link:hover .pet-image {
+        transform: scale(1.1);
+    }
+
+    .pet-link:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+        .pet-image {
+            width: 120px;
+            height: 120px;
+        }
+    }
+</style>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+
+{% endblock banner %}

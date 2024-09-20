@@ -1,11 +1,85 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dog</title>
+    <title>Dogs</title>
 </head>
 <body>
-    <h1>hi dogss</h1>
+    <!-- Back Button to Pet Details Page -->
+    <a href="{% url 'pet_details' %}" class="back-button"><<--</a>
+
+    <h1 style="text-align: center; color: #444;">Dogs</h1>
+
+    <div class="small-container" style="max-width: 1200px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="title" style="font-size: 28px; margin-bottom: 20px; color: #444; text-align: center;">Featured Dogs</h2>
+        <div class="row" style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <a href="{% url 'pet_details' 'husky' %}">
+                    <img src="{% static 'images/dog_husky.jpeg' %}" alt="Husky" style="width: 100%; height: auto; border-radius: 8px;">
+                </a>
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">Husky</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Age: 3 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Price: $300.00</p>
+            </div>
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <a href="{% url 'pet_details' 'labrador' %}">
+                    <img src="{% static 'images/dog_labrador.jpg' %}" alt="Labrador" style="width: 100%; height: auto; border-radius: 8px;">
+                </a>
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">Labrador</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Age: 4 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Price: $250.00</p>
+            </div>
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <a href="{% url 'pet_details' 'rottweiler' %}">
+                    <img src="{% static 'images/dog_rottweiler.jpg' %}" alt="Rottweiler" style="width: 100%; height: auto; border-radius: 8px;">
+                </a>
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">Rottweiler</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Age: 2 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Price: $350.00</p>
+            </div>
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <a href="{% url 'pet_details' 'beagle' %}">
+                    <img src="{% static 'images/dog.jpg' %}" alt="Beagle" style="width: 100%; height: auto; border-radius: 8px;">
+                </a>
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">Beagle</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Age: 5 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Price: $200.00</p>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br>
+
+    <!-- Back Button CSS -->
+    <style>
+        .back-button {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
 </body>
 </html>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+
+{% endblock banner %}
