@@ -1,0 +1,178 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
+
+<h1 class="title">Our Caretaker Services</h1>
+
+<!-- Back Button to Home Page -->
+<a href="{% url 'staff_info' %}" class="back-button"><<--</a>
+
+<div class="service-container">
+    <!-- Pet Walking Service -->
+    <div class="service-item">
+        <img src="{% static 'images/pet_walking.jpg' %}" alt="Pet Walking" class="service-image">
+        <div class="service-description">
+            <h2 class="service-text">Pet Walking</h2>
+            <p>Our caretakers will take your pet for a refreshing walk to keep them happy and healthy.</p>
+            <p>Service Duration: 30-60 minutes</p>
+            <p>Cost: $20.00 per walk</p>
+        </div>
+    </div>
+
+    <!-- Pet Sitting/Overnight Care Service -->
+    <div class="service-item">
+        <img src="{% static 'images/pet_sitting.png' %}" alt="Overnight Care" class="service-image">
+        <div class="service-description">
+            <h2 class="service-text">Pet Sitting (Overnight Care)</h2>
+            <p>Our caretakers will stay with your pet while you're out of town, ensuring they’re well-fed, safe, and comfortable.</p>
+            <p>Service Duration: Overnight stay</p>
+            <p>Cost: $80.00 per night</p>
+        </div>
+    </div>
+
+    <!-- Pet Grooming Service -->
+    <div class="service-item">
+        <img src="{% static 'images/pet_grooming.jpg' %}" alt="Pet Grooming" class="service-image">
+        <div class="service-description">
+            <h2 class="service-text">Pet Grooming</h2>
+            <p>Our professional grooming service includes bathing, trimming, and nail care to keep your pet looking their best.</p>
+            <p>Service Duration: 1-2 hours</p>
+            <p>Cost: $50.00 per session</p>
+        </div>
+    </div>
+
+    <!-- Pet Feeding and Care Service -->
+    <div class="service-item">
+        <img src="{% static 'images/pet_feeding.png' %}" alt="Pet Feeding and Care" class="service-image">
+        <div class="service-description">
+            <h2 class="service-text">Pet Feeding and Care</h2>
+            <p>We provide regular feeding and basic care for your pet when you're unable to do so.</p>
+            <p>Service Duration: Custom schedule</p>
+            <p>Cost: $15.00 per visit</p>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br>
+
+<style>
+    /* General Page Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        height: 100vh;
+        position: relative; /* To position the back button */
+    }
+
+    /* Title Styling */
+    .title {
+        font-size: 36px;
+        color: #333;
+        margin: 40px 0;
+    }
+
+    /* Back Button Styling */
+    .back-button {
+        position: absolute;
+        top: 60px;
+        left: 20px;
+        padding: 10px 20px;
+        background-color: transparent;
+        color: white;
+        text-decoration: none;
+        border: 1px solid white;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Container for the Service Items */
+    .service-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+    }
+
+    /* Individual Service Item Styling */
+    .service-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        text-align: left;
+        max-width: 800px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    /* Image Styling */
+    .service-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    /* Description Styling */
+    .service-description {
+        flex: 1;
+    }
+
+    /* Service Title Styling */
+    .service-text {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Hover Effect on Image */
+    .service-item:hover .service-image {
+        transform: scale(1.1);
+    }
+
+    /* Hover Effect on Entire Service Item */
+    .service-item:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+        .service-container {
+            gap: 20px;
+        }
+
+        .service-image {
+            width: 120px;
+            height: 120px;
+        }
+
+        .service-item {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .service-description {
+            text-align: center;
+        }
+    }
+</style>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+
+{% endblock banner %}

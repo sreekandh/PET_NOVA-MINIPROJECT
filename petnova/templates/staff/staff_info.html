@@ -1,0 +1,134 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
+
+<h1 class="title">Select Your Service: Trainer or Caretaker</h1>
+
+<!-- Back Button to Home Page -->
+<a href="{% url 'home' %}" class="back-button"><<--</a>
+
+<div class="service-container">
+    <!-- Trainer Service -->
+    <div class="service-item">
+        <a href="{% url 'trainer_service' %}" class="service-link">
+            <img src="{% static 'images/pet_trainer.png' %}" alt="Trainer Service" class="service-image">
+            <span class="service-text">  Training Service</span>
+        </a>
+    </div>
+
+    <!-- Caretaker Service -->
+    <div class="service-item">
+        <a href="{% url 'caretaker_service' %}" class="service-link">
+            <img src="{% static 'images/pet_caretaker.png' %}" alt="Caretaker Service" class="service-image">
+            <span class="service-text">  Caretaker Service</span>
+        </a>
+    </div>
+</div>
+<br>
+<br><br>
+<br>
+<br><br>
+<br>
+<br><br>
+<br>
+
+<style>
+    /* General Page Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        height: 100vh;
+        position: relative; /* To position the back button */
+    }
+
+    /* Title Styling */
+    .title {
+        font-size: 36px;
+        color: #333;
+        margin: 40px 0;
+    }
+
+    /* Back Button Styling */
+    .back-button {
+        position: absolute; /* Position the button absolutely */
+        top: 60px; /* Distance from the top */
+        left: 20px; /* Distance from the left */
+        padding: 10px 20px;
+        background-color: transparent; /* Transparent background */
+        color: white; /* White text color */
+        text-decoration: none;
+        border: 1px solid white; /* White border for the button */
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* Slight background color change on hover */
+    }
+
+    /* Container for the Service Items */
+    .service-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        gap: 40px;
+    }
+
+    /* Individual Service Item Styling */
+    .service-item {
+        display: flex; /* Flex direction is row */
+        align-items: center; /* Align items vertically centered */
+        gap: 20px; /* Space between image and text */
+    }
+
+    /* Link Styling */
+    .service-link {
+        display: flex; /* Display flex to align text and image */
+        align-items: center; /* Center align vertically */
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        font-size: 22px;
+        transition: transform 0.3s ease;
+        text-align: left; /* Align text to the left */
+    }
+
+    /* Image Styling */
+    .service-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    /* Hover Effect on Image and Link */
+    .service-link:hover .service-image {
+        transform: scale(1.1);
+    }
+
+    .service-link:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+        .service-image {
+            width: 120px;
+            height: 120px;
+        }
+    }
+</style>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+
+{% endblock banner %}

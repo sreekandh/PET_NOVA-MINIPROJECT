@@ -1,0 +1,89 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Details</title>
+</head>
+<body>
+    <!-- Back Button to Trainer List Page -->
+    <a href="{% url 'staff_info' %}" class="back-button"><<--</a>
+
+    <h1 style="text-align: center; color: #444;">Trainer Details</h1>
+
+    <div class="small-container" style="max-width: 1200px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+
+        <div class="row" style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
+            <!-- Trainer 1 -->
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <img src="{% static 'images/user-1.png' %}" alt="Trainer 1" style="width: 100%; height: auto; border-radius: 8px;">
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">claire</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Specialization: Dog Training</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Experience: 5 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Fees: $50.00 per session</p>
+            </div>
+
+            <!-- Trainer 2 -->
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <img src="{% static 'images/user-2.png' %}" alt="Trainer 2" style="width: 100%; height: auto; border-radius: 8px;">
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">joe</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Specialization: Cat Training</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Experience: 4 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Fees: $45.00 per session</p>
+            </div>
+
+            <!-- Trainer 3 -->
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <img src="{% static 'images/user-3.png' %}" alt="Trainer 3" style="width: 100%; height: auto; border-radius: 8px;">
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">steffany</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Specialization: Obedience Training</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Experience: 6 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Fees: $55.00 per session</p>
+            </div>
+
+            <!-- Trainer 4 -->
+            <div class="col-4" style="flex: 1 1 200px; max-width: 200px; text-align: center; transition: transform 0.3s; background-color: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                <img src="{% static 'images/buy-1.jpg' %}" alt="Trainer 4" style="width: 100%; height: auto; border-radius: 8px;">
+                <h4 style="margin: 10px 0; font-size: 20px; color: #333;">mark</h4>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Specialization: Agility Training</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Experience: 3 years</p>
+                <p style="margin: 5px 0; font-size: 16px; color: #777;">Fees: $60.00 per session</p>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br><br><br>
+    
+    <!-- Back Button CSS -->
+    <style>
+        .back-button {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    
+</body>
+</html>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+
+{% endblock banner %}
