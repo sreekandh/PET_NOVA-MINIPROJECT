@@ -1,0 +1,132 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f1f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #df9389; /* Updated color */
+            margin-bottom: 20px;
+        }
+
+        .profile-info p {
+            font-size: 18px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .profile-info p strong {
+            color: #333;
+        }
+
+        .profile-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #df9389; /* Updated color */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-btn:hover {
+            background-color: #c97f72; /* Darker shade for hover */
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #ffffff; /* Updated color */
+            text-decoration: none;
+            border: 1px solid hsl(0, 0%, 100%); /* Updated color */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(223, 147, 137, 0.2); /* Lighter hover effect */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button to Home Page -->
+    <a href="{% url 'home' %}" class="back-button"><< Back</a>
+
+    <div class="profile-container">
+        <h1>Welcome, {{ user.username }}</h1>
+        <div class="profile-info">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #df9389;"><strong>Email:</strong></td>
+                    <td style="padding: 10px; border: 1px solid #df9389;">{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #df9389;"><strong>First Name:</strong></td>
+                    <td style="padding: 10px; border: 1px solid #df9389;">{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #df9389;"><strong>Last Name:</strong></td>
+                    <td style="padding: 10px; border: 1px solid #df9389;">{{ user.last_name }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #df9389;"><strong>Phone:</strong></td>
+                    <td style="padding: 10px; border: 1px solid #df9389;">{{ user.phone }}</td>
+                </tr>
+            </table>
+        </div>
+        
+
+        <div class="button-container">
+            <!-- Edit Profile Button -->
+            <a href="{% url 'edit_profile' %}" class="profile-btn">Edit Profile</a>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</body>
+</html>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

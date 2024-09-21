@@ -255,3 +255,13 @@ class LoginForm(forms.Form):
         if len(password) < 8:
             raise forms.ValidationError("Password must be at least 8 characters long.")
         return password
+
+
+# forms.py
+from django import forms
+from django.contrib.auth.models import User
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email',]  # Add 'phone' if it's a custom field

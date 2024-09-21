@@ -192,3 +192,30 @@ def login(request):
         form = LoginForm()
 
     return render(request, 'accounts/login.html', {'form': form})
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def user_profile(request):
+    return render(request, 'accounts/user_profile.html', {'user': request.user})
+
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import EditProfileForm
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile')  # Redirect to profile page after saving
+    else:
+        form = EditProfileForm(instance=request.user)
+    
+    return render(request, 'accounts/edit_profile.html', {'form': form})

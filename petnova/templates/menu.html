@@ -2,7 +2,7 @@
 
 <div class="navbar">
     <div class="logo">
-        <a href="index.html"><img src="{% static 'images/logo.png' %}" alt="logo" width="125px"></a>
+        <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="logo" width="125px"></a>
     </div>
     <nav>
         <ul id="MenuItems">
@@ -11,11 +11,15 @@
             <li><a href="{% url 'pet_details' %}">Pets</a></li>
             <li><a href="">About</a></li>
             <li><a href="">Contact</a></li>
-            
+
+
             
             
             <li><a href="{% url 'login' %}">Login</a></li>
             <li><a href="{% url 'register' %}">Signup</a></li>
+            <li><a href="{% url 'user_profile' %}">profile</a></li>
+            <li><a href="{% url 'staff_info' %}">services</a></li>
+
 
 
         </ul>
