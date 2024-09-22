@@ -11,5 +11,6 @@ urlpatterns = [
     path('trainer_home/', views.trainer_home, name='trainer_home'),
     path('caretaker_home/', views.caretaker_home, name='caretaker_home'),
     path('logout/', views.user_logout, name='logout'),
-
+ path('admin/users/', views.admin_users, name='admin_users'),
+ 
 ]

@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'petnova.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'petnova_db',
+        'NAME': 'pet_demo_three',
         'USER': 'root',
         'PASSWORD': '',
         'HOST':'localhost',
@@ -126,13 +126,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+# Static Files
 STATIC_URL = 'pet-files/'
-STATICFILES_DIRS=[
-    BASE_DIR/"static"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Correct usage of Pathlib's BASE_DIR/"static"
 ]
 
-MEDIA_URL='media/'
-MEDIA_ROOT=os.path.join(BASE_DIR,'media/')
+# Media Files (for uploaded images and files)
+MEDIA_URL = '/media/'  # Make sure MEDIA_URL starts with a '/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # No trailing slash
+
 
 # settings.py
 AUTHENTICATION_BACKENDS = [
@@ -153,3 +156,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sreekandhtrajeev2025@mca.ajce.in'
 EMAIL_HOST_PASSWORD = 'Zoom#2023'
 DEFAULT_FROM_EMAIL = 'sreekandhtrajeev2025@mca.ajce.in'
+
+
+LOGOUT_REDIRECT_URL = '/accounts/login/'

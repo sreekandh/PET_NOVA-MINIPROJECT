@@ -49,4 +49,14 @@ from django.contrib.auth import logout
 
 def user_logout(request):
     logout(request)
-    return redirect('admin_login')
+    return redirect('login')
+
+# views.py
+
+from django.contrib.auth import get_user_model
+from django.shortcuts import render
+
+def admin_users(request):
+    User = get_user_model()
+    users = User.objects.all()
+    return render(request, 'admin_fn/admin_user.html', {'users': users})

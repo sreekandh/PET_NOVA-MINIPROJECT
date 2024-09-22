@@ -3,10 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            width: 200px;
+            height: 150px;
+            background-color: #df9389;
+            margin: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, background-color 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            background-color: #c1786d;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>admin</h1>
-    
+    <h1>Admin Home</h1>
+    <div class="container">
+        <div class="box">
+            <a href="{% url 'pet_list' %}">View Pets</a>
+        </div>
+        <div class="box">
+            <a href="{% url 'cat_details' %}">Manage Cats</a>
+        </div>
+        <div class="box">
+            <a href="{% url 'dog_details' %}">Manage Dogs</a>
+        </div>
+        <div class="box">
+            <a href="{% url 'admin_users' %}">View Registered Users</a>
+        </div>
+    </div>
 </body>
 </html>
