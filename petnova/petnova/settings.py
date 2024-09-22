@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'pet',
     'accounts',
     'staff',
+    'admin_fn',
 ]
 
 MIDDLEWARE = [

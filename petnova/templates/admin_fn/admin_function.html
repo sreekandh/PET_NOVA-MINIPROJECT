@@ -1,0 +1,106 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
+{% block menu %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Function</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 50px;
+            font-size: 2.5rem;
+            color: #df9389; /* Your theme color */
+        }
+
+        .role-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 20px; /* Space between each image */
+        }
+
+        /* Add some basic styling for the images */
+        .role-image {
+            width: 120px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add a hover effect */
+        .role-image:hover {
+            transform: scale(1.1);
+        }
+
+        /* Button labels under images */
+        .role-label {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Container for each role */
+        .role {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin / Trainer / Caretaker</h1>
+
+    <div class="role-container">
+        <!-- Admin Image Link -->
+        <div class="role">
+            <a href="{% url 'admin_login' %}">
+                <img src="{% static 'images/admin.jpg' %}" alt="Admin" class="role-image">
+            </a>
+            <div class="role-label">login for staff</div>
+        </div>
+
+       
+    </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
+
+{% endblock menu %}
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}
