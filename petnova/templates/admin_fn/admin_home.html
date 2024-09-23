@@ -16,59 +16,134 @@
         h1 {
             color: #333;
             margin-bottom: 30px;
+            font-size: 2.5em;
         }
 
         .container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .box {
-            width: 200px;
+            width: 220px;
             height: 150px;
             background-color: #df9389;
             margin: 10px;
-            border-radius: 10px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.3s, background-color 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
         .box:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             background-color: #c1786d;
         }
 
         a {
             color: white;
             text-decoration: none;
-            font-size: 20px;
+            font-size: 1.2em;
             font-weight: bold;
+            text-align: center;
         }
 
         a:hover {
             text-decoration: underline;
         }
+
+        h2 {
+            color: #333;
+            margin: 20px 0;
+            font-size: 2em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-links a {
+            color: #df9389;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .box {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Admin Home</h1>
+    <h1>Admin Dashboard</h1>
     <div class="container">
         <div class="box">
-            <a href="{% url 'pet_list' %}">View Pets</a>
+            <a href="{% url 'view_cats' %}">View All Cats</a>
         </div>
         <div class="box">
-            <a href="{% url 'cat_details' %}">Manage Cats</a>
+            <a href="{% url 'view_dogs' %}">View All Dogs</a>
         </div>
         <div class="box">
-            <a href="{% url 'dog_details' %}">Manage Dogs</a>
+            <a href="{% url 'admin_users' %}">View All Registered Users</a>
         </div>
         <div class="box">
-            <a href="{% url 'admin_users' %}">View Registered Users</a>
+            <a href="{% url 'add_cat' %}">Add New Cat</a>
+        </div>
+        <div class="box">
+            <a href="{% url 'add_dog' %}">Add New Dog</a>
+        </div>
+        <div class="box">
+            <a href="{% url 'view_applications' %}">View All Applications</a>
         </div>
     </div>
+
+    <h2>Pending Adoption Applications</h2>
+    <ul>
+        {% for application in pending_applications %}
+            <li>
+                {{ application.full_name }} applied for {{ application.pet.name }} on {{ application.application_date }} 
+                <div class="action-links">
+                    <a href="{% url 'approve_application' application.id %}">Approve</a> | 
+                    <a href="{% url 'disapprove_application' application.id %}">Disapprove</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

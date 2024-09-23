@@ -1,0 +1,126 @@
+<h2>Your Adoption Applications</h2>
+
+<!-- Back to Home Button -->
+<a href="{% url 'home' %}" class="back-button">Back to Home</a>
+
+<ul class="application-list">
+    {% for application in applications %}
+        <li class="application-item">
+            <div class="application-header">
+                <p>Your application for <strong>{{ application.pet.name }}</strong> has been <span class="status {{ application.status|lower }}">{{ application.status }}</span>.</p>
+                {% if application.status == "approved" %}
+                    <p>
+                        Click <a href="{% url 'make_payment' application.id %}" class="payment-link">here</a> to make your payment.
+                    </p>
+                {% endif %}
+            </div>
+            {% if application.feedback %}
+                <div class="feedback">
+                    Admin Message: {{ application.feedback }}
+                </div>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<style>
+    body {
+        background-color: #e89b9b; /* Light background color for the body */
+    }
+
+    h2 {
+        color: #333;
+        font-size: 2.2em;
+        margin-bottom: 25px;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-button {
+        position: absolute;
+        top: 60px; /* Positioning from the top */
+        left: 20px; /* Positioning from the left */
+        padding: 10px 20px;
+        background-color: transparent; /* Transparent background */
+        color: rgb(212, 202, 202); /* Text color */
+        text-decoration: none; /* No underline */
+        border: 1px solid rgb(245, 236, 236); /* White border */
+        border-radius: 5px; /* Rounded corners */
+        font-size: 16px; /* Font size */
+        transition: background-color 0.3s ease; /* Transition for background color */
+    }
+
+    .back-button:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* Light background on hover */
+    }
+
+    .application-list {
+        list-style-type: none;
+        padding: 0;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .application-item {
+        background-color: #ffffff; /* Keeping items white for contrast */
+        border: 1px solid #df9389; /* Border color matching theme */
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+    }
+
+    .application-item:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: #ffeef0; /* Light pink background on hover */
+    }
+
+    .application-header {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .status {
+        font-weight: bold;
+        font-size: 1.2em;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-transform: capitalize;
+    }
+
+    .status.approved {
+        background-color: #4CAF50; /* Green background for approved status */
+        color: white;
+    }
+
+    .status.disapproved {
+        background-color: #FF5722; /* Disapproved status color */
+        color: white;
+    }
+
+    .feedback {
+        color: #666;
+        font-style: italic;
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 8px;
+        border-left: 4px solid #df9389; /* Feedback left border */
+        margin-top: 15px;
+    }
+
+    .payment-link {
+        color: #df9389; /* Payment link color matching theme */
+        font-weight: bold;
+        text-decoration: underline;
+        transition: color 0.3s;
+    }
+
+    .payment-link:hover {
+        color: #c16b6e; /* Darker shade on hover for link */
+    }
+</style>

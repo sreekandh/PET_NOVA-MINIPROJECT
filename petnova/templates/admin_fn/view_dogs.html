@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Dogs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .dog-list {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dog-item {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .dog-image {
+            width: 100px;  /* Adjust the width as needed */
+            height: auto;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .dog-info {
+            flex-grow: 1;
+        }
+
+        .dog-info a {
+            margin-right: 10px;
+            color: #df9389;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .dog-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Dogs</h1>
+    <ul class="dog-list">
+        {% for dog in dogs %}
+            <li class="dog-item">
+                <img src="{{ dog.image.url }}" alt="{{ dog.name }}" class="dog-image">
+                <div class="dog-info">
+                    <strong>{{ dog.name }}</strong> - 
+                    <a href="{% url 'edit_dog' dog.id %}">Edit</a> | 
+                    <a href="{% url 'delete_dog' dog.id %}">Delete</a>
+                </div>
+            </li>
+        {% empty %}
+            <li>No dogs available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

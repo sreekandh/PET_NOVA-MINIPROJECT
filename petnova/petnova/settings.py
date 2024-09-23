@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'petnova.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pet_demo_three',
+        'NAME': 'nova_mini',
         'USER': 'root',
         'PASSWORD': '',
         'HOST':'localhost',

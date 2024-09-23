@@ -3,6 +3,9 @@ from django.http import HttpResponse
 
 # Create your views here.
 
+from admin_fn.models import AdoptionApplication
+
+
 
 def home(request):
     return render(request,'index.html')
@@ -10,11 +13,7 @@ def home(request):
 def pet_details(request):
     return render(request,'pet/pet_details.html')
     
-def cat_details(request):
-    return render(request,'pet/cat_details.html')
 
-def dog_details(request):
-    return render(request,'pet/dog_details.html')
 
 
 # views.py
@@ -70,3 +69,33 @@ def pet_delete(request, pk):
         pet.delete()
         return redirect('pet_list')
     return render(request, 'pet/pet_confirm_delete.html', {'pet': pet})
+
+
+from django.shortcuts import render, get_object_or_404
+from admin_fn.models import Cat, Dog
+
+def cat_list(request):
+    cats = Cat.objects.all()
+    return render(request, 'pet/cat_list.html', {'cats': cats})
+
+def dog_list(request):
+    dogs = Dog.objects.all()
+    return render(request, 'pet/dog_list.html', {'dogs': dogs})
+
+def cat_detail(request, cat_id):
+    cat = get_object_or_404(Cat, id=cat_id)
+    return render(request, 'pet/cat_detail.html', {'cat': cat})
+
+def dog_detail(request, dog_id):
+    dog = get_object_or_404(Dog, id=dog_id)
+    return render(request, 'pet/dog_detail.html', {'dog': dog})
+
+
+
+from django.shortcuts import render
+from admin_fn.models import AdoptionApplication
+
+def app_view(request):
+    applications = AdoptionApplication.objects.filter(user=request.user)
+    return render(request, 'pet/app_view.html', {'applications': applications})
+

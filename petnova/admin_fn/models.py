@@ -22,3 +22,48 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+# models.py
+from django.db import models
+
+class Cat(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    breed = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='cat_images/')  # Add this line
+
+    def __str__(self):
+        return self.name
+
+class Dog(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    breed = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='dog_images/')  # Add this line
+
+    def __str__(self):
+        return self.name
+
+
+from django.db import models
+from django.conf import settings
+
+class AdoptionApplication(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    pet = models.ForeignKey('Cat' or 'Dog', on_delete=models.CASCADE)  # Depending on which pet type
+    full_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField()
+    address = models.TextField()
+    status = models.CharField(
+    max_length=11,  # Updated to fit 'Disapproved'
+    choices=[('Pending', 'Pending'), ('Approved', 'Approved'), ('Disapproved', 'Disapproved')],
+    default='Pending')
+    application_date = models.DateTimeField(auto_now_add=True)
+    feedback = models.TextField(blank=True, null=True)
+    payment_status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.full_name} applied for {self.pet.name}'

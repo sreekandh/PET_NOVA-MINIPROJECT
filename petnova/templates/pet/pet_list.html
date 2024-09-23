@@ -74,7 +74,7 @@
 <body>
     <div class="container">
         <h1>Pet List</h1>
-        <a href="{% url 'pet_create' %}" class="add-pet">Add New Pet</a>
+       
         <ul>
             {% for pet in pets %}
             <li>
@@ -88,6 +88,7 @@
                 <div class="user-info">
                     <span>{{ pet.name }} ({{ pet.category }})</span>
                     {% if request.user.is_staff %}
+                    <a href="{% url 'pet_create' %}" class="add-pet">Add New Pet</a>
                     - <a href="{% url 'pet_update' pet.pk %}">Edit</a> | 
                       <a href="{% url 'pet_delete' pet.pk %}">Delete</a>
                     {% endif %}
