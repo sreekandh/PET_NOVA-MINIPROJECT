@@ -1,3 +1,6 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,6 +96,13 @@
 
     <a href="{% url 'apply_for_adoption' dog.id 'dog' %}" class="adopt-btn">Apply for Adoption</a>
 </div>
-
+<br>
+<br>
+<br>
+<br>
 </body>
 </html>
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

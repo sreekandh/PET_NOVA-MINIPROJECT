@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoption Application Successful</title>
+    <title>Delete Dog</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -21,23 +21,23 @@
             background-color: #fff;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
         h1 {
             color: #df9389;
-            font-size: 24px;
             margin-bottom: 20px;
+            font-size: 24px;
         }
 
         p {
-            color: #555;
+            color: #333;
             font-size: 18px;
             margin-bottom: 30px;
         }
 
-        .back-button {
+        button {
             padding: 12px 20px;
             background-color: #df9389;
             color: white;
@@ -46,21 +46,37 @@
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
-            text-decoration: none;
         }
 
-        .back-button:hover {
+        button:hover {
             background-color: #c1786d;
+        }
+
+        .cancel-btn {
+            margin-top: 15px;
+            color: #df9389;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .cancel-btn:hover {
+            color: #c1786d;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Application Submitted</h1>
-    <p>Your application for adoption has been successfully submitted. Thank you!</p>
-    <a href="{% url 'home' %}" class="back-button">Back to Home</a>
-</div>
-
+    <div class="container">
+        <h1>Delete Dog</h1>
+        <p>Are you sure you want to delete "{{ dog.name }}"?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Yes, Delete</button>
+        </form>
+        <a href="{% url 'dog_list' %}" class="cancel-btn">Cancel</a>
+    </div>
 </body>
 </html>

@@ -1,0 +1,70 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Pet Nova</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: justify;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>About Pet Nova</h1>
+    <p>
+        Welcome to Pet Nova, your ultimate destination for pet adoption and care! At Pet Nova, we believe that every pet deserves a loving home, and we are dedicated to connecting pets in need with caring families. Our mission is to create a safe and welcoming environment for both pets and their potential adopters.
+    </p>
+    <h2>Our Mission</h2>
+    <p>
+        Our mission is to promote responsible pet ownership and to provide a platform that facilitates the adoption of pets from shelters and rescues. We aim to educate the community about the importance of adoption and to help reduce the number of homeless pets through effective matchmaking.
+    </p>
+    <h2>What We Offer</h2>
+    <p>
+        - **Pet Listings:** Browse through a variety of cats and dogs available for adoption, each with detailed profiles and images.
+        <br>- **Adoption Process:** Easy-to-follow steps to apply for adoption, ensuring a seamless experience for both adopters and pets.
+        <br>- **Caretaker Services:** Information about our caretaker services, including pet walking, grooming, and care when owners are away.
+        <br>- **Community Support:** Resources and information for new pet owners to help them provide the best care for their furry friends.
+    </p>
+    <h2>Join Us!</h2>
+    <p>
+        Join our community of animal lovers and make a difference in the lives of pets in need. Whether you are looking to adopt, volunteer, or support our mission, Pet Nova welcomes you to be part of our family. Together, we can create a brighter future for our furry companions!
+    </p>
+</div>
+
+</body>
+</html>
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

@@ -76,12 +76,33 @@
             text-align: center;
             margin-bottom: 20px;
         }
+
+        .back-button {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #df9389;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background-color: #c1786d;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Add a New Cat</h1>
+    
+    <!-- Back to Admin Home Button -->
+    <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-errors">

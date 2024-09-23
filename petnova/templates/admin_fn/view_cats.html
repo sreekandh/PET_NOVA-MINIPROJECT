@@ -57,10 +57,33 @@
         .cat-info a:hover {
             text-decoration: underline;
         }
+
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #df9389;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.2em;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #c1786d;
+        }
     </style>
 </head>
 <body>
     <h1>All Cats</h1>
+
+    <!-- Back to Admin Home Button -->
+    <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
+
     <ul class="cat-list">
         {% for cat in cats %}
             <li class="cat-item">

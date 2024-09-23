@@ -52,10 +52,31 @@
         .user-list li:hover {
             background-color: #f0f0f0;
         }
+
+        .back-button {
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #df9389;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #c1786d;
+        }
     </style>
 </head>
 <body>
     <h1>All Registered Users</h1>
+
+    <!-- Back to Admin Home Button -->
+    <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
+
     <ul class="user-list">
         {% for user in users %}
         <li>
@@ -63,6 +84,8 @@
                 <span>{{ user.first_name }} {{ user.last_name }}</span> - {{ user.email }}
             </div>
         </li>
+        {% empty %}
+        <li>No registered users found.</li>
         {% endfor %}
     </ul>
 </body>

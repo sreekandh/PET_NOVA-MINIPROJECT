@@ -84,6 +84,10 @@ def add_cat(request):
         form = CatForm()
     return render(request, 'admin_fn/add_cat.html', {'form': form})
 
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Cat
+from .forms import CatForm
 @login_required
 def edit_cat(request, cat_id):
     cat = get_object_or_404(Cat, id=cat_id)
@@ -91,17 +95,23 @@ def edit_cat(request, cat_id):
         form = CatForm(request.POST, instance=cat)
         if form.is_valid():
             form.save()
-            return redirect('view_cats')
+            return redirect('view_cats')  # Adjust the redirect URL to your URL name
     else:
         form = CatForm(instance=cat)
+
     return render(request, 'admin_fn/edit_cat.html', {'form': form})
 
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Cat
 @login_required
 def delete_cat(request, cat_id):
     cat = get_object_or_404(Cat, id=cat_id)
+    
     if request.method == 'POST':
         cat.delete()
-        return redirect('view_cats')
+        return redirect('view_cats')  # Redirect after deletion
+    
     return render(request, 'admin_fn/delete_cat.html', {'cat': cat})
 
 
@@ -125,24 +135,37 @@ def add_dog(request):
         form = DogForm()
     return render(request, 'admin_fn/add_dog.html', {'form': form})
 
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Dog
+from .forms import DogForm
 @login_required
 def edit_dog(request, dog_id):
     dog = get_object_or_404(Dog, id=dog_id)
     if request.method == 'POST':
-        form = DogForm(request.POST, instance=dog)
+        form = DogForm(request.POST, request.FILES, instance=dog)
         if form.is_valid():
             form.save()
-            return redirect('view_dogs')
+            return redirect('view_dogs')  # Adjust the redirection as per your need
     else:
         form = DogForm(instance=dog)
+    
     return render(request, 'admin_fn/edit_dog.html', {'form': form})
 
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Dog
 @login_required
 def delete_dog(request, dog_id):
     dog = get_object_or_404(Dog, id=dog_id)
+    
     if request.method == 'POST':
         dog.delete()
-        return redirect('view_dogs')
+        return redirect('view_dogs')  # Adjust the redirect as necessary
+    
     return render(request, 'admin_fn/delete_dog.html', {'dog': dog})
 
 
@@ -162,6 +185,7 @@ def add_cat(request):
         form = CatForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            return redirect('add_cat')
     else:
         form = CatForm()
     return render(request, 'admin_fn/add_cat.html', {'form': form})  # Ensure this path is correct

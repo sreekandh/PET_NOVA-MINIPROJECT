@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoption Application Successful</title>
+    <title>Delete Cat</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f9f9f9;
             margin: 0;
             padding: 20px;
@@ -26,41 +26,56 @@
         }
 
         h1 {
-            color: #df9389;
             font-size: 24px;
+            color: #df9389;
             margin-bottom: 20px;
         }
 
         p {
-            color: #555;
             font-size: 18px;
+            color: #333;
             margin-bottom: 30px;
         }
 
-        .back-button {
+        button {
             padding: 12px 20px;
             background-color: #df9389;
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
-            text-decoration: none;
         }
 
-        .back-button:hover {
+        button:hover {
             background-color: #c1786d;
+        }
+
+        .cancel-btn {
+            margin-top: 15px;
+            display: inline-block;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .cancel-btn:hover {
+            color: #df9389;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Delete Cat</h1>
+        <p>Are you sure you want to delete "{{ cat.name }}"?</p>
 
-<div class="container">
-    <h1>Application Submitted</h1>
-    <p>Your application for adoption has been successfully submitted. Thank you!</p>
-    <a href="{% url 'home' %}" class="back-button">Back to Home</a>
-</div>
-
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Yes, delete</button>
+        </form>
+        <a href="{% url 'cat_list' %}" class="cancel-btn">Cancel</a>
+    </div>
 </body>
 </html>
