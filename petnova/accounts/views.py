@@ -73,15 +73,20 @@ def trainer_home(request):
 def caretaker_home(request):
     return render(request, 'caretaker_fn/caretaker_home.html')
 
+
+from django.shortcuts import render, redirect
+from .forms import EditProfileForm
+
 @login_required
 def edit_profile(request):
+    user = request.user
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
+        form = EditProfileForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('user_profile')
+            return redirect('user_profile')  # Redirect to a profile page or another relevant page
     else:
-        form = EditProfileForm(instance=request.user)
-    
+        form = EditProfileForm(instance=user)
+
     return render(request, 'accounts/edit_profile.html', {'form': form})
 
