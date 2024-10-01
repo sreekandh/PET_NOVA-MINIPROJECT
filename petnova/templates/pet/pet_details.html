@@ -2,11 +2,11 @@
 {% load static %}
 {% block banner %}
 
-<h1 class="title">Choose Your Pet: Cat or Dog</h1>
+<h1 class="title">Choose Your Pet</h1>
 
 <!-- Back Button to Home Page --><br>
- <br>
- <br>
+<br>
+<br>
 <a href="{% url 'home' %}" class="back-button"><<--</a>
 
 <div class="pet-container">
@@ -32,7 +32,9 @@
     /* General Page Styling */
     body {
         font-family: 'Arial', sans-serif;
-        background-color: #f4f4f9;
+        background-image: url("{% static 'images/back_dog_6.jpg' %}"); /* Add your background image here */
+        background-size: cover; /* Cover the entire page */
+        background-position: center; /* Center the background image */
         color: #333;
         margin: 0;
         padding: 0;
@@ -44,7 +46,7 @@
     /* Title Styling */
     .title {
         font-size: 36px;
-        color: #333;
+        color: #fff; /* Change to white for better contrast */
         margin: 40px 0;
     }
 
@@ -122,7 +124,7 @@
     }
 </style>
 
-{% block footer_layout %}
+{% block footer_layout %} 
 <!-- Footer (Removed) -->
 {% endblock footer_layout %}
 

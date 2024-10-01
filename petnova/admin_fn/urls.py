@@ -35,6 +35,14 @@ urlpatterns = [
     path('make_payment/<int:application_id>/', views.make_payment, name='make_payment'),
         path('payment_success/', views.payment_success, name='payment_success'),  # Add this line
 
+        path('apply_control/',views.apply_control,name='apply_control'),
+         path('view_pets/',views.view_pets,name='view_pets'),
+                  path('add_pets/',views.add_pets,name='add_pets'),
+                               path('staff_control/',views.staff_control,name='staff_control'),
+                               path('trainer_con/',views.trainer_con,name='trainer_con'),
+                               path('caretaker_con/',views.caretaker_con,name='caretaker_con'),
+
+
 
 
 

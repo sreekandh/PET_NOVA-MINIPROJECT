@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,14 +8,21 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f0f0f0; /* Light grey background */
+            background-image: url("{% static 'images/back_dog_1.jpg' %}"); /* Add your background image here */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #4a4a4a; /* Darker grey for better readability */
             margin-bottom: 30px;
         }
 
@@ -22,22 +30,24 @@
             list-style-type: none;
             padding: 0;
             max-width: 800px;
+            width: 100%; /* Make list responsive */
             margin: 0 auto;
         }
 
         .dog-item {
             display: flex;
             align-items: center;
-            background-color: white;
+            background-color: rgba(240, 240, 240, 0.9); /* Light grey with slight transparency */
             border: 1px solid #ddd;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
         }
 
         .dog-image {
-            width: 100px;  /* Adjust the width as needed */
+            width: 100px; /* Adjust the width as needed */
             height: auto;
             border-radius: 10px;
             margin-right: 20px;
@@ -45,25 +55,29 @@
 
         .dog-info {
             flex-grow: 1;
+            display: flex;
+            justify-content: space-between; /* Space out info and links */
+            flex-wrap: wrap; /* Allow wrapping */
         }
 
         .dog-info a {
             margin-right: 10px;
-            color: #df9389;
+            color: #6d6d6d; /* Dark grey for a subtle link color */
             text-decoration: none;
             font-weight: bold;
         }
 
         .dog-info a:hover {
+            color: #4a4a4a; /* Darker grey on hover */
             text-decoration: underline;
         }
 
         .back-button {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
+            position: absolute; /* Position it absolutely */
+            top: 90px; /* Adjust from top */
+            left: 20px; /* Adjust from left */
             padding: 10px;
-            background-color: #df9389;
+            background-color: #b0b0b0; /* Light grey background for the button */
             color: white;
             border: none;
             border-radius: 5px;
@@ -71,14 +85,99 @@
             text-align: center;
             font-size: 1.2em;
             text-decoration: none;
+            transition: background-color 0.3s; /* Smooth transition */
         }
 
         .back-button:hover {
-            background-color: #c1786d;
+            background-color: #8c8c8c; /* Darker grey on hover */
+        }
+
+        /* Admin Nav Styles */
+        .admin-nav {
+            background-color: #dcdcdc; /* Light grey for the navbar */
+            padding: 25px 0; /* Increased padding for more thickness */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end; /* Aligns navigation items to the right */
+            flex-wrap: wrap; /* Allow items to wrap */
+        }
+
+        .admin-nav ul li {
+            margin: 0 15px;
+        }
+
+        .admin-nav ul li:last-child {
+            margin-right: 30px;
+        }
+
+        .admin-nav ul li a {
+            color: #6d6d6d; /* Dark grey for links */
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .admin-nav ul li a:hover {
+            color: #4a4a4a; /* Darker grey on hover */
+            text-decoration: underline;
+        }
+
+        /* Add padding to avoid content being hidden behind the fixed navbar */
+        body {
+            padding-top: 80px; /* Adjust based on navbar height */
+        }
+
+        /* Responsive Design with Media Queries */
+        @media (max-width: 768px) {
+            .admin-nav ul {
+                flex-direction: column; /* Stack items vertically on small screens */
+                align-items: center; /* Center items */
+            }
+
+            .admin-nav ul li {
+                margin: 10px 0; /* Space between items */
+            }
+
+            .dog-item {
+                flex-direction: column; /* Stack image and info vertically */
+                align-items: flex-start; /* Align items to start */
+            }
+
+            .dog-image {
+                margin-bottom: 10px; /* Space between image and info */
+            }
+
+            .back-button {
+                width: 100%; /* Make the back button full width */
+                max-width: 200px; /* Optional max width */
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
+            <li><a href="{% url 'view_pets' %}">View pets</a></li>
+            <li><a href="{% url 'admin_users' %}">View Users</a></li>
+            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
+            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+        </ul>
+    </nav>
+
     <h1>All Dogs</h1>
 
     <!-- Back to Admin Home Button -->

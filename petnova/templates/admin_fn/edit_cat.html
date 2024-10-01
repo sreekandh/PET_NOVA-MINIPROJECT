@@ -11,9 +11,47 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
+            padding-top: 80px; /* Added padding to avoid overlap with navbar */
+        }
+
+        .admin-nav {
+            background-color: #df9389;
+            padding: 25px 0; /* Increased padding for more thickness */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end; /* Aligns navigation items to the right */
+        }
+
+        .admin-nav ul li {
+            margin: 0 15px;
+        }
+
+        .admin-nav ul li:last-child {
+            margin-right: 30px; /* Adjust this value as needed */
+        }
+
+        .admin-nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .admin-nav ul li a:hover {
+            text-decoration: underline;
         }
 
         .container {
@@ -56,7 +94,7 @@
 
         button {
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #df9389; /* Matching your theme color */
             color: white;
             border: none;
             border-radius: 4px;
@@ -66,7 +104,7 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #c1786d; /* Lighter shade for hover effect */
         }
 
         .form-group {
@@ -80,6 +118,19 @@
     </style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <ul>
+            <li><a href="{% url 'admin_home' %}">admin home</a></li>
+            <li><a href="{% url 'view_pets' %}">View pets</a></li>
+            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
+            <li><a href="{% url 'admin_users' %}">View Users</a></li>
+            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+        </ul>
+    </nav>
+
     <div class="container">
         <h1>Edit Cat Details</h1>
         <form method="POST">
@@ -88,5 +139,6 @@
             <button type="submit">Update</button>
         </form>
     </div>
+
 </body>
 </html>

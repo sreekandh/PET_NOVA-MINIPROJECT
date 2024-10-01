@@ -1,0 +1,113 @@
+<!-- Back to Admin Home Button -->
+<a href="{% url 'view_applications' %}" class="back-button">Back to Admin Home</a>
+
+<div class="main-content">
+    <h2 class="admin-section-heading">Pending Adoption Applications</h2>
+
+    {% if pending_applications %}
+        <ul class="admin-list">
+            {% for application in pending_applications %}
+                <li class="admin-list-item">
+                    <div class="application-details">
+                        <p><strong>Name:</strong> {{ application.full_name }}</p>
+                        <p><strong>Applied for Pet:</strong> {{ application.pet.name }}</p>
+                        <p><strong>Application Date:</strong> {{ application.application_date }}</p>
+                        <p><strong>Email:</strong> {{ application.email }}</p>
+                        <p><strong>Address:</strong> {{ application.address }}</p>
+                        <p><strong>feedback:</strong>{{ application.feedback }}</p>
+                    </div>
+                    <div class="admin-action-links">
+                        <a href="{% url 'approve_application' application.id %}">Approve</a>
+                        <span>|</span>
+                        <a href="{% url 'disapprove_application' application.id %}">Disapprove</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending adoption applications at the moment.</p>
+    {% endif %}
+</div>
+
+<style>
+    /* Back to Admin Home button */
+    .back-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #df9389;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+        background-color: #c1786d;
+    }
+
+    /* Main Content Styling */
+    .main-content {
+        padding-top: 20px;
+    }
+
+    .admin-section-heading {
+        color: #333;
+        margin: 20px 0;
+        font-size: 2em;
+        text-align: center;
+    }
+
+    /* Admin List Styling */
+    .admin-list {
+        list-style-type: none;
+        padding: 0;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .admin-list-item {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 10px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    /* Styling for Application Details */
+    .application-details p {
+        margin: 5px 0;
+        font-size: 1.1em;
+    }
+
+    .application-details strong {
+        color: #df9389;
+    }
+
+    /* Action Links Styling */
+    .admin-action-links {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        font-size: 1.1em;
+    }
+
+    .admin-action-links a {
+        color: #df9389;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .admin-action-links a:hover {
+        text-decoration: underline;
+    }
+
+    .admin-action-links span {
+        color: #999;
+    }
+</style>

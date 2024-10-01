@@ -255,8 +255,13 @@ from django.shortcuts import render
 from .models import AdoptionApplication
 
 def view_applications(request):
-    applications = AdoptionApplication.objects.all()
+    # Order applications by 'application_date' in descending order (latest first)
+    applications = AdoptionApplication.objects.all().order_by('-application_date')
+    
     return render(request, 'admin_fn/applications.html', {'applications': applications})
+
+
+
 
 
 from django.core.mail import send_mail
@@ -321,3 +326,32 @@ from django.shortcuts import render
 
 def payment_success(request):
     return render(request, 'pet/payment_success.html')
+
+
+
+from django.shortcuts import render
+from .models import AdoptionApplication
+
+def apply_control(request):
+    # Fetch pending applications from the database
+    pending_applications = AdoptionApplication.objects.filter(status='pending')
+    
+    # Pass the pending applications to the template
+    return render(request, 'admin_fn/apply_control.html', {'pending_applications': pending_applications})
+
+
+def view_pets(request):
+    return render(request,'admin_fn/view_pets.html')
+
+
+def add_pets(request):
+    return render(request,'admin_fn/add_pets.html')
+
+def staff_control(request):
+    return render(request,'staff/staff_control.html')
+
+def trainer_con(request):
+    return render(request,'staff/trainer_con.html')
+
+def caretaker_con(request):
+    return render(request,'staff/caretaker_con.html')

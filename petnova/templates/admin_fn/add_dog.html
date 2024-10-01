@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +9,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #d3d3d3; /* Light grey background */
+            background-image: url("{% static 'images/back_dog_8.jpg' %}"); /* Replace with your background image */
+            background-size: cover;
+            background-position: center;
             margin: 0;
             padding: 20px;
+            padding-top: 80px; /* Adjust based on navbar height */
         }
 
         h1 {
@@ -21,7 +27,7 @@
         .form-container {
             width: 50%;
             margin: auto;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for contrast */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -47,16 +53,17 @@
             display: block;
             width: 100%;
             padding: 10px;
-            background-color: #df9389;
-            color: white;
+            background-color: #d3d3d3; /* Light grey for buttons */
+            color: #333; /* Dark grey text */
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #c1786d;
+            background-color: #b0b0b0; /* Slightly darker grey on hover */
         }
 
         .back-button {
@@ -64,22 +71,77 @@
             width: auto;
             padding: 10px 20px;
             margin: 10px auto 20px;
-            background-color: #df9389;
-            color: white;
+            background-color: #d3d3d3; /* Light grey for back button */
+            color: #333; /* Dark grey text */
             border: none;
             border-radius: 5px;
             text-align: center;
             text-decoration: none;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .back-button:hover {
-            background-color: #c1786d;
+            background-color: #b0b0b0; /* Slightly darker grey on hover */
         }
-    </style>
+
+        /* Admin Nav Styles */
+       /* Admin Nav Styles */
+    .admin-nav {
+        background-color: #d3d3d3; /* Light grey for navbar */
+        padding: 25px 0; /* Increased padding for more thickness */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .admin-nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-end; /* Aligns navigation items to the right */
+    }
+
+    .admin-nav ul li {
+        margin: 0 20px; /* Increased margin between items */
+    }
+
+    .admin-nav ul li:last-child { /* Add margin to the last item (Logout) */
+        margin-right: 40px; /* Adjust this value as needed */
+    }
+
+    .admin-nav ul li a {
+        color: #333; /* Dark grey text */
+        text-decoration: none;
+        font-size: 1.4em; /* Increased font size for links */
+        font-weight: bold;
+    }
+
+    .admin-nav ul li a:hover {
+        text-decoration: underline;
+    }
+
+    /* Other styles remain unchanged */
+</style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
+            <li><a href="{% url 'view_pets' %}">view pets</a></li>
+            <li><a href="{% url 'admin_users' %}">View Users</a></li>
+            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
+            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+        </ul>
+    </nav>
+
     <h1>Add Dog</h1>
     <div class="form-container">
         <!-- Back to Admin Home Button -->

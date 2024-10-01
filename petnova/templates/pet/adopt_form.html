@@ -53,10 +53,30 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             width: 100%;
+            margin-bottom: 15px;
         }
 
         button:hover {
             background-color: #c1786d;
+        }
+
+        .cancel-btn {
+            text-align: center;
+            display: block;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 1.1em;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .cancel-btn:hover {
+            background-color: #e0e0e0;
         }
 
         @media (max-width: 600px) {
@@ -77,5 +97,7 @@
         {{ form.as_p }}
         <button type="submit">Submit Application</button>
     </form>
+
+    <a href="{% url 'home' %}" class="cancel-btn">Cancel</a>
 </body>
 </html>

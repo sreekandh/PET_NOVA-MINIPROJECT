@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,18 +8,79 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #d3d3d3; /* Light grey background */
+            background-image: url("{% static 'images/back_cat_5.jpg' %}"); /* Background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .admin-nav {
+            background-color: rgba(211, 211, 211, 0.9); /* Light grey for navbar */
+            padding: 25px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .admin-nav ul li {
+            margin: 0 15px;
+        }
+
+        .admin-nav ul li a {
+            color: #333; /* Dark grey text for contrast */
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .admin-nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            position: absolute; /* Positioning the back button */
+            top: 80px; /* Adjust to position just below the navbar */
+            left: 20px; /* Align to the left */
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #d3d3d3; /* Light grey for back button */
+            color: #333; /* Dark grey text */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background-color: #b0b0b0; /* Slightly darker grey on hover */
         }
 
         .container {
             max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* White background with transparency */
+            padding: 30px; /* Increased padding for better spacing */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 100px; /* Ensure no overlap with navbar */
         }
 
         h1 {
@@ -35,26 +97,29 @@
         form label {
             font-weight: bold;
             margin-bottom: 5px;
+            color: #555; /* Slightly darker grey for labels */
         }
 
         form input, form select, form textarea {
-            padding: 10px;
+            padding: 12px; /* Increased padding for inputs */
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
             width: 100%;
             box-sizing: border-box;
+            transition: border-color 0.3s; /* Transition for border color */
         }
 
-        form input[type="file"] {
-            padding: 5px;
+        form input:focus, form select:focus, form textarea:focus {
+            border-color: #777; /* Darker border on focus */
+            outline: none; /* Remove default outline */
         }
 
         button {
             padding: 12px;
-            background-color: #df9389;
-            color: white;
+            background-color: #d3d3d3; /* Light grey for buttons */
+            color: #333; /* Dark grey text */
             border: none;
             border-radius: 5px;
             font-size: 18px;
@@ -63,7 +128,7 @@
         }
 
         button:hover {
-            background-color: #c1786d;
+            background-color: #b0b0b0; /* Slightly darker grey on hover */
         }
 
         .form-errors {
@@ -77,41 +142,39 @@
             margin-bottom: 20px;
         }
 
-        .back-button {
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #df9389;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .back-button:hover {
-            background-color: #c1786d;
+        body {
+            padding-top: 80px; /* Adjust based on navbar height */
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Add a New Cat</h1>
-    
-    <!-- Back to Admin Home Button -->
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
+            <li><a href="{% url 'view_pets' %}">view pets</a></li>
+            <li><a href="{% url 'admin_users' %}">View Users</a></li>
+            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
+            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+        </ul>
+    </nav>
+
     <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-errors">
-            {{ form.non_field_errors }}
-        </div>
-        {{ form.as_p }}
-        <button type="submit">Add Cat</button>
-    </form>
-</div>
+    <div class="container">
+        <h1>Add a New Cat</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+            {{ form.as_p }}
+            <button type="submit">Add Cat</button>
+        </form>
+    </div>
 
 </body>
 </html>

@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Pets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            background-image: url("{% static 'images/back_cat_3.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+            height: 100vh;
+        }
+
+        .admin-nav {
+            background-color: rgba(220, 220, 220, 0.9);
+            padding: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .admin-nav ul li {
+            margin: 0 15px;
+        }
+
+        .admin-nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .admin-nav ul li a:hover {
+            text-decoration: underline;
+            color: #b3aead;
+        }
+
+        .main-content {
+            padding-top: 130px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .view-pets-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 400px;
+        }
+
+        .view-pets-list li {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .view-pets-list li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.5em;
+        }
+
+        .view-pets-list li a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .admin-nav ul {
+                flex-direction: column;
+            }
+
+            .admin-nav ul li {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
+            <li><a href="{% url 'view_pets' %}">View Pets</a></li>
+            <li><a href="{% url 'admin_users' %}">View Users</a></li>
+            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <ul class="view-pets-list">
+            <li><a href="{% url 'add_cat' %}">Add Cat</a></li>
+            <li><a href="{% url 'add_dog' %}">Add Dog</a></li>
+        </ul>
+    </div>
+</body>
+</html>

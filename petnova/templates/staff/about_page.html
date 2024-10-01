@@ -11,60 +11,117 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
+            background-color: #f9f9f9; /* Light grey background */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Reset default margin */
+            padding: 0px; /* Add left and right padding */
         }
 
-        h1, h2 {
-            color: #333;
-            text-align: center;
+        .petnova-header {
+            background-color: #df9389; /* Header background color */
+            color: white; /* Header text color */
+            padding: 20px; /* Padding around header */
+            text-align: center; /* Center the header text */
         }
 
-        p {
-            color: #555;
-            line-height: 1.6;
-            margin: 20px auto;
-            max-width: 800px;
-            text-align: justify;
+        .petnova-title {
+            margin: 0; /* Remove margin for h1 */
+            font-size: 2.5em; /* Increase font size */
         }
 
-        .container {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
+        .petnova-subheading {
+            color: #333; /* Subheading color */
+            margin-top: 40px; /* Space above h2 */
+        }
+
+        .petnova-paragraph {
+            color: #555; /* Paragraph text color */
+            line-height: 1.6; /* Line height for readability */
+            margin: 20px auto; /* Centered paragraph margin */
+            text-align: justify; /* Justify text alignment */
+            max-width: 800px; /* Limit text width for readability */
+            padding: 0; /* Reset padding for paragraphs */
+        }
+
+        /* Style for the list of offerings */
+        .petnova-list {
+            list-style: none; /* Remove default bullet points */
+            padding: 0; /* Remove default padding */
+            margin: 20px auto; /* Centered list margin */
+            max-width: 800px; /* Limit list width */
+        }
+
+        .petnova-list-item {
+            background-color: #df9389; /* Background color for list items */
+            color: white; /* White text for better contrast */
+            padding: 15px; /* Padding inside list items */
+            margin-bottom: 15px; /* Space between list items */
+            border-radius: 5px; /* Rounded corners for list items */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for list items */
+        }
+
+        /* Optional: Add a hover effect on list items */
+        .petnova-list-item:hover {
+            background-color: #c86b66; /* Darker shade on hover */
+        }
+
+        .petnova-footer {
+            text-align: center; /* Center the footer text */
+            padding: 20px; /* Padding around footer */
+            background-color: #df9389; /* Footer background color */
+            color: white; /* Footer text color */
+            position: relative; /* Position relative for fixed footer */
+            bottom: 0; /* Position at bottom */
+            width: 100%; /* Full width */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .petnova-title {
+                font-size: 2em; /* Adjust header font size */
+            }
+
+            .petnova-paragraph {
+                padding: 0 10px; /* Reduce padding for smaller screens */
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>About Pet Nova</h1>
-    <p>
-        Welcome to Pet Nova, your ultimate destination for pet adoption and care! At Pet Nova, we believe that every pet deserves a loving home, and we are dedicated to connecting pets in need with caring families. Our mission is to create a safe and welcoming environment for both pets and their potential adopters.
-    </p>
-    <h2>Our Mission</h2>
-    <p>
-        Our mission is to promote responsible pet ownership and to provide a platform that facilitates the adoption of pets from shelters and rescues. We aim to educate the community about the importance of adoption and to help reduce the number of homeless pets through effective matchmaking.
-    </p>
-    <h2>What We Offer</h2>
-    <p>
-        - **Pet Listings:** Browse through a variety of cats and dogs available for adoption, each with detailed profiles and images.
-        <br>- **Adoption Process:** Easy-to-follow steps to apply for adoption, ensuring a seamless experience for both adopters and pets.
-        <br>- **Caretaker Services:** Information about our caretaker services, including pet walking, grooming, and care when owners are away.
-        <br>- **Community Support:** Resources and information for new pet owners to help them provide the best care for their furry friends.
-    </p>
-    <h2>Join Us!</h2>
-    <p>
-        Join our community of animal lovers and make a difference in the lives of pets in need. Whether you are looking to adopt, volunteer, or support our mission, Pet Nova welcomes you to be part of our family. Together, we can create a brighter future for our furry companions!
-    </p>
-</div>
+<header class="petnova-header">
+    <h1 class="petnova-title">About Pet Nova</h1>
+</header>
+
+<p class="petnova-paragraph">
+    Welcome to Pet Nova, your ultimate destination for pet adoption and care! At Pet Nova, we believe that every pet deserves a loving home, and we are dedicated to connecting pets in need with caring families. Our mission is to create a safe and welcoming environment for both pets and their potential adopters.
+</p>
+
+<h2 class="petnova-subheading">Our Mission</h2>
+<p class="petnova-paragraph">
+    Our mission is to promote responsible pet ownership and to provide a platform that facilitates the adoption of pets from shelters and rescues. We aim to educate the community about the importance of adoption and to help reduce the number of homeless pets through effective matchmaking.
+</p>
+
+<h2 class="petnova-subheading">What We Offer</h2>
+<ul class="petnova-list">
+    <li class="petnova-list-item"><strong>Pet Listings:</strong> Browse through a variety of cats and dogs available for adoption, each with detailed profiles and images.</li>
+    <li class="petnova-list-item"><strong>Adoption Process:</strong> Easy-to-follow steps to apply for adoption, ensuring a seamless experience for both adopters and pets.</li>
+    <li class="petnova-list-item"><strong>Caretaker Services:</strong> Information about our caretaker services, including pet walking, grooming, and care when owners are away.</li>
+    <li class="petnova-list-item"><strong>Community Support:</strong> Resources and information for new pet owners to help them provide the best care for their furry friends.</li>
+</ul>
+
+<h2 class="petnova-subheading">Join Us!</h2>
+<p class="petnova-paragraph">
+    Join our community of animal lovers and make a difference in the lives of pets in need. Whether you are looking to adopt, volunteer, or support our mission, Pet Nova welcomes you to be part of our family. Together, we can create a brighter future for our furry companions!
+</p>
+
+<footer class="petnova-footer">
+    &copy; 2024 Pet Nova. All Rights Reserved.
+</footer>
 
 </body>
 </html>
-{% block footer_layout %}
-<!-- Footer (Removed) -->
+{% block footer_layout %} 
+<!-- Footer (Removed) --> 
 {% endblock footer_layout %}
 {% endblock banner %}

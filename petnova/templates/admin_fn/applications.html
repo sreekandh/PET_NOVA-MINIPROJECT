@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,75 +9,204 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f5f5f5; /* Light grey background */
+            background-image: url("{% static 'images/back_cat_5.jpg' %}"); /* Background image */
+            background-size: cover;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px; /* Padding to avoid overlap with navbar */
         }
+
+        .admin-nav {
+            background-color: #e0e0e0; /* Light grey navbar color */
+            padding: 25px 0; /* Increased padding for more thickness */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end; /* Aligns navigation items to the right */
+        }
+
+        .admin-nav ul li {
+            margin: 0 15px;
+        }
+
+        .admin-nav ul li:last-child {
+            margin-right: 30px; /* Adjust this value as needed */
+        }
+
+        .admin-nav ul li a {
+            color: #333; /* Darker text color for contrast */
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .admin-nav ul li a:hover {
+            text-decoration: underline;
+        }
+
         h1 {
             text-align: center;
             color: #333;
+            margin: 20px 0;
         }
+
+        .container {
+            width: 80%; /* Limit the width of the table */
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for contrast */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            padding: 20px; /* Padding inside the container */
+            margin: 0 auto; /* Center the container */
+            margin-top: 80px; /* Space below the navbar */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
+
         th, td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
         }
+
         th {
-            background-color: #df9389;
+            background-color: #df9389; /* Header color */
             color: white;
         }
-        .back-button {
+
+        /* New styles for table data */
+        tr:nth-child(even) {
+            background-color: #f0f0f0; /* Light grey background for even rows */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff; /* White background for odd rows */
+        }
+
+        td {
+            background-color: #f5f5f5; /* Light grey background for table cells */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center; /* Center buttons */
+            width: 100%; /* Full width for the button container */
+            margin: 20px 0; /* Margin above and below */
+        }
+
+        .back-button,
+        .new-app-button {
             display: block;
-            width: auto;
             padding: 10px 20px;
-            margin: 10px auto;
-            background-color: #df9389;
-            color: white;
-            border: none;
             border-radius: 5px;
             text-align: center;
             text-decoration: none;
             font-size: 16px;
             cursor: pointer;
+            margin: 0 10px; /* Space between buttons */
+            background-color: #e0e0e0; /* Light grey background */
+            color: #333; /* Darker text color */
+            border: 1px solid #ccc; /* Light border */
         }
-        .back-button:hover {
-            background-color: #c1786d;
+
+        .back-button:hover,
+        .new-app-button:hover {
+            background-color: #d0d0d0; /* Slightly darker grey on hover */
+        }
+
+        /* Status colors */
+        .status-pending {
+            color: blue;
+            font-weight: bold;
+        }
+        .status-approved {
+            color: green;
+            font-weight: bold;
+        }
+        .status-disapproved {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <!-- Back to Admin Home Button -->
-    <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
 
-    <h1>Adoption Applications</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Pet Name</th>
-                <th>Application Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-            <tr>
-                <td>{{ application.full_name }}</td>
-                <td>{{ application.pet.name }}</td>
-                <td>{{ application.application_date }}</td>
-                <td>{{ application.status }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" style="text-align: center;">No applications found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
+            <li><a href="{% url 'view_pets' %}">View pets</a></li>
+            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
+            <li><a href="{% url 'admin_users' %}">View Users</a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Adoption Applications</h1>
+        
+        <!-- Button Container Above the Table -->
+        <div class="button-container">
+            <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
+            <a href="{% url 'apply_control' %}" class="new-app-button">New Applications</a>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Pet Name</th>
+                    <th>Application Date</th>
+                    <th>Feedback</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                <tr>
+                    <td>{{ application.full_name }}</td>
+                    <td>{{ application.pet.name }}</td>
+                    <td>{{ application.application_date }}</td>
+                    <td>{{ application.feedback }}</td>
+                    <td>
+                        <!-- Debugging output for status -->
+                        <span style="display: none;">{{ application.status }}</span>
+
+                        {% if application.status == 'Pending' %}
+                            <span class="status-pending">Pending</span>
+                        {% elif application.status == 'approved' %}
+                            <span class="status-approved">Approved</span>
+                        {% elif application.status == 'disapproved' %}
+                            <span class="status-disapproved">Disapproved</span>
+                        {% else %}
+                            <span class="status-pending">Unknown Status</span> <!-- Fallback for debugging -->
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">No applications found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </body>
 </html>
