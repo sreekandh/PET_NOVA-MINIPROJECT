@@ -21,3 +21,12 @@ class AdoptionApplicationForm(forms.ModelForm):
     class Meta:
         model = AdoptionApplication
         fields = ['full_name', 'phone', 'email', 'address']
+
+
+from django import forms
+from .models import Trainer
+
+class TrainerForm(forms.ModelForm):
+    class Meta:
+        model = Trainer
+        fields = ['trainer_name', 'email', 'phone', 'experience', 'specialization', 'image']

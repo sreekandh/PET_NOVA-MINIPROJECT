@@ -6,152 +6,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Dog</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #d3d3d3; /* Light grey background */
-            background-image: url("{% static 'images/back_dog_8.jpg' %}"); /* Replace with your background image */
+            background-image: url("{% static 'images/back_dog_8.jpg' %}"); /* Background image */
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
-            padding: 20px;
-            padding-top: 80px; /* Adjust based on navbar height */
-        }
-
-        h1 {
+            padding: 0;
             text-align: center;
             color: #333;
-            margin-bottom: 30px;
+            height: 100vh;
+            padding-top: 80px; /* Adjusted to fit below the navbar */
         }
 
-        .form-container {
-            width: 50%;
-            margin: auto;
-            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for contrast */
-            padding: 20px;
-            border-radius: 10px;
+        /* Navigation Bar */
+        .admin-nav {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 5px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        /* Navigation Links */
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .admin-nav ul li {
+            margin: 0 20px; /* Increased margin */
+        }
+
+        .admin-nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em; /* Increased font size */
+            padding: 10px; /* Added padding */
+            transition: color 0.3s;
+        }
+
+        .admin-nav ul li a:hover {
+            color: #f0a500; /* Hover color */
+        }
+
+        .admin-nav .logo img {
+            width: 180px;
+            height: auto;
+            border-radius: 50%;
+            margin-right: 30px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 20px; /* Additional spacing below the navbar */
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9); /* White background with transparency */
+            padding: 40px;
+            border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .form-group {
+        h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-field {
             margin-bottom: 20px;
         }
 
         label {
-            display: block;
+            font-size: 14px;
+            color: #555;
             margin-bottom: 5px;
-        }
-
-        input[type="text"], input[type="number"], input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button {
             display: block;
-            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        textarea,
+        select {
             padding: 10px;
-            background-color: #d3d3d3; /* Light grey for buttons */
-            color: #333; /* Dark grey text */
+            border: 1px solid #666; /* Dark grey border */
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            width: 100%;
+            background-color: #f9f9f9; /* Light grey background for input */
+            color: #333; /* Dark text color */
+        }
+
+        button, .back-button {
+            padding: 10px;
+            background-color: #180d0b; /* Matching your theme color */
+            color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Align with the button */
         }
 
-        button:hover {
-            background-color: #b0b0b0; /* Slightly darker grey on hover */
+        button:hover, .back-button:hover {
+            background-color: #2e1d1a; /* Lighter shade for hover effect */
         }
 
         .back-button {
-            display: block;
-            width: auto;
-            padding: 10px 20px;
-            margin: 10px auto 20px;
-            background-color: #d3d3d3; /* Light grey for back button */
-            color: #333; /* Dark grey text */
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            background-color: #4f4f4d; /* Color for the back button */
         }
 
         .back-button:hover {
-            background-color: #b0b0b0; /* Slightly darker grey on hover */
+            background-color: #716d66; /* Darker shade for hover */
         }
 
-        /* Admin Nav Styles */
-       /* Admin Nav Styles */
-    .admin-nav {
-        background-color: #d3d3d3; /* Light grey for navbar */
-        padding: 25px 0; /* Increased padding for more thickness */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-    }
+        .form-errors {
+            color: red;
+            margin-bottom: 20px;
+        }
 
-    .admin-nav ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: flex-end; /* Aligns navigation items to the right */
-    }
-
-    .admin-nav ul li {
-        margin: 0 20px; /* Increased margin between items */
-    }
-
-    .admin-nav ul li:last-child { /* Add margin to the last item (Logout) */
-        margin-right: 40px; /* Adjust this value as needed */
-    }
-
-    .admin-nav ul li a {
-        color: #333; /* Dark grey text */
-        text-decoration: none;
-        font-size: 1.4em; /* Increased font size for links */
-        font-weight: bold;
-    }
-
-    .admin-nav ul li a:hover {
-        text-decoration: underline;
-    }
-
-    /* Other styles remain unchanged */
-</style>
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
     <nav class="admin-nav">
+        <div class="logo">
+            <a href="{% url 'admin_home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo">
+            </a>
+        </div>
+
         <ul>
-            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
-            <li><a href="{% url 'view_pets' %}">view pets</a></li>
-            <li><a href="{% url 'admin_users' %}">View Users</a></li>
-            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
-            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
         </ul>
     </nav>
 
-    <h1>Add Dog</h1>
-    <div class="form-container">
-        <!-- Back to Admin Home Button -->
-        <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Add a New Dog</h1>
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}  <!-- Render the form fields -->
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+            {% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="form-errors">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
             <button type="submit">Add Dog</button>
+            <a href="{% url 'dog' %}" class="back-button">Cancel</a> <!-- Cancel button -->
         </form>
     </div>
+
 </body>
 </html>

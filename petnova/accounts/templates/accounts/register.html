@@ -1,82 +1,127 @@
 {% extends 'blank_layout.html' %}
 {% load static %}
 {% block banner %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Form</title>
-    <style>
-        form {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
+
+<center>
+    <form action="" method="POST">
+        {% csrf_token %}
         
-        form input[type="text"],
-        form input[type="email"],
-        form input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+        <!-- Loop through the form fields and display errors above each field -->
+        {% for field in form %}
+            <div style="margin-bottom: 20px;">
+                <!-- Display errors above the field -->
+                {% if field.errors %}
+                    <ul style="color: red; list-style-type: none; margin: 0; padding: 0;">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                
+                <!-- Render the form field -->
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
         
-        form button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
+        <!-- Display non-field errors -->
+        {% if form.non_field_errors %}
+            <ul style="color: red; list-style-type: none;">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         
-        form button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        
-        form a {
-            display: block;
-            margin-top: 10px;
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        
-        form a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <center>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" name="register" class="btn">Register</button>
-            <a href="{% url 'login' %}">Already have an account?</a>
-        </form>
-    </center>
+        <button type="submit" name="register" class="btn">Register</button>
+        <a href="{% url 'login' %}">Already have an account?</a>
+    </form>
     <br>
     <br>
+
     <br>
     <br>
-    <br>
-    <br>
-    <br>
-    
-</body>
-</html>
+</center>
+
+<style>
+    /* Centering the form container */
+    form {
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        margin: 50px auto;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Styling input fields */
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
+        width: 100%;
+        padding: 15px;
+        margin: 15px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+        background-color: #f3f3f3;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Input field focus styles */
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form input[type="password"]:focus {
+        outline: none;
+        background-color: #ffffff;
+        border-color: #4CAF50;
+    }
+
+    /* Submit button styling */
+    form button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    form button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    /* Link styling */
+    form a {
+        color: #4CAF50;
+        text-decoration: none;
+        font-size: 14px;
+        margin-top: 10px;
+        display: inline-block;
+    }
+
+    form a:hover {
+        text-decoration: underline;
+    }
+
+    /* Error message styling */
+    ul {
+        padding-left: 0;
+        margin-bottom: 5px;
+    }
+    ul li {
+        font-size: 14px;
+        color: red;
+    }
+</style>
 
 {% block footer_layout %}
 <!-- Footer (Removed) -->
 {% endblock footer_layout %}
-
 {% endblock banner %}

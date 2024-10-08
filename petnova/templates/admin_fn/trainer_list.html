@@ -1,0 +1,16 @@
+
+<h1>Trainer List</h1>
+<a href="{% url 'add_trainer' %}">Add Trainer</a>
+<ul>
+    {% for trainer in trainers %}
+        <li>
+            <img src="{{ trainer.image.url }}" alt="{{ trainer.trainer_name }}" width="100">
+            <h2>{{ trainer.trainer_name }}</h2>
+            <p>Email: {{ trainer.email }}</p>
+            <p>Phone: {{ trainer.phone }}</p>
+            <p>Specialization: {{ trainer.specialization }}</p>
+            <a href="{% url 'edit_trainer' trainer.id %}">Edit</a>
+            <a href="{% url 'delete_trainer' trainer.id %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>

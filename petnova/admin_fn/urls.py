@@ -2,6 +2,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
+from .views import add_trainer, view_trainers, edit_trainer, delete_trainer
 
 
 urlpatterns = [
@@ -44,6 +45,12 @@ urlpatterns = [
 
 
 
+   path('trainers/add/', add_trainer, name='add_trainer'),
+    path('trainers/', view_trainers, name='view_trainers'),
+    path('trainers/edit/<int:trainer_id>/', edit_trainer, name='edit_trainer'),
+    path('trainers/delete/<int:trainer_id>/', delete_trainer, name='delete_trainer'),
+ path('cat/', views.cat, name='cat'),
+path('dog/', views.dog, name='dog'),
 
 
 ]

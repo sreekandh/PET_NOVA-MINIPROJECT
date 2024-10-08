@@ -44,7 +44,7 @@
         }
 
         .admin-nav .logo img {
-            width: 150px; /* Increased size to 100px */
+            width: 150px; /* Increased size to 150px */
             height: auto;
             border-radius: 50%; /* Optional: make the logo round */
             margin-right: 20px;
@@ -108,14 +108,16 @@
         .view-pets-list li a {
             text-decoration: none;
             color: #333;
+            display: flex; /* Use flexbox to center the content */
+            flex-direction: column; /* Stack image and text */
+            align-items: center; /* Center align items */
         }
 
         .view-pets-list li a img {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            margin-bottom: 35px;
-            margin-top: 50px; /* Increased this value to move the image down */
+            margin-bottom: 10px; /* Space between image and text */
         }
 
         .view-pets-list li a:hover img {
@@ -145,7 +147,9 @@
     <nav class="admin-nav">
         <!-- Logo Section -->
         <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo"> <!-- Update logo path -->
+            <a href="{% url 'admin_home' %}"> <!-- Wrap the logo image with a link -->
+                <img src="{% static 'images/logo.png' %}" alt="Logo"> <!-- Update logo path -->
+            </a>
             <h1 style="color: #fff;"></h1> <!-- Optional: You can replace or remove this heading -->
         </div>
         
@@ -163,8 +167,18 @@
     <!-- Main Content -->
     <div class="main-content">
         <ul class="view-pets-list">
-            <li><a href="{% url 'cat' %}"><img src="{% static 'images/cat.jpg' %}" alt="Cat"></a></li>
-            <li><a href="{% url 'dog' %}"><img src="{% static 'images/dog.jpg' %}" alt="Dog"></a></li>
+            <li>
+                <a href="{% url 'view_dogs' %}">
+                    <img src="{% static 'images/dog.jpg' %}" alt="View Dogs">
+                    <span>View Dogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'add_dog' %}">
+                    <img src="{% static 'images/add_dog.jpg' %}" alt="Add Dog">
+                    <span>Add Dog</span>
+                </a>
+            </li>
         </ul>
     </div>
 </body>

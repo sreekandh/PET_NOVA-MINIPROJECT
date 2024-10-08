@@ -6,10 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5; /* Light grey background */
             background-image: url("{% static 'images/back_cat_3.jpg' %}");
             background-size: cover;
             background-position: center;
@@ -21,22 +23,34 @@
             height: 100vh;
         }
 
-        .admin-heading {
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5em; /* Increased font size for heading */
-        }
-
+        /* Navigation Bar */
         .admin-nav {
-            background-color: rgba(220, 220, 220, 0.9); /* Light grey for navbar */
-            padding: 20px 0; /* Adjusted padding */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 15px 50px;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
+        /* Logo */
+        .admin-nav .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-nav .logo img {
+            width: 150px; /* Match size with View Pets */
+            height: auto;
+            border-radius: 50%; /* Optional: make the logo round */
+            margin-right: 20px;
+        }
+
+        /* Navigation Links */
         .admin-nav ul {
             list-style-type: none;
             margin: 0;
@@ -46,96 +60,64 @@
         }
 
         .admin-nav ul li {
-            margin: 0 15px; /* Spacing between items */
+            margin: 0 20px;
         }
 
         .admin-nav ul li a {
-            color: #333; /* Dark grey text */
+            color: #fff;
             text-decoration: none;
-            font-size: 1.5em; /* Consistent font size for navbar */
-            font-weight: bold;
+            font-size: 1.5em;
+            transition: color 0.3s;
         }
 
         .admin-nav ul li a:hover {
-            text-decoration: underline;
-            color: #b3aead; /* Highlight color on hover */
+            color: #f0a500;
         }
 
+        /* Main Content */
+        .main-content {
+            padding-top: 120px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .admin-heading {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Back Button */
         .back-button-container {
-            margin: 70px 20px 20px 20px;
-            position: absolute;
-            left: 0;
-            top: 65px;
+            margin: 20px 0;
         }
 
         .admin-back-button {
             padding: 10px 20px;
-            background-color: #dcdcdc; /* Light grey button color */
-            color: #333; /* Darker text color */
+            background-color: #dcdcdc;
+            color: #333;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1.2em; /* Consistent button font size */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
-            transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+            font-size: 1.2em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .admin-back-button:hover {
-            background-color: #c0c0c0; /* Slightly darker grey on hover */
-            transform: translateY(-2px); /* Slight lift effect */
+            background-color: #c0c0c0;
+            transform: translateY(-2px);
         }
 
-        .main-content {
-            padding-top: 130px;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .admin-section-heading {
-            color: #333;
-            margin: 20px 0;
-            font-size: 2em; /* Consistent font size for section heading */
-        }
-
-        .admin-list {
-            list-style-type: none;
-            padding: 0;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .admin-list-item {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin: 5px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-action-links a {
-            color: #c4c1c0;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .admin-action-links a:hover {
-            text-decoration: underline;
-        }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .admin-nav ul {
                 flex-direction: column;
+                align-items: flex-end;
             }
 
             .admin-nav ul li {
                 margin: 10px 0;
-            }
-
-            .admin-section-heading {
-                font-size: 1.8em;
             }
         }
     </style>
@@ -143,24 +125,29 @@
 <body>
     <!-- Navigation Bar -->
     <nav class="admin-nav">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo"> <!-- Update logo path -->
+            <h1 style="color: #fff;"></h1>
+        </div>
+        
         <ul>
-            <li><a href="{% url 'view_pets' %}">View pets</a></li>
-            <li><a href="{% url 'staff_control' %}">Staff</a></li>
-            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
-            <li><a href="{% url 'admin_users' %}">View Users</a></li>
-            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
         </ul>
     </nav>
 
-    <!-- Back to Home Button -->
-    <div class="back-button-container">
-        <a href="{% url 'home' %}">
-            <button class="admin-back-button">Back to Home</button>
-        </a>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="admin-heading"></h1>
+        <div class="back-button-container">
+            <a href="{% url 'home' %}">
+                <button class="admin-back-button">Back to Home</button>
+            </a>
+        </div>
     </div>
-    
-
-
 </body>
 </html>

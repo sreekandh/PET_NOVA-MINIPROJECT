@@ -355,3 +355,95 @@ def trainer_con(request):
 
 def caretaker_con(request):
     return render(request,'staff/caretaker_con.html')
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Trainer
+from .forms import TrainerForm
+from django.contrib import messages
+
+# View all trainers
+def trainer_list(request):
+    trainers = Trainer.objects.all()
+    return render(request, 'admin_fn/trainer_list.html', {'trainers': trainers})
+
+# Add a new trainer
+def add_trainer(request):
+    if request.method == 'POST':
+        form = TrainerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Trainer added successfully!")
+            return redirect('trainer_list')
+    else:
+        form = TrainerForm()
+    return render(request, 'admin_fn/add_trainer.html', {'form': form})
+
+# Edit an existing trainer
+def edit_trainer(request, trainer_id):
+    trainer = get_object_or_404(Trainer, pk=trainer_id)
+    if request.method == 'POST':
+        form = TrainerForm(request.POST, request.FILES, instance=trainer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Trainer updated successfully!")
+            return redirect('trainer_list')
+    else:
+        form = TrainerForm(instance=trainer)
+    return render(request, 'admin_fn/edit_trainer.html', {'form': form, 'trainer': trainer})
+
+# Delete a trainer
+def delete_trainer(request, trainer_id):
+    trainer = get_object_or_404(Trainer, pk=trainer_id)
+    if request.method == 'POST':
+        trainer.delete()
+        messages.success(request, "Trainer deleted successfully!")
+        return redirect('trainer_list')
+    return render(request, 'admin_fn/delete_trainer.html', {'trainer': trainer})
+
+
+def cat(request):
+    return render(request,'admin_fn/cat.html')
+
+
+
+def dog(request):
+    return render(request,'admin_fn/dog.html')
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Trainer
+from .forms import TrainerForm
+
+def add_trainer(request):
+    if request.method == 'POST':
+        form = TrainerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('view_trainers')  # Redirect to the list of trainers
+    else:
+        form = TrainerForm()
+    return render(request, 'admin_fn/add_trainer.html', {'form': form})
+
+def view_trainers(request):
+    trainers = Trainer.objects.all()
+    return render(request, 'admin_fn/view_trainers.html', {'trainers': trainers})
+
+def edit_trainer(request, trainer_id):
+    trainer = get_object_or_404(Trainer, id=trainer_id)
+    if request.method == 'POST':
+        form = TrainerForm(request.POST, request.FILES, instance=trainer)
+        if form.is_valid():
+            form.save()
+            return redirect('view_trainers')
+    else:
+        form = TrainerForm(instance=trainer)
+    return render(request, 'admin_fn/edit_trainer.html', {'form': form, 'trainer': trainer})
+
+def delete_trainer(request, trainer_id):
+    trainer = get_object_or_404(Trainer, id=trainer_id)
+    if request.method == 'POST':
+        trainer.delete()
+        return redirect('view_trainers')
+    return render(request, 'admin_fn/delete_trainer.html', {'trainer': trainer})

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Trainer</title>
+</head>
+<body>
+    <h1>Delete Trainer</h1>
+    <p>Are you sure you want to delete "{{ trainer.trainer_name }}"?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Confirm Delete</button>
+    </form>
+    <a href="{% url 'view_trainers' %}">Cancel</a>
+</body>
+</html>

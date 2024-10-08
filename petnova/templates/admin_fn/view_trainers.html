@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Trainers</title>
+</head>
+<body>
+    <h1>Trainers List</h1>
+    <ul>
+        {% for trainer in trainers %}
+            <li>
+                {{ trainer.trainer_name }} - {{ trainer.specialization }}
+                <img src="{{ trainer.image.url }}" alt="{{ trainer.name }}" class="trainer-image">
+                <a href="{% url 'edit_trainer' trainer.id %}">Edit</a>
+                <a href="{% url 'delete_trainer' trainer.id %}">Delete</a>
+            </li>
+        {% empty %}
+            <li>No trainers available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

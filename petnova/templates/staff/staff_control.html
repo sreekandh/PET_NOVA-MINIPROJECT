@@ -1,4 +1,228 @@
-<ul class="view-pets-list"></ul>
-    <li><a href="{% url 'trainer_con' %}">trainer control</a></li>
-    <li><a href="{% url 'caretaker_con' %}">caretaker control</a></li>
-</ul>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Pets</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'images/back_cat_3.jpg' %}"); /* Add your background image here */
+            background-size: cover; /* Ensure the background covers the whole area */
+            background-position: center; /* Center the background image */
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            transition: margin-left 0.3s; /* Smooth transition for content */
+        }
+    
+        /* Navigation Bar */
+        .admin-nav {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 5px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+    
+        .admin-nav .logo img {
+            width: 180px;
+            height: auto;
+            border-radius: 5px;
+        }
+    
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+    
+        .admin-nav ul li {
+            margin: 0 20px;
+        }
+    
+        .admin-nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+    
+        .admin-nav ul li a:hover {
+            color: #f0a500;
+        }
+    
+        /* Left Side Menu */
+        .left-menu {
+            position: fixed;
+            top: 80px; /* Below the nav bar */
+            left: -250px; /* Hidden by default */
+            width: 250px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-right: 1px solid #ddd;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: left 0.3s; /* Smooth transition */
+            z-index: 999; /* Ensure sidebar is above other elements */
+        }
+    
+        .left-menu a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.5em;
+            margin: 10px 0;
+            transition: color 0.3s;
+        }
+    
+        .left-menu a:hover {
+            text-decoration: underline;
+        }
+    
+        /* Show menu when active */
+        .left-menu.active {
+            left: 0; /* Show menu */
+        }
+    
+        /* Main Content */
+        .main-content {
+            padding-top: 100px;
+            width: 100%;
+            max-width: 1200px;
+            margin-left: 0; /* No margin initially */
+            text-align: center;
+            transition: margin-left 0.3s; /* Smooth transition for content */
+        }
+    
+        h1 {
+            margin-bottom: 30px;
+            font-size: 3em;
+            color: #4a4a4a;
+        }
+    
+        /* View Pets List */
+        .view-pets-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+            grid-gap: 20px;
+        }
+    
+        .view-pets-list li {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+    
+        .view-pets-list li:hover {
+            transform: scale(1.02);
+        }
+    
+        /* Toggle Button */
+        #toggleSidebar {
+            position: absolute;
+            top: 85px; /* Below the nav bar */
+            left: 20px;
+            background-color: #4a4a4a;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            z-index: 1000; /* Ensure button is above other elements */
+        }
+    
+        #toggleSidebar:hover {
+            background-color: #f0a500;
+        }
+    
+        @media (max-width: 768px) {
+            .admin-nav ul {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+    
+            .admin-nav ul li {
+                margin: 10px 0;
+            }
+    
+            h1 {
+                font-size: 2.5em;
+            }
+    
+            .left-menu {
+                width: 100%; /* Full width on smaller screens */
+            }
+    
+            .main-content {
+                margin-left: 0; /* No margin for smaller screens */
+            }
+        }
+    </style>
+    
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <div class="logo">
+            <a href="{% url 'admin_home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo">
+            </a>
+        </div>
+
+        <ul>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
+        </ul>
+    </nav>
+
+    <!-- Left Side Menu -->
+    <div class="left-menu" id="sidebar">
+        <a href="{% url 'trainer_con' %}">Trainer</a>
+        <a href="{% url 'caretaker_con' %}">Caretaker</a>
+        <!-- Add more links here as needed -->
+    </div>
+
+    <!-- Toggle Button with Icon -->
+    <button id="toggleSidebar" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i> <!-- Font Awesome icon -->
+    </button>
+
+    <script>
+        function toggleMenu() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active"); // Toggle the active class on the sidebar
+        }
+    </script>
+</body>
+</html>

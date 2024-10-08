@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Cat</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,23 +17,29 @@
             background-position: center;
             background-repeat: no-repeat;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            padding: 0;
+            text-align: center;
+            color: #333;
+            height: 100vh;
+            padding-top: 80px; /* Adjusted to fit below the navbar */
         }
 
+        /* Navigation Bar */
         .admin-nav {
-            background-color: rgba(211, 211, 211, 0.9); /* Light grey for navbar */
-            padding: 25px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 5px 20px;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
         }
 
+        /* Navigation Links */
         .admin-nav ul {
             list-style-type: none;
             margin: 0;
@@ -40,53 +49,36 @@
         }
 
         .admin-nav ul li {
-            margin: 0 15px;
+            margin: 0 20px; /* Increased margin */
         }
 
         .admin-nav ul li a {
-            color: #333; /* Dark grey text for contrast */
+            color: #fff;
             text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1.5em; /* Increased font size */
+            padding: 10px; /* Added padding */
+            transition: color 0.3s;
         }
 
         .admin-nav ul li a:hover {
-            text-decoration: underline;
+            color: #f0a500; /* Hover color */
         }
 
-        .back-button {
-            position: absolute; /* Positioning the back button */
-            top: 80px; /* Adjust to position just below the navbar */
-            left: 20px; /* Align to the left */
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #d3d3d3; /* Light grey for back button */
-            color: #333; /* Dark grey text */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .back-button:hover {
-            background-color: #b0b0b0; /* Slightly darker grey on hover */
-        }
-
-        .container {
-            max-width: 600px;
+        /* Main Content */
+        .main-content {
+            padding-top: 20px; /* Additional spacing below the navbar */
+            max-width: 500px;
+            margin: 0 auto;
             background-color: rgba(255, 255, 255, 0.9); /* White background with transparency */
-            padding: 30px; /* Increased padding for better spacing */
-            border-radius: 10px;
+            padding: 40px;
+            border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 100px; /* Ensure no overlap with navbar */
         }
 
         h1 {
-            text-align: center;
+            font-size: 2em;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         form {
@@ -94,41 +86,50 @@
             flex-direction: column;
         }
 
-        form label {
-            font-weight: bold;
+        label {
+            font-size: 14px;
+            color: #555;
             margin-bottom: 5px;
-            color: #555; /* Slightly darker grey for labels */
         }
 
-        form input, form select, form textarea {
-            padding: 12px; /* Increased padding for inputs */
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            padding: 10px;
+            border: 1px solid #666; /* Dark grey border */
+            border-radius: 4px;
+            margin-bottom: 15px;
             font-size: 16px;
             width: 100%;
-            box-sizing: border-box;
-            transition: border-color 0.3s; /* Transition for border color */
+            background-color: #f9f9f9; /* Light grey background for input */
+            color: #333; /* Dark text color */
         }
 
-        form input:focus, form select:focus, form textarea:focus {
-            border-color: #777; /* Darker border on focus */
-            outline: none; /* Remove default outline */
-        }
-
-        button {
-            padding: 12px;
-            background-color: #d3d3d3; /* Light grey for buttons */
-            color: #333; /* Dark grey text */
+        button, .back-button {
+            padding: 10px;
+            background-color: #180d0b; /* Matching your theme color */
+            color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 4px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Align with the button */
         }
 
-        button:hover {
-            background-color: #b0b0b0; /* Slightly darker grey on hover */
+        button:hover, .back-button:hover {
+            background-color: #2e1d1a; /* Lighter shade for hover effect */
+        }
+
+        .back-button {
+            background-color: #4f4f4d; /* Color for the back button */
+        }
+
+        .back-button:hover {
+            background-color: #716d66; /* Darker shade for hover */
         }
 
         .form-errors {
@@ -141,29 +142,29 @@
             text-align: center;
             margin-bottom: 20px;
         }
-
-        body {
-            padding-top: 80px; /* Adjust based on navbar height */
-        }
     </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
     <nav class="admin-nav">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" style="width: 180px; margin-right: 10px;">
+            <h1 style="color: #fff; font-size: 1.5em;"></h1>
+        </div>
+        
         <ul>
-            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
-            <li><a href="{% url 'view_pets' %}">view pets</a></li>
-            <li><a href="{% url 'admin_users' %}">View Users</a></li>
-            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
-            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
         </ul>
     </nav>
 
-    <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
-
-    <div class="container">
+    <!-- Main Content -->
+    <div class="main-content">
         <h1>Add a New Cat</h1>
 
         <form method="POST" enctype="multipart/form-data">
@@ -173,6 +174,7 @@
             </div>
             {{ form.as_p }}
             <button type="submit">Add Cat</button>
+            <a href="{% url 'cat' %}" class="back-button">Cancel</a> <!-- Cancel button -->
         </form>
     </div>
 

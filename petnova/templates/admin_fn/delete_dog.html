@@ -1,82 +1,158 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Dog</title>
+    <!-- Font Awesome (loaded locally) -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Light grey background */
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+        }
+    
+        .navbar {
+            background-color: rgba(34, 34, 34, 0.8); /* Updated navbar color */
+            color: #fff;
+            padding: 15px 30px; /* Increased padding for navbar */
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+    
+        .navbar .logo img {
+            max-height: 60px; /* Increased logo size */
+        }
+    
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+        }
+    
+        .navbar ul li {
+            margin: 0 20px; /* Increased margin for space between icons */
+        }
+    
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px; /* Increased icon size */
+            padding: 10px; /* Added padding to anchor tags */
+            transition: color 0.3s;
+        }
+    
+        .navbar ul li a:hover {
+            color: #ccc; /* Light grey hover */
         }
 
         .container {
-            max-width: 500px;
-            background-color: #fff;
-            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            background-color: #fff; /* White background for content */
+            padding: 30px 20px;
             border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             text-align: center;
+            margin: 100px auto; /* Space for navbar */
         }
 
         h1 {
-            color: #df9389;
-            margin-bottom: 20px;
             font-size: 24px;
+            color: #333; /* Dark grey for heading */
+            margin-bottom: 20px;
         }
 
         p {
-            color: #333;
             font-size: 18px;
+            color: #666; /* Medium grey */
             margin-bottom: 30px;
         }
 
+        .pet-image {
+            width: 100%; /* Make the image responsive */
+            height: auto;
+            border-radius: 8px; /* Rounded corners for the image */
+            margin-bottom: 20px; /* Space below the image */
+        }
+
         button {
-            padding: 12px 20px;
-            background-color: #df9389;
+            padding: 10px 20px;
+            background-color: #000; /* Black button */
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         button:hover {
-            background-color: #c1786d;
+            background-color: #444; /* Dark grey hover */
+            transform: scale(1.05);
         }
 
         .cancel-btn {
-            margin-top: 15px;
-            color: #df9389;
-            background: none;
-            border: none;
+            display: inline-block;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
             font-size: 16px;
-            cursor: pointer;
-            text-decoration: underline;
-            transition: color 0.3s;
+            transition: color 0.3s, transform 0.2s;
         }
 
         .cancel-btn:hover {
-            color: #c1786d;
+            color: #999; /* Light grey hover */
+            transform: translateY(-2px);
         }
     </style>
+    
 </head>
 <body>
-    <div class="container">
-        <h1>Delete Dog</h1>
-        <p>Are you sure you want to delete "{{ dog.name }}"?</p>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit">Yes, Delete</button>
-        </form>
-        <a href="{% url 'dog_list' %}" class="cancel-btn">Cancel</a>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+        <ul>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
+        </ul>
     </div>
+
+    <!-- Delete Confirmation Container -->
+    <div class="container">
+        <h1>Confirm Delete</h1>
+        <img src="{{ dog.image.url }}" alt="Image of {{ dog.name }}" class="pet-image"> <!-- Dog image -->
+        <p>Are you sure you want to delete the dog "{{ dog.name }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+        <a href="{% url 'view_dogs' %}" class="cancel-btn">Cancel</a>
+    </div>
+
 </body>
 </html>

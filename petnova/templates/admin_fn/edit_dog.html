@@ -1,75 +1,80 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Dog</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Grey background color */
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
+            color: #333;
             height: 100vh;
-            padding-top: 80px; /* Added padding to avoid overlap with navbar */
         }
 
+        /* Navigation Bar */
         .admin-nav {
-            background-color: #df9389;
-            padding: 25px 0; /* Increased padding for more thickness */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 5px 20px;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
         }
 
+        /* Navigation Links */
         .admin-nav ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: flex-end; /* Aligns navigation items to the right */
+            justify-content: flex-end;
         }
 
         .admin-nav ul li {
-            margin: 0 15px;
-        }
-
-        .admin-nav ul li:last-child {
-            margin-right: 30px; /* Adjust this value as needed */
+            margin: 0 20px; /* Increased margin */
         }
 
         .admin-nav ul li a {
-            color: white;
+            color: #fff;
             text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1.5em; /* Increased font size */
+            padding: 10px; /* Added padding */
+            transition: color 0.3s;
         }
 
         .admin-nav ul li a:hover {
-            text-decoration: underline;
+            color: #f0a500;
         }
 
-        .container {
+        /* Main Content */
+        .main-content {
+            padding-top: 100px; /* Adjusted padding for the nav */
             max-width: 500px;
-            width: 100%;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            background-color: #d3d3d3; /* Light grey for the main content */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            text-align: center;
-            color: #4a4a4a;
-            margin-bottom: 30px;
-            font-size: 28px;
-            border-bottom: 2px solid #df9389;
-            padding-bottom: 10px;
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
         }
 
         form {
@@ -77,65 +82,127 @@
             flex-direction: column;
         }
 
-        form input, form select, form textarea {
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease-in-out;
+        label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
         }
 
-        form input:focus, form select:focus, form textarea:focus {
-            border-color: #df9389;
-            outline: none;
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            padding: 10px;
+            border: 1px solid #666; /* Dark grey border */
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            width: 100%;
+            background-color: #f9f9f9; /* Light grey background for input */
+            color: #333; /* Dark text color */
         }
 
         button {
-            padding: 12px;
-            background-color: #df9389;
-            color: #fff;
+            padding: 10px;
+            background-color: #261a18; /* Theme color */
+            color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            border-radius: 4px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            text-transform: uppercase;
-            font-weight: bold;
+            margin-top: 10px;
         }
 
         button:hover {
-            background-color: #c1786d;
-        }
-        
-        button:focus {
-            outline: none;
+            background-color: #261b19; /* Lighter shade for hover effect */
         }
 
+        .cancel-button {
+            background-color: #402423; /* Red color for cancel button */
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 16px;
+            text-decoration: none; /* Remove underline */
+        }
+
+        .cancel-button:hover {
+            background-color: #3f2d2c; /* Darker red for hover effect */
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 180px; /* Increased logo size */
+            margin-right: 10px;
+        }
+
+        /* Back Button */
+        .back-button {
+            margin-top: 120px; /* Adjust margin to separate from nav */
+            padding-left: 20px;
+            text-align: left;
+        }
+
+        .back-button a {
+            background-color: #4f4f4d; /* Color for the back button */
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none; /* Remove underline */
+        }
+
+        .back-button a:hover {
+            background-color: #716d66; /* Darker shade for hover */
+        }
+
+        .back-button i {
+            margin-right: 5px; /* Space between icon and text */
+        }
     </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
     <nav class="admin-nav">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+            <h1 style="color: #fff; font-size: 1.5em;"></h1>
+        </div>
+        
         <ul>
-            <li><a href="{% url 'admin_home' %}">admin home</a></li>
-            <li><a href="{% url 'view_pets' %}">View pets</a></li>
-            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
-            <li><a href="{% url 'admin_users' %}">View Users</a></li>
-            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
         </ul>
     </nav>
 
-    <div class="container">
-        <h1>Edit Dog</h1>
+    <!-- Back Button -->
+    <div class="back-button">
+        <a href="{% url 'view_dogs' %}">
+            <i class="fas fa-dog"></i> 
+        </a>
+    </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Edit Dog Details</h1>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Save Changes</button>
+            <a href="{% url 'view_dogs' %}" class="cancel-button">Cancel</a>
         </form>
     </div>
 

@@ -1,106 +1,60 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Cats</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Light grey background */
-            background-image: url("{% static 'images/back_cat_4.jpg' %}"); /* Add your background image here */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #e0e0e0; /* Light grey background */
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center content horizontally */
-        }
-
-        h1 {
-            text-align: center;
-            color: #4a4a4a; /* Darker grey for better readability */
-            margin-bottom: 30px;
-        }
-
-        .cat-list {
-            list-style-type: none;
-            padding: 0;
-            max-width: 800px;
-            width: 100%; /* Make list responsive */
-            margin: 0 auto;
-        }
-
-        .cat-item {
-            display: flex;
             align-items: center;
-            background-color: rgba(240, 240, 240, 0.9); /* Light grey with slight transparency */
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            justify-content: flex-start;
         }
 
-        .cat-image {
-            width: 100px; /* Adjust the width as needed */
-            height: auto;
-            border-radius: 10px;
-            margin-right: 20px;
-        }
-
-        .cat-info {
-            flex-grow: 1;
-            display: flex;
-            justify-content: space-between; /* Space out info and links */
-            flex-wrap: wrap; /* Allow wrapping */
-        }
-
-        .cat-info a {
-            margin-right: 10px;
-            color: #6d6d6d; /* Dark grey for a subtle link color */
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .cat-info a:hover {
-            color: #4a4a4a; /* Darker grey on hover */
-            text-decoration: underline;
-        }
-
-        .back-button {
-            position: absolute; /* Position it absolutely */
-            top: 90px; /* Adjust from top */
-            left: 20px; /* Adjust from left */
-            padding: 10px;
-            background-color: #b0b0b0; /* Light grey background for the button */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 1.2em;
-            text-decoration: none;
-            transition: background-color 0.3s; /* Smooth transition */
-        }
-
-        .back-button:hover {
-            background-color: #8c8c8c; /* Darker grey on hover */
-        }
-
-        /* Admin Nav Styles */
+        /* Navigation Bar */
         .admin-nav {
-            background-color: #dcdcdc; /* Light grey for the navbar */
-            padding: 25px 0; /* Increased padding for more thickness */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 5px 20px;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .admin-nav .logo {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+        }
+
+        .admin-nav .logo img {
+            width: 180px;
+            height: auto;
+            border-radius: 50%;
+            margin-right: 30px;
+        }
+
+        .admin-nav .logo h1 {
+            color: #fff;
+            font-size: 1.5em;
+            margin: 0;
         }
 
         .admin-nav ul {
@@ -108,33 +62,120 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: flex-end; /* Aligns navigation items to the right */
-            flex-wrap: wrap; /* Allow items to wrap */
+            justify-content: flex-end;
         }
 
         .admin-nav ul li {
-            margin: 0 15px;
-        }
-
-        .admin-nav ul li:last-child {
-            margin-right: 30px;
+            margin: 0 20px;
         }
 
         .admin-nav ul li a {
-            color: #6d6d6d; /* Dark grey for links */
+            color: #fff;
             text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1.5em;
+            transition: color 0.3s;
         }
 
         .admin-nav ul li a:hover {
-            color: #4a4a4a; /* Darker grey on hover */
+            color: #f0a500;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+            margin-top: 100px;
+            margin-bottom: 30px;
+            font-size: 3em;
+        }
+
+        .cat-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Three cards per row */
+            grid-gap: 20px; /* Space between cards */
+            list-style-type: none;
+            padding: 0;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .cat-item {
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px; /* Reduced padding */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 300px; /* Reduced height */
+        width: 90%; /* Make the cards slightly smaller */
+        max-width: 250px; /* Set a max-width for the cards */
+        margin: auto; /* Center cards within their grid cells */
+    }
+
+        .cat-item:hover {
+            transform: scale(1.02);
+        }
+
+        .cat-image {
+            width: 100%; /* Make the image full width of the card */
+            height: 150px; /* Fixed height for the images */
+            object-fit: cover; /* Ensures the image covers the space proportionally */
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #dcdcdc;
+        }
+
+        .cat-info {
+            text-align: center;
+            width: 100%;
+        }
+
+        .cat-info strong {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .cat-info a {
+            margin-right: 10px;
+            color: #6d6d6d;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: color 0.3s;
+        }
+
+        .cat-info a:hover {
+            color: #f0a500;
             text-decoration: underline;
         }
 
-        /* Add padding to avoid content being hidden behind the fixed navbar */
-        body {
-            padding-top: 80px; /* Adjust based on navbar height */
+        .cat-info a .fas {
+            margin-left: 5px;
+        }
+
+        /* Back Button */
+        .back-button {
+            padding: 10px 30px;
+            background-color: #2c2c2b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+            position: absolute;
+            left: 20px;
+            top: 150px;
+        }
+
+        .back-button:hover {
+            background-color: #2a2927;
+            transform: translateY(-2px);
         }
 
         /* Scroll to Top Button */
@@ -143,112 +184,123 @@
             bottom: 40px;
             right: 20px;
             padding: 10px 15px;
-            background-color: #1d1e1d; /* Green background */
+            background-color: #1d1e1d;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
             transition: background-color 0.3s;
-            display: none; /* Hidden by default */
+            display: none;
         }
 
         .scroll-top:hover {
-            background-color: #1e1f1e; /* Darker green on hover */
+            background-color: #1e1f1e;
         }
 
-        /* Responsive Design with Media Queries */
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .cat-list {
+                grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+            }
+        }
+
         @media (max-width: 768px) {
             .admin-nav ul {
-                flex-direction: column; /* Stack items vertically on small screens */
-                align-items: center; /* Center items */
+                flex-direction: column;
+                align-items: flex-end;
             }
 
             .admin-nav ul li {
-                margin: 10px 0; /* Space between items */
+                margin: 10px 0;
             }
 
-            .cat-item {
-                flex-direction: column; /* Stack image and info vertically */
-                align-items: flex-start; /* Align items to start */
-            }
-
-            .cat-image {
-                margin-bottom: 10px; /* Space between image and info */
+            .cat-list {
+                grid-template-columns: repeat(1, 1fr); /* One card per row */
             }
 
             .back-button {
-                width: 100%; /* Make the back button full width */
-                max-width: 200px; /* Optional max width */
+                left: 10px;
+                top: 90px;
             }
         }
 
         @media (max-width: 480px) {
             h1 {
-                font-size: 1.5em; /* Adjust heading size on small screens */
-            }
-
-            .admin-nav ul li a {
-                font-size: 1em; /* Adjust font size of links */
+                font-size: 2em;
             }
         }
     </style>
+
     <script>
-        // Show or hide the scroll-to-top button
-        window.onscroll = function() {
+        window.onscroll = function () {
             const scrollButton = document.getElementById('scroll-top-button');
             if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                scrollButton.style.display = 'block'; // Show button
+                scrollButton.style.display = 'block';
             } else {
-                scrollButton.style.display = 'none'; // Hide button
+                scrollButton.style.display = 'none';
             }
         };
 
-        // Scroll smoothly to the top
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth' // Smooth scrolling
+                behavior: 'smooth'
             });
         }
     </script>
 </head>
+
 <body>
 
     <!-- Navigation Bar -->
     <nav class="admin-nav">
+        <div class="logo">
+            <a href="{% url 'admin_home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo">
+            </a>
+        </div>
+
         <ul>
-            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
-            <li><a href="{% url 'view_pets' %}">View pets</a></li>
-            <li><a href="{% url 'admin_users' %}">View Users</a></li>
-            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
-            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
         </ul>
     </nav>
 
-    <h1>All Cats</h1>
-
     <!-- Back to Admin Home Button -->
-    <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
+    <a href="{% url 'cat' %}" class="back-button">
+        <i class="fas fa-cat"></i>
+    </a>
+
+    <h1>All Cats</h1>
 
     <ul class="cat-list">
         {% for cat in cats %}
             <li class="cat-item">
                 <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="cat-image">
                 <div class="cat-info">
-                    <strong>{{ cat.name }}</strong> - 
-                    <a href="{% url 'edit_cat' cat.id %}">Edit</a> | 
-                    <a href="{% url 'delete_cat' cat.id %}">Delete</a>
+                    <strong>{{ cat.name }}</strong>
+                    <div class="cat-actions">
+                        <a href="{% url 'edit_cat' cat.id %}"><i class="fas fa-edit"></i> Edit</a> | 
+                        <a href="{% url 'delete_cat' cat.id %}"><i class="fas fa-trash"></i> Delete</a>
+                    </div>
                 </div>
             </li>
         {% empty %}
             <li>No cats available.</li>
         {% endfor %}
     </ul>
+    
 
-    <!-- Scroll to Top Button -->
-    <button id="scroll-top-button" class="scroll-top" onclick="scrollToTop()">Up</button>
+    <!-- Scroll to Top Button with Icon -->
+    <button id="scroll-top-button" class="scroll-top" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
 </body>
+
 </html>
