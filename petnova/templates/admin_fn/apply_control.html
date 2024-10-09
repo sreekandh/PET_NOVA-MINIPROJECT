@@ -1,113 +1,235 @@
-<!-- Back to Admin Home Button -->
-<a href="{% url 'view_applications' %}" class="back-button">Back to Admin Home</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="main-content">
-    <h2 class="admin-section-heading">Pending Adoption Applications</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Adoption Applications</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
 
-    {% if pending_applications %}
-        <ul class="admin-list">
-            {% for application in pending_applications %}
-                <li class="admin-list-item">
-                    <div class="application-details">
-                        <p><strong>Name:</strong> {{ application.full_name }}</p>
-                        <p><strong>Applied for Pet:</strong> {{ application.pet.name }}</p>
-                        <p><strong>Application Date:</strong> {{ application.application_date }}</p>
-                        <p><strong>Email:</strong> {{ application.email }}</p>
-                        <p><strong>Address:</strong> {{ application.address }}</p>
-                        <p><strong>feedback:</strong>{{ application.feedback }}</p>
-                    </div>
-                    <div class="admin-action-links">
-                        <a href="{% url 'approve_application' application.id %}">Approve</a>
-                        <span>|</span>
-                        <a href="{% url 'disapprove_application' application.id %}">Disapprove</a>
-                    </div>
-                </li>
-            {% endfor %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0; /* Light grey background */
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Navigation Bar */
+        .admin-nav {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 5px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .admin-nav .logo {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+        }
+
+        .admin-nav .logo img {
+            width: 180px;
+            height: auto;
+            border-radius: 50%;
+            margin-right: 30px;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .admin-nav ul li {
+            margin: 0 20px;
+        }
+
+        .admin-nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .admin-nav ul li a:hover {
+            color: #f0a500;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            padding-top: 100px; /* Adjusted for nav height */
+            width: 90%; /* Full width with padding */
+            max-width: 1200px; /* Limit max width */
+            margin: auto;
+        }
+
+        .admin-section-heading {
+            color: #333;
+            margin: 20px 0;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-block;
+            padding: 10px 30px;
+            background-color: #302624;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #494443;
+        }
+
+        /* Admin List Styling */
+        .admin-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        .admin-list-item {
+            background-color: #f5f5f5; /* Light grey for list items */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        /* Styling for Application Details */
+        .application-details p {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #555; /* Grey for text */
+        }
+
+        .application-details strong {
+            color: #3a3433; /* Highlighted color for strong text */
+        }
+
+        /* Action Links Styling */
+        .admin-action-links {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            font-size: 1.1em;
+        }
+
+        .admin-action-links a {
+            color: #201514;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .admin-action-links a:hover {
+            text-decoration: underline;
+        }
+
+        .admin-action-links span {
+            color: #999; /* Light grey for separator */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-nav ul {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .admin-nav ul li {
+                margin: 10px 0;
+            }
+
+            .main-content {
+                width: 95%; /* Slightly more width on smaller screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <div class="logo">
+            <a href="{% url 'admin_home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo">
+            </a>
+        </div>
+
+        <ul>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
         </ul>
-    {% else %}
-        <p>No pending adoption applications at the moment.</p>
-    {% endif %}
-</div>
+    </nav>
 
-<style>
-    /* Back to Admin Home button */
-    .back-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #df9389;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 1.2em;
-        margin-bottom: 20px;
-    }
+    <div class="main-content">
+        <!-- Back to Admin Home Button -->
+<!-- Back to Admin Home Button -->
+<a href="{% url 'view_applications' %}" class="back-button">
+    <i class="fas fa-folder-open"></i> 
+</a>
 
-    .back-button:hover {
-        background-color: #c1786d;
-    }
+        <h2 class="admin-section-heading">Pending Adoption Applications</h2>
 
-    /* Main Content Styling */
-    .main-content {
-        padding-top: 20px;
-    }
+        {% if pending_applications %}
+            <ul class="admin-list">
+                {% for application in pending_applications %}
+                    <li class="admin-list-item">
+                        <div class="application-details">
+                            <p><strong>Name:</strong> {{ application.full_name }}</p>
+                            <p><strong>Applied for Pet:</strong> {{ application.pet.name }}</p>
+                            <p><strong>Application Date:</strong> {{ application.application_date }}</p>
+                            <p><strong>Email:</strong> {{ application.email }}</p>
+                            <p><strong>Address:</strong> {{ application.address }}</p>
+                            <p><strong>Feedback:</strong> {{ application.feedback }}</p>
+                        </div>
+                        <div class="admin-action-links">
+                            <a href="{% url 'approve_application' application.id %}">Approve</a>
+                            <span>|</span>
+                            <a href="{% url 'disapprove_application' application.id %}">Disapprove</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No pending adoption applications at the moment.</p>
+        {% endif %}
+    </div>
 
-    .admin-section-heading {
-        color: #333;
-        margin: 20px 0;
-        font-size: 2em;
-        text-align: center;
-    }
+</body>
 
-    /* Admin List Styling */
-    .admin-list {
-        list-style-type: none;
-        padding: 0;
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-    .admin-list-item {
-        background-color: #ffffff;
-        border-radius: 8px;
-        padding: 20px;
-        margin: 10px 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        gap: 15px;
-    }
-
-    /* Styling for Application Details */
-    .application-details p {
-        margin: 5px 0;
-        font-size: 1.1em;
-    }
-
-    .application-details strong {
-        color: #df9389;
-    }
-
-    /* Action Links Styling */
-    .admin-action-links {
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-        font-size: 1.1em;
-    }
-
-    .admin-action-links a {
-        color: #df9389;
-        font-weight: bold;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .admin-action-links a:hover {
-        text-decoration: underline;
-    }
-
-    .admin-action-links span {
-        color: #999;
-    }
-</style>
+</html>

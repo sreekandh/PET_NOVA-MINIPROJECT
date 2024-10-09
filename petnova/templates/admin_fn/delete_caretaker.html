@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Trainer</title>
-    <!-- Font Awesome (loaded locally) -->
+    <title>Delete Caretaker</title>
+    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,9 +23,9 @@
         }
 
         .navbar {
-            background-color: rgba(34, 34, 34, 0.8); /* Updated navbar color */
+            background-color: rgba(34, 34, 34, 0.8); /* Navbar color */
             color: #fff;
-            padding: 15px 30px; /* Increased padding for navbar */
+            padding: 15px 30px; /* Padding for navbar */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,7 +37,7 @@
         }
 
         .navbar .logo img {
-            max-height: 60px; /* Increased logo size */
+            max-height: 60px; /* Logo size */
         }
 
         .navbar ul {
@@ -47,14 +47,14 @@
         }
 
         .navbar ul li {
-            margin: 0 20px; /* Increased margin for space between icons */
+            margin: 0 20px; /* Space between icons */
         }
 
         .navbar ul li a {
             color: #fff;
             text-decoration: none;
-            font-size: 18px; /* Increased icon size */
-            padding: 10px; /* Added padding to anchor tags */
+            font-size: 18px; /* Icon size */
+            padding: 10px; /* Padding for anchor tags */
             transition: color 0.3s;
         }
 
@@ -116,7 +116,6 @@
             transform: translateY(-2px);
         }
     </style>
-    
 </head>
 <body>
 
@@ -138,13 +137,13 @@
     <!-- Delete Confirmation Container -->
     <div class="container">
         <h1>Confirm Delete</h1>
-        <img src="{{ trainer.image.url }}" alt="Image of {{ trainer.name }}" class="trainer-image"> <!-- Pet image -->
-        <p>Are you sure you want to delete "{{ trainer.trainer_name }}"?</p>
+        <img src="{{ caretaker.image.url }}" alt="Image of {{ caretaker.name }}" class="caretaker-image"> <!-- Pet image -->
+        <p>Are you sure you want to delete "{{ caretaker.caretaker_name }}"?</p>
         <form method="post">
             {% csrf_token %}
             <button type="submit">Delete</button>
         </form>
-        <a href="{% url 'view_trainers' %}" class="cancel-btn">Cancel</a>
+        <a href="{% url 'view_caretakers' %}" class="cancel-btn">Cancel</a>
     </div>
 
 </body>

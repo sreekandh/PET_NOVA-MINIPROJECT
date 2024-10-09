@@ -30,3 +30,11 @@ class TrainerForm(forms.ModelForm):
     class Meta:
         model = Trainer
         fields = ['trainer_name', 'email', 'phone', 'experience', 'specialization', 'image']
+
+from django import forms
+from .models import Caretaker
+
+class CaretakerForm(forms.ModelForm):
+    class Meta:
+        model = Caretaker
+        fields = ['caretaker_name', 'email', 'phone', 'experience', 'specialization', 'image']

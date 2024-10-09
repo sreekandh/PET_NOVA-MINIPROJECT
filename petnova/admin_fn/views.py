@@ -421,7 +421,7 @@ def add_trainer(request):
         form = TrainerForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('view_trainers')  # Redirect to the list of trainers
+            return redirect('add_trainer')  # Redirect to the list of trainers
     else:
         form = TrainerForm()
     return render(request, 'admin_fn/add_trainer.html', {'form': form})
@@ -447,3 +447,40 @@ def delete_trainer(request, trainer_id):
         trainer.delete()
         return redirect('view_trainers')
     return render(request, 'admin_fn/delete_trainer.html', {'trainer': trainer})
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Caretaker
+from .forms import CaretakerForm
+
+def add_caretaker(request):
+    if request.method == 'POST':
+        form = CaretakerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('add_caretaker')  # Redirect to the list of caretakers
+    else:
+        form = CaretakerForm()
+    return render(request, 'admin_fn/add_caretaker.html', {'form': form})
+
+def view_caretakers(request):
+    caretakers = Caretaker.objects.all()
+    return render(request, 'admin_fn/view_caretakers.html', {'caretakers': caretakers})
+
+def edit_caretaker(request, caretaker_id):
+    caretaker = get_object_or_404(Caretaker, id=caretaker_id)
+    if request.method == 'POST':
+        form = CaretakerForm(request.POST, request.FILES, instance=caretaker)
+        if form.is_valid():
+            form.save()
+            return redirect('view_caretakers')
+    else:
+        form = CaretakerForm(instance=caretaker)
+    return render(request, 'admin_fn/edit_caretaker.html', {'form': form, 'caretaker': caretaker})
+
+def delete_caretaker(request, caretaker_id):
+    caretaker = get_object_or_404(Caretaker, id=caretaker_id)
+    if request.method == 'POST':
+        caretaker.delete()
+        return redirect('view_caretakers')
+    return render(request, 'admin_fn/delete_caretaker.html', {'caretaker': caretaker})

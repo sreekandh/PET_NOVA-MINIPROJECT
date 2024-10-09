@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Trainers</title>
+    <title>View Caretakers</title>
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
 
@@ -88,7 +88,7 @@
             font-size: 3em;
         }
 
-        .trainer-list {
+        .caretaker-list {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* Three cards per row */
             grid-gap: 20px; /* Space between cards */
@@ -99,7 +99,7 @@
             margin: 0 auto;
         }
 
-        .trainer-item {
+        .caretaker-item {
             background-color: rgba(255, 255, 255, 0.9);
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -116,11 +116,11 @@
             transition: transform 0.2s;
         }
 
-        .trainer-item:hover {
+        .caretaker-item:hover {
             transform: scale(1.02);
         }
 
-        .trainer-image {
+        .caretaker-image {
             width: 100%;
             height: 150px;
             object-fit: cover;
@@ -129,17 +129,17 @@
             border: 2px solid #dcdcdc;
         }
 
-        .trainer-info {
+        .caretaker-info {
             text-align: center;
             width: 100%;
         }
 
-        .trainer-info strong {
+        .caretaker-info strong {
             font-size: 1.8em;
             color: #333;
         }
 
-        .trainer-info a {
+        .caretaker-info a {
             margin-right: 10px;
             color: #6d6d6d;
             text-decoration: none;
@@ -148,20 +148,20 @@
             transition: color 0.3s;
         }
 
-        .trainer-info a:hover {
+        .caretaker-info a:hover {
             color: #f0a500;
             text-decoration: underline;
         }
 
         /* Responsive Design */
         @media (max-width: 992px) {
-            .trainer-list {
+            .caretaker-list {
                 grid-template-columns: repeat(2, 1fr); /* Two cards per row */
             }
         }
 
         @media (max-width: 768px) {
-            .trainer-list {
+            .caretaker-list {
                 grid-template-columns: repeat(1, 1fr); /* One card per row */
             }
         }
@@ -188,22 +188,22 @@
         </ul>
     </nav>
 
-    <h1>Trainers List</h1>
+    <h1>Caretakers List</h1>
 
-    <ul class="trainer-list">
-        {% for trainer in trainers %}
-            <li class="trainer-item">
-                <img src="{{ trainer.image.url }}" alt="{{ trainer.trainer_name }}" class="trainer-image">
-                <div class="trainer-info">
-                    <strong>{{ trainer.trainer_name }}</strong> - {{ trainer.specialization }}
-                    <div class="trainer-actions">
-                        <a href="{% url 'edit_trainer' trainer.id %}"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="{% url 'delete_trainer' trainer.id %}"><i class="fas fa-trash"></i> Delete</a>
+    <ul class="caretaker-list">
+        {% for caretaker in caretakers %}
+            <li class="caretaker-item">
+                <img src="{{ caretaker.image.url }}" alt="{{ caretaker.caretaker_name }}" class="caretaker-image">
+                <div class="caretaker-info">
+                    <strong>{{ caretaker.caretaker_name }}</strong> - {{ caretaker.specialization }}
+                    <div class="caretaker-actions">
+                        <a href="{% url 'edit_caretaker' caretaker.id %}"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="{% url 'delete_caretaker' caretaker.id %}"><i class="fas fa-trash"></i> Delete</a>
                     </div>
                 </div>
             </li>
         {% empty %}
-            <li>No trainers available.</li>
+            <li>No caretakers available.</li>
         {% endfor %}
     </ul>
 

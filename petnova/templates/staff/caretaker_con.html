@@ -1,0 +1,152 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Caretakers</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'images/back_cat_3.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+            height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .admin-nav {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 15px 50px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Logo */
+        .admin-nav .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-nav .logo img {
+            width: 150px;
+            height: auto;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        /* Navigation Links */
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .admin-nav ul li {
+            margin: 0 20px;
+        }
+
+        .admin-nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .admin-nav ul li a:hover {
+            color: #f0a500;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 120px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .caretaker-actions {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .caretaker-actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin: 10px;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .caretaker-actions a:hover {
+            background-color: #f0a500;
+            transform: translateY(-5px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .admin-nav ul {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .admin-nav ul li {
+                margin: 10px 0;
+            }
+
+            .caretaker-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+            <h1 style="color: #fff;"></h1>
+        </div>
+        
+        <!-- Navigation Links -->
+        <ul>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="caretaker-actions">
+            <a href="{% url 'add_caretaker' %}">Add Caretaker</a>
+            <a href="{% url 'view_caretakers' %}">Back to Caretaker List</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from . import views
 from .views import add_trainer, view_trainers, edit_trainer, delete_trainer
+from .views import add_caretaker, view_caretakers, edit_caretaker, delete_caretaker
 
 
 urlpatterns = [
@@ -51,6 +52,11 @@ urlpatterns = [
     path('trainers/delete/<int:trainer_id>/', delete_trainer, name='delete_trainer'),
  path('cat/', views.cat, name='cat'),
 path('dog/', views.dog, name='dog'),
+
+ path('caretakers/add/', add_caretaker, name='add_caretaker'),
+    path('caretakers/', view_caretakers, name='view_caretakers'),
+    path('caretakers/edit/<int:caretaker_id>/', edit_caretaker, name='edit_caretaker'),
+    path('caretakers/delete/<int:caretaker_id>/', delete_caretaker, name='delete_caretaker'),
 
 
 ]

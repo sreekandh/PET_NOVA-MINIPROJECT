@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Trainer</title>
+    <title>Edit Caretaker</title>
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
 
@@ -135,11 +135,6 @@
             background-color: #716d66; /* Darker shade for hover */
         }
 
-        .back-button i,
-        .cancel-button i {
-            margin-right: 5px; /* Space between icon and text */
-        }
-
         .logo {
             display: flex;
             align-items: center;
@@ -180,19 +175,19 @@
 
     <!-- Back Button -->
     <div style="margin-top: 60px; text-align: left; padding-left: 20px;">
-        <a href="{% url 'view_trainers' %}" class="back-button">
+        <a href="{% url 'view_caretakers' %}" class="back-button">
             <i class="fas fa-user"></i>
         </a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <h1>Edit Trainer Details</h1>
+        <h1>Edit Caretaker Details</h1>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Update Trainer</button>
-            <a href="{% url 'view_trainers' %}" class="cancel-button">Cancel</a>
+            <button type="submit">Update Caretaker</button>
+            <a href="{% url 'view_caretakers' %}" class="cancel-button">Cancel</a>
         </form>
     </div>
 
