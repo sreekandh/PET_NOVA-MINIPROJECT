@@ -1,0 +1,46 @@
+
+{% load static %}
+<!-- list_caretaker_slots.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caretaker Slots</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Link to your CSS file -->
+</head>
+<body>
+    <h1>Caretaker Slots</h1>
+    <a href="{% url 'assign_caretaker_slot' %}">Add New Caretaker Slot</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Duration</th>
+                <th>Base Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot in slots %}
+            <tr>
+                <td>{{ slot.service }}</td>
+                <td>{{ slot.get_duration_display }}</td>
+                <td>{{ slot.base_price }}</td>
+                <td>
+                    <a href="{% url 'edit_caretaker_slot' slot.id %}">Edit</a>
+                    <form action="{% url 'delete_caretaker_slot' slot.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No caretaker slots available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

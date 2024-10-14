@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Trainer Bookings</title>
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trainer Bookings</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Owner Name</th>
+                    <th>Owner Email</th>
+                    <th>Owner Phone</th>
+                    <th>Pet Name</th>
+                    <th>Age</th>
+                    <th>Slot Details</th>
+                    <th>Trainer Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.owner_name }}</td>
+                    <td>{{ booking.owner_email }}</td>
+                    <td>{{ booking.owner_phone }}</td>
+                    <td>{{ booking.pet_name }}</td>
+                    <td>{{ booking.age }}</td>
+                    <td>
+                        <strong>Duration:</strong> {{ booking.training_slot.get_duration_display }}<br>
+                        <strong>Price:</strong> {{ booking.training_slot.price }} Rs<br>
+                        <strong>Methods:</strong> {{ booking.training_slot.methods }}
+                    </td>
+                    <td>
+                        <strong>Trainer Name:</strong> {{ booking.trainer.trainer_name }}<br>
+                        <strong>Email:</strong> {{ booking.trainer.email }}<br>
+                        <strong>Phone:</strong> {{ booking.trainer.phone }}<br>
+                        <strong>Specialization:</strong> {{ booking.trainer.specialization }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No bookings found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

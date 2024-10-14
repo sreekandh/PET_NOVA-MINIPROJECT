@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Caretaker Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .pagination span.current {
+            font-weight: bold;
+        }
+        .no-bookings {
+            text-align: center;
+            font-weight: bold;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Caretaker Bookings</h1>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>User Email</th>
+                <th>Caretaker Name</th>
+                <th>Service</th>
+                <th>Duration (Days)</th>
+                <th>Total Price (USD)</th>
+                <th>Booking Date</th>
+                <th>Additional Notes</th>
+                <th>Pet Name</th>
+                <th>Pet Breed</th>
+                <th>Pet Species</th>
+                <th>Pet Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in page_obj %}
+            <tr>
+                <td>{{ booking.user.first_name }} {{ booking.user.last_name }}</td>
+                <td>{{ booking.user.email }}</td>
+                <td>{{ booking.caretaker.caretaker_name }}</td>
+                <td>{{ booking.service }}</td>
+                <td>{{ booking.duration }}</td>
+                <td>{{ booking.total_price }} USD</td>
+                <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
+                <td>{{ booking.additional_notes|default:"None" }}</td>
+                <td>{{ booking.pet_name }}</td>
+                <td>{{ booking.pet_breed }}</td>
+                <td>{{ booking.pet_species }}</td>
+                <td>{{ booking.pet_age }} years</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="12" class="no-bookings">No bookings found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</body>
+</html>

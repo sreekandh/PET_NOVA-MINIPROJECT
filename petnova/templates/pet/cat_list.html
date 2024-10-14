@@ -76,7 +76,12 @@
         <div class="cat-item">
             <a href="{% url 'cat_detail' cat.id %}">
                 <img src="{{ cat.image.url }}" alt="{{ cat.name }}">
-                <h2>{{ cat.name }}</h2>
+                <h2>name :{{ cat.name }}</h2>
+                <h4>Breed :{{ cat.breed }}</h4>
+                <h4>Age :{{ cat.age }}</h4>
+                <h4>Price :{{ cat.price }}</h4>
+
+                
             </a>
         </div>
     {% endfor %}

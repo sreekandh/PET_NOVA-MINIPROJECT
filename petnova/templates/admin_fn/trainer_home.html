@@ -1,12 +1,61 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Trainer Home</title>
+    <!-- Load FontAwesome from static -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        nav a i {
+            margin-right: 8px;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>trainer</h1>
+
+
+    <nav>
+        <a href="{% url 'trainer_home' %}"><i class="fas fa-home"></i> Trainer Home</a>
+        <!-- New link for Schedule Training Sections -->
+        <a href="{% url 'list_training_slots' %}"><i class="fas fa-calendar-alt"></i> Schedule Training Sections</a>
+    </nav>
     
+
+    <!-- Content -->
+    <div class="container">
+        <h1>Trainer Home</h1>
+        <p>Welcome to the trainer homepage!</p>
+    </div>
+
 </body>
 </html>

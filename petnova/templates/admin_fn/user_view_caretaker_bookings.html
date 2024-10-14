@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Caretaker Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa; /* Light background for better readability */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff; /* Bootstrap's primary color */
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .cancel-button {
+            background-color: #dc3545; /* Bootstrap's danger color */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .cancel-button:hover {
+            background-color: #c82333; /* Darker shade on hover */
+        }
+        .status {
+            font-weight: bold;
+            color: #28a745; /* Green for confirmed */
+        }
+        .status.canceled {
+            color: #dc3545; /* Red for canceled */
+        }
+    </style>
+</head>
+<body>
+    <h1>My Caretaker Bookings</h1>
+
+    {% if bookings %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Caretaker</th>
+                    <th>Service</th>
+                    <th>Duration</th>
+                    <th>Total Price</th>
+                    <th>Booking Date</th>
+                    <th>Service Start Date</th>
+                    <th>Pet Name</th>
+                    <th>Pet Breed</th>
+                    <th>Pet Species</th>
+                    <th>Pet Age</th>
+                    <th>Pet Image</th>
+                    <th>Additional Notes</th>
+                    <th>Status</th>  <!-- Added Status column -->
+                    <th>Action</th>  <!-- Added Action column for Cancel button -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.caretaker.caretaker_name }}</td>
+                    <td>{{ booking.service }}</td>
+                    <td>{{ booking.duration }} days</td>
+                    <td>{{ booking.total_price }} rs</td>
+                    <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ booking.service_start_date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ booking.pet_name }}</td>
+                    <td>{{ booking.pet_breed }}</td>
+                    <td>{{ booking.pet_species }}</td>
+                    <td>{{ booking.pet_age }} years</td>
+                    <td>
+                        {% if booking.pet_image %}
+                            <img src="{{ booking.pet_image.url }}" alt="{{ booking.pet_name }}" style="width: 100px; height: auto;">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </td>
+                    <td>{{ booking.additional_notes|default:"No notes provided" }}</td>
+                    <td>
+                        <span class="status {% if booking.status == 'canceled' %}canceled{% endif %}">
+                            {{ booking.status|capfirst }}  <!-- Capitalize the first letter of status -->
+                        </span>
+                    </td>
+                    <td>
+                        {% if booking.status == 'confirmed' %}
+                            <form action="{% url 'cancel_booking' booking.id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="cancel-button">Cancel</button>
+                            </form>
+                        {% else %}
+                            <span>N/A</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no caretaker bookings yet.</p>
+    {% endif %}
+    
+</body>
+</html>

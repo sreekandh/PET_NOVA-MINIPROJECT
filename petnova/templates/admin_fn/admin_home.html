@@ -143,11 +143,16 @@
     <!-- Main Content -->
     <div class="main-content">
         <h1 class="admin-heading"></h1>
+        <li><a href="{% url 'admin_view_bookings' %}"><i class="fas fa-book"></i></a></li>
+
         <div class="back-button-container">
             <a href="{% url 'home' %}">
                 <button class="admin-back-button">Back to Home</button>
             </a>
+
         </div>
+        <li><a href="{% url 'admin_user_caretaker_view' %}"><i class="fas fa-book"></i></a></li>
+
     </div>
 </body>
 </html>

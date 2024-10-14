@@ -1,212 +1,35 @@
-{% load static %}
+<!-- templates/admin_fn/view_caretakers.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Caretakers</title>
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e0e0e0; /* Light grey background */
-            margin: 0;
-            padding: 0;
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-        }
-
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 5px 20px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        .admin-nav .logo {
-            display: flex;
-            align-items: center;
-            margin-left: 30px;
-        }
-
-        .admin-nav .logo img {
-            width: 180px;
-            height: auto;
-            border-radius: 50%;
-            margin-right: 30px;
-        }
-
-        .admin-nav .logo h1 {
-            color: #fff;
-            font-size: 1.5em;
-            margin: 0;
-        }
-
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .admin-nav ul li {
-            margin: 0 20px;
-        }
-
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s;
-        }
-
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
-
-        h1 {
-            text-align: center;
-            color: #4a4a4a;
-            margin-top: 100px;
-            margin-bottom: 30px;
-            font-size: 3em;
-        }
-
-        .caretaker-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Three cards per row */
-            grid-gap: 20px; /* Space between cards */
-            list-style-type: none;
-            padding: 0;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .caretaker-item {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 300px;
-            width: 90%;
-            max-width: 250px;
-            margin: auto;
-            transition: transform 0.2s;
-        }
-
-        .caretaker-item:hover {
-            transform: scale(1.02);
-        }
-
-        .caretaker-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #dcdcdc;
-        }
-
-        .caretaker-info {
-            text-align: center;
-            width: 100%;
-        }
-
-        .caretaker-info strong {
-            font-size: 1.8em;
-            color: #333;
-        }
-
-        .caretaker-info a {
-            margin-right: 10px;
-            color: #6d6d6d;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2em;
-            transition: color 0.3s;
-        }
-
-        .caretaker-info a:hover {
-            color: #f0a500;
-            text-decoration: underline;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .caretaker-list {
-                grid-template-columns: repeat(2, 1fr); /* Two cards per row */
-            }
-        }
-
-        @media (max-width: 768px) {
-            .caretaker-list {
-                grid-template-columns: repeat(1, 1fr); /* One card per row */
-            }
-        }
-    </style>
 </head>
-
 <body>
-
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <a href="{% url 'admin_home' %}">
-                <img src="{% static 'images/logo.png' %}" alt="Logo">
-            </a>
-        </div>
-
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
-
-    <h1>Caretakers List</h1>
-
-    <ul class="caretaker-list">
+    <h1>Registered Caretakers</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
         {% for caretaker in caretakers %}
-            <li class="caretaker-item">
-                <img src="{{ caretaker.image.url }}" alt="{{ caretaker.caretaker_name }}" class="caretaker-image">
-                <div class="caretaker-info">
-                    <strong>{{ caretaker.caretaker_name }}</strong> - {{ caretaker.specialization }}
-                    <div class="caretaker-actions">
-                        <a href="{% url 'edit_caretaker' caretaker.id %}"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="{% url 'delete_caretaker' caretaker.id %}"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
-                </div>
-            </li>
-        {% empty %}
-            <li>No caretakers available.</li>
+        <tr>
+            <td>{{ caretaker.caretaker_name }}</td>
+            <td>{{ caretaker.email }}</td>
+            <td>{{ caretaker.is_active|yesno:"Active,Inactive" }}</td>
+            <td>
+                {% if caretaker.is_active %}
+                    <a href="{% url 'deactivate_caretaker' caretaker.id %}">Deactivate</a>
+                {% else %}
+                    <a href="{% url 'activate_caretaker' caretaker.id %}">Activate</a>
+                {% endif %}
+                <a href="{% url 'send_caretaker_email' caretaker.id %}">Send Email</a>
+            </td>
+        </tr>
         {% endfor %}
-    </ul>
-
+    </table>
 </body>
-
 </html>

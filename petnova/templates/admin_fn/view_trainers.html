@@ -1,212 +1,79 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Trainers</title>
-    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-
     <style>
         body {
+            background-color: #f5f5f5;
             font-family: Arial, sans-serif;
-            background-color: #e0e0e0; /* Light grey background */
-            margin: 0;
-            padding: 0;
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
         }
-
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 5px 20px;
-            position: fixed;
-            top: 0;
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
             width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
+            border-collapse: collapse;
         }
-
-        .admin-nav .logo {
-            display: flex;
-            align-items: center;
-            margin-left: 30px;
-        }
-
-        .admin-nav .logo img {
-            width: 180px;
-            height: auto;
-            border-radius: 50%;
-            margin-right: 30px;
-        }
-
-        .admin-nav .logo h1 {
-            color: #fff;
-            font-size: 1.5em;
-            margin: 0;
-        }
-
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .admin-nav ul li {
-            margin: 0 20px;
-        }
-
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s;
-        }
-
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
-
-        h1 {
-            text-align: center;
-            color: #4a4a4a;
-            margin-top: 100px;
-            margin-bottom: 30px;
-            font-size: 3em;
-        }
-
-        .trainer-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Three cards per row */
-            grid-gap: 20px; /* Space between cards */
-            list-style-type: none;
-            padding: 0;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .trainer-item {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ddd;
-            border-radius: 10px;
+        th, td {
             padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 300px;
-            width: 90%;
-            max-width: 250px;
-            margin: auto;
-            transition: transform 0.2s;
-        }
-
-        .trainer-item:hover {
-            transform: scale(1.02);
-        }
-
-        .trainer-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #dcdcdc;
-        }
-
-        .trainer-info {
-            text-align: center;
-            width: 100%;
-        }
-
-        .trainer-info strong {
-            font-size: 1.8em;
-            color: #333;
-        }
-
-        .trainer-info a {
-            margin-right: 10px;
-            color: #6d6d6d;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2em;
-            transition: color 0.3s;
-        }
-
-        .trainer-info a:hover {
-            color: #f0a500;
-            text-decoration: underline;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .trainer-list {
-                grid-template-columns: repeat(2, 1fr); /* Two cards per row */
-            }
-        }
-
-        @media (max-width: 768px) {
-            .trainer-list {
-                grid-template-columns: repeat(1, 1fr); /* One card per row */
-            }
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
     </style>
 </head>
-
 <body>
-
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <a href="{% url 'admin_home' %}">
-                <img src="{% static 'images/logo.png' %}" alt="Logo">
-            </a>
-        </div>
-
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
-
-    <h1>Trainers List</h1>
-
-    <ul class="trainer-list">
-        {% for trainer in trainers %}
-            <li class="trainer-item">
-                <img src="{{ trainer.image.url }}" alt="{{ trainer.trainer_name }}" class="trainer-image">
-                <div class="trainer-info">
-                    <strong>{{ trainer.trainer_name }}</strong> - {{ trainer.specialization }}
-                    <div class="trainer-actions">
-                        <a href="{% url 'edit_trainer' trainer.id %}"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="{% url 'delete_trainer' trainer.id %}"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
-                </div>
-            </li>
-        {% empty %}
-            <li>No trainers available.</li>
-        {% endfor %}
-    </ul>
-
+    <div class="container">
+        <h1>Registered Trainers</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Experience</th>
+                    <th>Specialization</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trainer in trainers %}
+                <tr>
+                    <td>{{ trainer.trainer_name }}</td>
+                    <td>{{ trainer.email }}</td>
+                    <td>{{ trainer.phone }}</td>
+                    <td>{{ trainer.experience }}</td>
+                    <td>{{ trainer.specialization }}</td>
+                    <td>
+                        {% if trainer.is_active %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if trainer.is_active %}
+                            <a href="{% url 'deactivate_trainer' trainer.id %}">Deactivate</a>
+                            <a href="{% url 'send_trainer_email' trainer.id %}">Send Email</a>
+                        {% else %}
+                            <a href="{% url 'activate_trainer' trainer.id %}">Activate</a>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
 </body>
-
 </html>

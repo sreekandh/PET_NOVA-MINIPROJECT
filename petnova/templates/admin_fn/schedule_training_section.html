@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Home - Manage Training Slots</title>
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .slot {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .slot h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+        }
+        .slot p {
+            margin: 5px 0;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .actions button {
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .actions button:hover {
+            background-color: #555;
+        }
+        .add-slot {
+            margin-top: 20px;
+        }
+        .add-slot button {
+            padding: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Training Slots</h1>
+        <p>Here you can manage different training durations, their prices, and training methods.</p>
+
+        <!-- List of Training Slots -->
+        <div class="slot">
+            <h2>15 Days Training</h2>
+            <p><strong>Price:</strong> 3000 Rs</p>
+            <p><strong>Training Methods:</strong> Basic obedience, leash walking, and socialization</p>
+            <div class="actions">
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
+        </div>
+
+        <div class="slot">
+            <h2>30 Days Training</h2>
+            <p><strong>Price:</strong> 5000 Rs</p>
+            <p><strong>Training Methods:</strong> Advanced obedience, agility training, and recall</p>
+            <div class="actions">
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
+        </div>
+
+        <div class="slot">
+            <h2>45 Days Training</h2>
+            <p><strong>Price:</strong> 7000 Rs</p>
+            <p><strong>Training Methods:</strong> Protection training, advanced tricks, and off-leash training</p>
+            <div class="actions">
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
+        </div>
+
+        <div class="slot">
+            <h2>60 Days Training</h2>
+            <p><strong>Price:</strong> 9000 Rs</p>
+            <p><strong>Training Methods:</strong> Full obedience, behavioral correction, and specialized tasks</p>
+            <div class="actions">
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
+        </div>
+
+        <div class="add-slot">
+            <button id="addSlotButton">Add New Slot</button>
+        </div>
+        
+        <script>
+            document.getElementById("addSlotButton").onclick = function () {
+                window.location.href = "{% url 'add_training_slot' %}";
+            };
+        </script>
+        
+    </div>
+</body>
+</html>

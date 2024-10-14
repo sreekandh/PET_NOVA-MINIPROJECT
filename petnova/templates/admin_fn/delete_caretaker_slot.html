@@ -1,0 +1,23 @@
+{% load static %}
+
+
+
+<!-- delete_caretaker_slot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Caretaker Slot</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Delete Caretaker Slot</h1>
+    <p>Are you sure you want to delete the caretaker slot for {{ slot.service }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+    </form>
+    <a href="{% url 'list_caretaker_slots' %}">Cancel</a>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+</head>
+<body>
+
+    <h1>Complete Your Payment</h1>
+
+    <!-- Display the booking and price information -->
+    <p>Booking for: {{ booking.caretaker.caretaker_name }}</p>
+    <p>Service: {{ booking.service }}</p>
+    <p>Total Price: {{ booking.total_price }} USD</p>
+
+    <form id="paymentForm" method="post" onsubmit="return validatePaymentForm()">
+        {% csrf_token %}
+
+        <!-- Payment fields -->
+        <label for="card_number">Card Number:</label>
+        <input type="text" id="card_number" name="card_number" required maxlength="16" placeholder="1234 5678 9012 3456"><br>
+
+        <label for="expiry_date">Expiry Date (MM/YY):</label>
+        <input type="text" id="expiry_date" name="expiry_date" required pattern="\d{2}/\d{2}" placeholder="MM/YY"><br>
+
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" required maxlength="3" placeholder="123"><br>
+
+        <!-- Option to pay or cancel -->
+        <button type="submit">Pay Now</button>
+        <a href="{% url 'booking_cancel' booking.id %}">Cancel</a>
+    </form>
+    <script>
+        function validatePaymentForm() {
+            const cardNumber = document.getElementById('card_number').value;
+            const expiryDate = document.getElementById('expiry_date').value;
+            const cvv = document.getElementById('cvv').value;
+            const cardNumberPattern = /^\d{16}$/;
+            const expiryDatePattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+            const cvvPattern = /^\d{3}$/;
+    
+            // Validate card number (16 digits)
+            if (!cardNumberPattern.test(cardNumber)) {
+                alert("Please enter a valid 16-digit card number.");
+                return false;
+            }
+    
+            // Validate expiry date (MM/YY format)
+            if (!expiryDatePattern.test(expiryDate)) {
+                alert("Please enter a valid expiry date in MM/YY format.");
+                return false;
+            }
+    
+            // Check if the expiry date is in the past
+            const [month, year] = expiryDate.split('/').map(num => parseInt(num));
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
+            const currentYear = currentDate.getFullYear() % 100; // Get last two digits of the year
+    
+            if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                alert("Expiry date cannot be in the past.");
+                return false;
+            }
+    
+            // Validate CVV (3 digits)
+            if (!cvvPattern.test(cvv)) {
+                alert("Please enter a valid 3-digit CVV.");
+                return false;
+            }
+    
+            return true; // Allow the form to be submitted if everything is valid
+        }
+    </script>
+    
+</body>
+</html>

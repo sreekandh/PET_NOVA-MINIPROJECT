@@ -284,6 +284,10 @@
                 <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="cat-image">
                 <div class="cat-info">
                     <strong>{{ cat.name }}</strong>
+                    <strong>{{ cat.breed }}</strong>
+                    <strong>{{ cat.age }}</strong>
+                    <strong>{{ cat.price }}</strong>
+
                     <div class="cat-actions">
                         <a href="{% url 'edit_cat' cat.id %}"><i class="fas fa-edit"></i> Edit</a> | 
                         <a href="{% url 'delete_cat' cat.id %}"><i class="fas fa-trash"></i> Delete</a>

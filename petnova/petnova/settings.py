@@ -138,9 +138,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # No trailing slash
 
 
 # settings.py
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Ensure this is included
-]
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.EmailBackend',  # Update this to the actual path
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Default primary key field type
@@ -159,3 +160,6 @@ DEFAULT_FROM_EMAIL = 'sreekandhtrajeev2025@mca.ajce.in'
 
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+ADMIN_EMAIL = 'sreekandh1212@gmail.com'  # Replace with the actual admin email address

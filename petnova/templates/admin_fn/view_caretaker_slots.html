@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Caretaker Slots</title>
+</head>
+<body>
+    <h1>Available Caretaker Slots</h1>
+    <ul>
+        {% for slot in slots %}
+        <li>
+            <strong>{{ slot.service }}</strong> - {{ slot.duration }} Days<br>
+            Price: {{ slot.calculate_total_price }} Rs<br>
+            <img src="{{ slot.image.url }}" alt="Slot Image" width="100">
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

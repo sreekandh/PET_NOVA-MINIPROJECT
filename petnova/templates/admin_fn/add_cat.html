@@ -90,6 +90,7 @@
             font-size: 14px;
             color: #555;
             margin-bottom: 5px;
+            text-align: left; /* Align label text to the left */
         }
 
         input[type="text"],
@@ -104,6 +105,15 @@
             width: 100%;
             background-color: #f9f9f9; /* Light grey background for input */
             color: #333; /* Dark text color */
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #f0a500; /* Highlight border color on focus */
+            outline: none;
         }
 
         button, .back-button {
@@ -118,6 +128,7 @@
             text-align: center;
             text-decoration: none; /* Remove underline */
             display: inline-block; /* Align with the button */
+            transition: background-color 0.3s; /* Smooth transition */
         }
 
         button:hover, .back-button:hover {
@@ -135,6 +146,7 @@
         .form-errors {
             color: red;
             margin-bottom: 20px;
+            font-weight: bold; /* Make error messages bold */
         }
 
         .success-message {
@@ -150,7 +162,7 @@
     <nav class="admin-nav">
         <div class="logo">
             <img src="{% static 'images/logo.png' %}" alt="Logo" style="width: 180px; margin-right: 10px;">
-            <h1 style="color: #fff; font-size: 1.5em;"></h1>
+            <h1 style="color: #fff; font-size: 1.5em;">Pet Nova Admin</h1> <!-- Added logo title -->
         </div>
         
         <ul>

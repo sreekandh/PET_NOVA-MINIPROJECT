@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Training Slots</title>
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .slot {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex; /* Use flexbox to align image and text */
+        }
+        .slot img {
+            width: 150px; /* Set a fixed width for the image */
+            height: auto; /* Maintain aspect ratio */
+            margin-right: 20px; /* Space between image and text */
+        }
+        .actions a {
+            margin-right: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        .actions a:hover {
+            background-color: #555;
+        }
+        .book-slot a {
+            padding: 10px;
+            background-color: green;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Training Slots</h1>
+
+        {% for slot in slots %}
+        <div class="slot">
+            {% if slot.image %}
+                <img src="{{ slot.image.url }}" alt="Training Slot Image"> <!-- Display the image correctly -->
+            {% endif %}
+            <div>
+                <h2>{{ slot.get_duration_display }}</h2>
+                <p><strong>Price:</strong> {{ slot.price }} Rs</p>
+                <p><strong>Methods:</strong> {{ slot.methods }}</p>
+                <form action="{% url 'trainer_slot_booking_view' slot_id=slot.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                    <button type="submit" class="book-slot">Book Now</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

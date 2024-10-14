@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Training Slot</title>
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .slot-details {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .trainer-details {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .actions button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Training Slot</h1>
+        
+        <div class="slot-details">
+            <h2>{{ slot.get_duration_display }}</h2>
+            {% if slot.image %}
+                <img src="{{ slot.image.url }}" alt="Training Slot Image" style="width: 150px; height: auto;">
+            {% endif %}
+            <p><strong>Price:</strong> {{ slot.price }} Rs</p>
+            <p><strong>Methods:</strong> {{ slot.methods }}</p>
+            <p>Please confirm your booking for this slot.</p>
+        </div>
+        
+        <div class="trainer-details">
+            <h2>Trainer Details</h2>
+            {% if trainer.image %}
+                <img src="{{ trainer.image.url }}" alt="Trainer Image" style="width: 150px; height: auto;">
+            {% endif %}
+            <p><strong>Name:</strong> {{ trainer.trainer_name }}</p>
+            <p><strong>Email:</strong> {{ trainer.email }}</p>
+            <p><strong>Phone:</strong> {{ trainer.phone }}</p>
+            <p><strong>Experience:</strong> {{ trainer.experience }}</p>
+            <p><strong>Specialization:</strong> {{ trainer.specialization }}</p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>Pet Owner Details</h3>
+            <label for="owner_name">Name:</label>
+            <input type="text" id="owner_name" name="owner_name" required><br>
+            <label for="owner_email">Email:</label>
+            <input type="email" id="owner_email" name="owner_email" required><br>
+            <label for="owner_phone">Phone Number:</label>
+            <input type="text" id="owner_phone" name="owner_phone" required><br>
+            
+            <h3>Pet Details</h3>
+            <label for="pet_name">Pet Name:</label>
+            <input type="text" id="pet_name" name="pet_name" required><br>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required><br>
+            <label for="image">Pet Image:</label>
+            <input type="file" id="image" name="image" accept="image/*"><br>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea><br>
+            <label for="breed">Breed:</label>
+            <input type="text" id="breed" name="breed" required><br>
+            <label for="species">Species:</label>
+            <input type="text" id="species" name="species" required><br>
+        
+            <div class="actions">
+                <button type="submit" onclick="return confirmBooking();">Confirm Booking</button>
+                <button type="button" onclick="window.history.back();">Cancel</button>
+            </div>
+            
+            <script>
+            function confirmBooking() {
+                return confirm("Are you sure you want to confirm this booking?");
+            }
+            </script>
+            
+        </form>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Caretakers</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Available Caretakers</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Specialization</th>
+                <th>Experience</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for caretaker in caretakers %}
+            <tr>
+                <td>{{ caretaker.caretaker_name }}</td>
+                <td>{{ caretaker.email }}</td>
+                <td>{{ caretaker.phone }}</td>
+                <td>{{ caretaker.get_specialization_display }}</td>
+                <td>{{ caretaker.experience }}</td>
+                <td>
+                    <img src="{{ caretaker.image.url }}" alt="{{ caretaker.caretaker_name }}" width="100">
+                </td>
+                <td>
+                    <a href="{% url 'book_caretaker_slot' caretaker.id %}">Book Slot</a> <!-- Button to book a slot -->
+
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No caretakers are currently available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% url 'home' %}">Back to Home</a>  <!-- Link back to the home page -->
+</body>
+</html>
