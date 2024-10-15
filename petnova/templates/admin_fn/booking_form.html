@@ -1,88 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Caretaker Slot</title>
-</head>
-<body>
+{% extends 'blank_layout.html' %}
+{% load static %}
 
-    <a href="{% url 'user_view_caretaker' %}">Back to Caretaker List</a>  <!-- Link back to the caretaker list -->
+{% block banner %}
+<h1>Book Caretaker Slot</h1>
+<form class="booking-form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="duration">Duration:</label>
+        {{ form.duration }} 
+    </div>
 
-    <h1>Book Caretaker Slot</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-    
-        {{ form.service }}  <!-- Render service selection -->
-        {{ form.duration }} <!-- Render duration selection -->
-    
-        <!-- New fields for pet details -->
-        <h2>Pet Details</h2>
+    <h2>Service:</h2>
+    <div class="form-group service-options">
+        {% for choice in form.service %}
+            <label>
+                {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+        {% endfor %}
+    </div>
+
+    <h2>Pet Details</h2>
+    <div class="form-group">
         <label for="pet_name">Pet Name:</label>
         {{ form.pet_name }}<br>
-        {{ form.pet_name.errors }}  <!-- Display errors for pet name -->
-    
+        {{ form.pet_name.errors }}  
+    </div>
+    <div class="form-group">
         <label for="pet_breed">Breed:</label>
         {{ form.pet_breed }}<br>
-        {{ form.pet_breed.errors }}  <!-- Display errors for pet breed -->
-    
+        {{ form.pet_breed.errors }}  
+    </div>
+    <div class="form-group">
         <label for="pet_species">Species:</label>
         {{ form.pet_species }}<br>
-        {{ form.pet_species.errors }}  <!-- Display errors for pet species -->
-    
+        {{ form.pet_species.errors }}  
+    </div>
+    <div class="form-group">
         <label for="pet_age">Age:</label>
         {{ form.pet_age }}<br>
-        {{ form.pet_age.errors }}  <!-- Display errors for pet age -->
-    
+        {{ form.pet_age.errors }}  
+    </div>
+    <div class="form-group">
         <label for="pet_image">Image:</label>
         {{ form.pet_image }}<br>
-        {{ form.pet_image.errors }}  <!-- Display errors for pet image -->
-    
+        {{ form.pet_image.errors }}  
+    </div>
+    <div class="form-group">
         <label for="service_start_date">Service Start Date:</label>
         {{ form.service_start_date }}<br>
-        {{ form.service_start_date.errors }}  <!-- Display errors for service start date -->
-    
+        {{ form.service_start_date.errors }}  
+    </div>
+    <div class="form-group">
         <label for="additional_notes">Additional Information:</label>
         {{ form.additional_notes }}<br>
-        {{ form.additional_notes.errors }}  <!-- Display errors for additional notes -->
-    
-        <!-- Display the total price -->
-        <p>Total Price: <span id="total-price">0</span> Rs</p>
-    
-        <button type="submit">Book Slot</button>
-    </form>
-    
+        {{ form.additional_notes.errors }}  
+    </div>
 
-    <script>
-        // Optional: JavaScript to update the total price dynamically
-        document.addEventListener('DOMContentLoaded', function() {
-            const serviceInputs = document.querySelectorAll('input[name="service"]');
-            const durationInput = document.querySelector('input[name="duration"]');
-            const totalPriceElement = document.getElementById('total-price');
+    <p>Total Price: <span id="total-price">0</span> Rs</p>
 
-            const pricesPerDay = {
-                'Pet Sitting': 100,
-                'Pet Grooming': 150,
-                'Dog Walker': 75,
-                'Pet Feeder': 50,
-            };
+    <button type="submit">Book Slot</button>
+</form>
 
-            function calculateTotalPrice() {
-                let totalPrice = 0;
-                const selectedServices = Array.from(serviceInputs).filter(input => input.checked).map(input => input.value);
-                const duration = parseInt(durationInput.value) || 0;
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const serviceInputs = document.querySelectorAll('input[name="service"]');
+        const durationInput = document.querySelector('input[name="duration"]');
+        const totalPriceElement = document.getElementById('total-price');
 
-                selectedServices.forEach(service => {
-                    totalPrice += pricesPerDay[service] * duration;
-                });
+        const pricesPerDay = {
+            'Pet Sitting': 100,
+            'Pet Grooming': 150,
+            'Dog Walker': 75,
+            'Pet Feeder': 50,
+        };
 
-                totalPriceElement.textContent = totalPrice.toFixed(2);
-            }
+        function calculateTotalPrice() {
+            let totalPrice = 0;
+            const selectedServices = Array.from(serviceInputs).filter(input => input.checked).map(input => input.value);
+            const duration = parseInt(durationInput.value) || 0;
 
-            // Attach event listeners
-            serviceInputs.forEach(input => input.addEventListener('change', calculateTotalPrice));
-            durationInput.addEventListener('input', calculateTotalPrice);
-        });
-    </script>
-</body>
-</html>
+            selectedServices.forEach(service => {
+                totalPrice += pricesPerDay[service] * duration;
+            });
+
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+        }
+
+        serviceInputs.forEach(input => input.addEventListener('change', calculateTotalPrice));
+        durationInput.addEventListener('input', calculateTotalPrice);
+    });
+</script>
+{% endblock banner %}

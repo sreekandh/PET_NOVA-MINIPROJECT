@@ -5,29 +5,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registered Users</title>
+    <title></title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #e0e0e0;
-            background-image: url("{% static 'images/back_2.jpg' %}"); /* Add your background image here */
+            background-image: url("{% static 'images/back_cat_3.jpg' %}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            text-align: center;
+            color: #333;
+            height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .admin-nav {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 15px 50px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Logo */
+        .admin-nav .logo {
+            display: flex;
             align-items: center;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 28px;
-            text-align: center;
+        .admin-nav .logo img {
+            width: 150px;
+            height: auto;
+            border-radius: 50%;
+            margin-right: 20px;
         }
 
+        /* Navigation Links */
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .admin-nav ul li {
+            margin: 0 20px;
+        }
+
+        .admin-nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .admin-nav ul li a:hover {
+            color: #f0a500;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 120px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* User List */
         .user-list {
             list-style-type: none;
             padding: 0;
@@ -37,7 +97,7 @@
         }
 
         .user-list li {
-            background-color: rgba(255, 255, 255, 0.8); /* White with slight transparency */
+            background-color: rgba(255, 255, 255, 0.8);
             margin-bottom: 10px;
             padding: 15px;
             border-radius: 8px;
@@ -61,88 +121,37 @@
             font-weight: bold;
         }
 
-        .back-button {
+        /* Back Button */
+        .back-button-container {
             margin: 20px 0;
+        }
+
+        .admin-back-button {
             padding: 10px 20px;
-            background-color: #ccc; /* Light grey background for the button */
-            color: #333; /* Darker text */
+            background-color: #dcdcdc;
+            color: #333;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            text-align: center;
-            font-size: 16px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button:hover {
-            background-color: #df9389; /* Accent color on hover */
-            color: white;
-        }
-
-        /* Admin Nav Styles */
-        .admin-nav {
-            background-color: rgba(204, 204, 204, 0.9); /* Light grey background for the navbar */
-            padding: 25px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end; /* Aligns navigation items to the right */
-        }
-
-        .admin-nav ul li {
-            margin: 0 15px;
-        }
-
-        .admin-nav ul li a {
-            color: #333; /* Darker text */
-            text-decoration: none;
             font-size: 1.2em;
-            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
         }
 
-        .admin-nav ul li a:hover {
-            color: #df9389; /* Accent color on hover */
-        }
-
-        /* Add some padding to the body to avoid content being hidden behind the fixed navbar */
-        body {
-            padding-top: 80px; /* Adjust based on navbar height */
+        .admin-back-button:hover {
+            background-color: #c0c0c0;
+            transform: translateY(-2px);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .admin-nav ul {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-end;
             }
 
             .admin-nav ul li {
                 margin: 10px 0;
-            }
-
-            .back-button {
-                width: 100%;
-                max-width: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .admin-nav ul li a {
-                font-size: 1em;
             }
         }
     </style>
@@ -151,30 +160,43 @@
 
     <!-- Navigation Bar -->
     <nav class="admin-nav">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo"> <!-- Update logo path -->
+            <h1 style="color: #fff;"></h1>
+        </div>
+        
         <ul>
-            <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
-            <li><a href="{% url 'view_pets' %}">View pets</a></li>
-            <li><a href="{% url 'add_pets' %}">Add pets</a></li>
-            <li><a href="{% url 'view_applications' %}">View Applications</a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a>{% endif %}</li>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
         </ul>
     </nav>
 
-    <h1>All Registered Users</h1>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>All Registered Users</h1>
 
-    <!-- Back to Admin Home Button -->
-    <a href="{% url 'admin_home' %}" class="back-button">Back to Admin Home</a>
+        <!-- Back to Admin Home Button -->
+        <div class="back-button-container">
+            <a href="{% url 'admin_home' %}">
+                <button class="admin-back-button">Back to Admin Home</button>
+            </a>
+        </div>
 
-    <ul class="user-list">
-        {% for user in users %}
-        <li>
-            <div class="user-info">
-                <span>{{ user.first_name }} {{ user.last_name }}</span> - {{ user.email }}
-            </div>
-        </li>
-        {% empty %}
-        <li>No registered users found.</li>
-        {% endfor %}
-    </ul>
+        <ul class="user-list">
+            {% for user in users %}
+            <li>
+                <div class="user-info">
+                    <span>{{ user.first_name }} {{ user.last_name }}</span> - {{ user.email }}
+                </div>
+            </li>
+            {% empty %}
+            <li>No registered users found.</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

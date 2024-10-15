@@ -7,12 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Caretaker Bookings</title>
+    <title>My Trainer Bookings</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5; /* Light background for better readability */
-           
         }
         h1 {
             text-align: center;
@@ -71,13 +70,13 @@
     </style>
 </head>
 <body>
-    <h1>My Caretaker Bookings</h1>
+    <h1>My Trainer Bookings</h1>
 
     {% if bookings %}
         <table>
             <thead>
                 <tr>
-                    <th>Caretaker</th>
+                    <th>Trainer</th>
                     <th>Service</th>
                     <th>Duration</th>
                     <th>Total Price</th>
@@ -96,7 +95,7 @@
             <tbody>
                 {% for booking in bookings %}
                 <tr>
-                    <td>{{ booking.caretaker.caretaker_name }}</td>
+                    <td>{{ booking.trainer.trainer_name }}</td>
                     <td>{{ booking.service }}</td>
                     <td>{{ booking.duration }} days</td>
                     <td>{{ booking.total_price }} rs</td>
@@ -134,9 +133,8 @@
             </tbody>
         </table>
     {% else %}
-        <p>You have no caretaker bookings yet.</p>
+        <p>You have no trainer bookings yet.</p>
     {% endif %}
-    
 </body>
 <br><br><br>
 <br><br><br>

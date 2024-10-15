@@ -243,10 +243,18 @@ def apply_for_adoption(request, pet_id, pet_type):
             application.user = request.user
             application.pet = pet
             application.save()
-            # Redirect to a success page or message
+            # Redirect to a success page
             return redirect('adoption_success')
     else:
-        form = AdoptionApplicationForm()
+        # Pre-fill the form with logged-in user's data
+        user = request.user
+        initial_data = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'phone': user.phone,
+            'email': user.email,
+        }
+        form = AdoptionApplicationForm(initial=initial_data)
     
     return render(request, 'pet/adopt_form.html', {'form': form, 'pet': pet})
 
@@ -932,10 +940,14 @@ from .forms import CaretakerSlotBookingForm  # Assuming you have a form for book
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Caretaker, CaretakerSlotBooking
 from .forms import CaretakerSlotBookingForm
-
+from .models import Caretaker, CaretakerSlotBooking  # Assuming a Pet model exists
+from pet.models import UserPet
 def book_caretaker_slot(request, caretaker_id):
     caretaker = get_object_or_404(Caretaker, id=caretaker_id)
     
+    # Fetch the user's first pet (as an example; handle multiple pets as needed)
+    pet = UserPet.objects.filter(user=request.user).first()
+
     if request.method == 'POST':
         form = CaretakerSlotBookingForm(request.POST, request.FILES)
         if form.is_valid():
@@ -949,7 +961,17 @@ def book_caretaker_slot(request, caretaker_id):
             # Redirect to payment page with booking id and total price
             return redirect('payment_page', booking_id=booking.id)
     else:
-        form = CaretakerSlotBookingForm()
+        # Pre-fill the form with pet information if available
+        if pet:
+            form = CaretakerSlotBookingForm(initial={
+                'pet_name': pet.pet_name,
+                'pet_breed': pet.pet_breed,
+                'pet_species': pet.pet_species,
+                'pet_age': pet.pet_age,
+                'pet_image': pet.pet_image,
+            })
+        else:
+            form = CaretakerSlotBookingForm()
 
     return render(request, 'admin_fn/booking_form.html', {'caretaker': caretaker, 'form': form})
 
@@ -974,6 +996,22 @@ def admin_user_caretaker_view(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'admin_fn/admin_user_caretaker_view.html', {'page_obj': page_obj})
+
+
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import TrainerSlotBooking  # Adjust the import based on your models
+
+def admin_user_trainer_view(request):
+    # Fetch all bookings with related trainer and user, ordered by booking date (most recent first)
+    bookings = TrainerSlotBooking.objects.select_related('trainer', 'user').order_by('-booking_date')
+
+    # Pagination
+    paginator = Paginator(bookings, 10)  # Show 10 bookings per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'admin_fn/admin_user_trainer_view.html', {'page_obj': page_obj})
 
 
 from django.shortcuts import render
@@ -1094,3 +1132,145 @@ def cancel_booking(request, booking_id):
         return redirect('user_caretaker_bookings')  # Redirect to bookings page
 
     return redirect('user_caretaker_bookings')  # Redirect if not a POST request
+
+
+# views.py
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import TrainerSlotBooking  # Adjust this import based on your models
+
+def user_trainer_bookings(request):
+    # Get the bookings for the current user
+    bookings = TrainerSlotBooking.objects.filter(user=request.user)
+
+    context = {
+        'bookings': bookings,
+    }
+    return render(request, 'admin_fn/user_view_trainer_bookings.html', context)
+
+def cancel_booking(request, booking_id):
+    if request.method == 'POST':
+        booking = get_object_or_404(TrainerSlotBooking, id=booking_id)
+        booking.status = 'canceled'  # Update the booking status to canceled
+        booking.save()  # Save the changes
+        return redirect('user_trainer_bookings')  # Redirect to bookings page
+
+    return redirect('user_trainer_bookings')  # Redirect if not a POST request
+
+
+################################################
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Trainer, TrainerSlotBooking
+from .forms import TrainerSlotBookingForm
+
+def book_trainer_slot(request, trainer_id):
+    trainer = get_object_or_404(Trainer, id=trainer_id)
+    
+    pet = UserPet.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        form = TrainerSlotBookingForm(request.POST, request.FILES)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.trainer = trainer
+            booking.user = request.user
+            booking.service = ', '.join(form.cleaned_data['service'])
+            booking.total_price = form.calculate_price()
+            booking.save()
+            return redirect('trainer_payment_page', booking_id=booking.id)
+    else:
+        if pet:
+            form = TrainerSlotBookingForm(initial={
+                'pet_name': pet.pet_name,
+                'pet_breed': pet.pet_breed,
+                'pet_species': pet.pet_species,
+                'pet_age': pet.pet_age,
+                'pet_image': pet.pet_image,
+            })
+        else:
+            form = TrainerSlotBookingForm()
+
+    return render(request, 'admin_fn/trainer_booking_form.html', {'trainer': trainer, 'form': form})
+
+
+
+
+
+
+import re
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import TrainerSlotBooking, Trainer  # Make sure to replace with your actual model names
+from datetime import datetime
+
+def trainer_payment_page(request, booking_id):
+    booking = get_object_or_404(TrainerSlotBooking, id=booking_id)  # Change to TrainerSlotBooking
+    trainer = booking.trainer  # Get the trainer details
+
+    if request.method == 'POST':
+        card_number = request.POST.get('card_number')
+        expiry_date = request.POST.get('expiry_date')
+        cvv = request.POST.get('cvv')
+
+        # Validate card number (16 digits)
+        if not card_number or len(card_number) != 16 or not card_number.isdigit():
+            return render(request, 'admin_fn/trainer_payment_page.html', {'booking': booking, 'error': 'Invalid card number'})
+
+        # Validate expiry date (MM/YY format)
+        if not expiry_date or not re.match(r'^(0[1-9]|1[0-2])/\d{2}$', expiry_date):
+            return render(request, 'admin_fn/trainer_payment_page.html', {'booking': booking, 'error': 'Invalid expiry date format'})
+
+        # Check if the expiry date is in the past
+        month, year = map(int, expiry_date.split('/'))
+        current_month = datetime.now().month
+        current_year = datetime.now().year % 100  # Get last two digits of the year
+
+        if year < current_year or (year == current_year and month < current_month):
+            return render(request, 'admin_fn/trainer_payment_page.html', {'booking': booking, 'error': 'Expiry date cannot be in the past.'})
+
+        # Validate CVV (3 digits)
+        if not cvv or len(cvv) != 3 or not cvv.isdigit():
+            return render(request, 'admin_fn/trainer_payment_page.html', {'booking': booking, 'error': 'Invalid CVV'})
+
+        # Assuming payment is successful
+        send_trainer_booking_email(booking)
+
+        return redirect('payment_success')
+
+    return render(request, 'admin_fn/trainer_payment_page.html', {'booking': booking})
+
+def send_trainer_booking_email(booking):
+    subject = f'New Trainer Slot Booking for {booking.trainer.trainer_name}'
+    message = (
+        f'A new booking has been made by {booking.user.first_name} {booking.user.last_name}.\n\n'
+        f'Booking Details:\n'
+        f'Service: {booking.service}\n'
+        f'Duration: {booking.duration} days\n'
+        f'Additional Notes: {booking.additional_notes}\n'
+        f'Total Price: {booking.total_price} USD\n\n'
+        f'Pet Details:\n'
+        f'Name: {booking.pet_name}\n'
+        f'Breed: {booking.pet_breed}\n'
+        f'Species: {booking.pet_species}\n'
+        f'Age: {booking.pet_age}\n\n'
+        f'Please review the booking in your system.'
+    )
+
+    admin_email = settings.ADMIN_EMAIL  # Ensure this is set in your settings
+    trainer_email = booking.trainer.email  # Assuming Trainer model has an email field
+
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [admin_email, trainer_email],
+        fail_silently=False,
+    )
+
+def payment_success(request):
+    return render(request, 'admin_fn/payment_success.html')
+
+

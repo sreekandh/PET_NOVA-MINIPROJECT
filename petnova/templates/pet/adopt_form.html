@@ -92,11 +92,26 @@
 </head>
 <body>
     <h1>Apply to Adopt {{ pet.name }}</h1>
-    <form method="POST">
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit Application</button>
+        <label for="first_name">First Name:</label>
+        {{ form.first_name }}
+        
+        <label for="last_name">Last Name:</label>
+        {{ form.last_name }}
+        
+        <label for="phone">Phone:</label>
+        {{ form.phone }}
+        
+        <label for="email">Email:</label>
+        {{ form.email }}
+        
+        <label for="address">Address:</label>
+        {{ form.address }}
+        
+        <button type="submit">Apply for Adoption</button>
     </form>
+    
 
     <a href="{% url 'home' %}" class="cancel-btn">Cancel</a>
 </body>

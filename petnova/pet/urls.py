@@ -29,6 +29,12 @@ urlpatterns = [
      path('app_view/',views.app_view,name='app_view'),
          
 
+path('userpets/', views.user_pets_list, name='user_pets_list'),
+    path('userpets/register/', views.register_pet, name='register_pet'),
+    path('userpets/edit/<int:pet_id>/', views.edit_pet, name='edit_pet'),
+    path('userpets/delete/<int:pet_id>/', views.delete_pet, name='delete_pet'),
+
+
 ]
 
 

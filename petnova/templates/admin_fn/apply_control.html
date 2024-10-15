@@ -210,7 +210,7 @@
                 {% for application in pending_applications %}
                     <li class="admin-list-item">
                         <div class="application-details">
-                            <p><strong>Name:</strong> {{ application.full_name }}</p>
+                            <p><strong>Name:</strong> {{ application.first_name }}</p>
                             <p><strong>Applied for Pet:</strong> {{ application.pet.name }}</p>
                             <p><strong>Application Date:</strong> {{ application.application_date }}</p>
                             <p><strong>Email:</strong> {{ application.email }}</p>

@@ -88,7 +88,7 @@ from .models import AdoptionApplication
 class AdoptionApplicationForm(forms.ModelForm):
     class Meta:
         model = AdoptionApplication
-        fields = ['full_name', 'phone', 'email', 'address']
+        fields = ['first_name','last_name', 'phone', 'email', 'address']
 
 
 #from django import forms
@@ -200,6 +200,9 @@ class CaretakerSlotForm(forms.ModelForm):
             'price_per_day': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+
+
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -268,5 +271,87 @@ class CaretakerSlotBookingForm(forms.ModelForm):
         services = self.cleaned_data.get('service', [])
         duration = self.cleaned_data.get('duration', 0)
 
+        total_price = sum(prices_per_day[service] * duration for service in services)
+        return total_price
+
+
+
+
+
+from django import forms
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+from .models import TrainerSlotBooking  # Assuming a TrainerSlotBooking model exists
+
+class TrainerSlotBookingForm(forms.ModelForm):
+    SERVICE_CHOICES = [
+        ('Obedience Training', 'Obedience Training'),
+        ('Agility Training', 'Agility Training'),
+        ('Behavioral Training', 'Behavioral Training'),
+        ('K-9 training', 'K-9 training'),
+        ('Therapy training', 'Therapy training'),
+        ('Normal pet training', 'Normal pet training')
+    ]
+
+
+
+    service = forms.MultipleChoiceField(choices=SERVICE_CHOICES, widget=forms.CheckboxSelectMultiple)
+    duration = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder': 'Duration in days'}))
+    pet_name = forms.CharField(max_length=100)
+    pet_breed = forms.CharField(max_length=100)
+    pet_species = forms.CharField(max_length=100)
+    pet_age = forms.IntegerField()
+    pet_image = forms.ImageField(required=False)
+    service_start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
+    additional_notes = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Any special requests'}), required=False)
+
+    class Meta:
+        model = TrainerSlotBooking
+        fields = ['service', 'duration', 'additional_notes', 'pet_name', 'pet_breed', 'pet_species', 'pet_age', 'pet_image', 'service_start_date']
+
+    # Add validations similar to the caretaker form
+    def clean_pet_age(self):
+        pet_age = self.cleaned_data.get('pet_age')
+        if pet_age < 0:
+            raise ValidationError("Pet age cannot be negative.")
+        return pet_age
+
+    def clean_duration(self):
+        duration = self.cleaned_data.get('duration')
+        if duration < 1:
+            raise ValidationError("Duration must be at least 1 day.")
+        return duration
+
+    def clean_service_start_date(self):
+        service_start_date = self.cleaned_data.get('service_start_date')
+        if service_start_date < timezone.now().date():
+            raise ValidationError("Service start date cannot be in the past.")
+        return service_start_date
+
+    def clean(self):
+        cleaned_data = super().clean()
+        services = cleaned_data.get('service', [])
+        duration = cleaned_data.get('duration', 0)
+
+        if services and duration:
+            total_price = self.calculate_price()
+            if total_price < 0:
+                raise ValidationError("Total price cannot be negative.")
+
+        return cleaned_data
+
+
+    def calculate_price(self):
+        prices_per_day = {
+            'Obedience Training': 200,
+            'Agility Training': 250,
+            'Behavioral Training': 300,
+            'K-9 training': 350,
+            'Therapy training':300,
+            'Normal pet training':250,
+
+        }
+        services = self.cleaned_data.get('service', [])
+        duration = self.cleaned_data.get('duration', 0)
         total_price = sum(prices_per_day[service] * duration for service in services)
         return total_price

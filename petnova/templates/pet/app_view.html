@@ -4,23 +4,30 @@
 
 <h2>Your Adoption Applications</h2>
 
-
-<a href="{% url 'user_caretaker_bookings' %}" class="back-button">caretaker bookings</a>
-
 <!-- Back to Home Button -->
 <a href="{% url 'home' %}" class="back-button">Back to Home</a>
+<br>
+
+<!-- Caretaker bookings link -->
+<a href="{% url 'user_caretaker_bookings' %}" class="caretaker-bookings-link">My Caretaker Bookings</a>
+
+<a href="{% url 'user_trainer_bookings' %}" class="caretaker-bookings-link">My Trainer Bookings</a>
 
 <ul class="application-list">
     {% for application in applications %}
         <li class="application-item">
             <div class="application-header">
-                <p>Your application for <strong>{{ application.pet.name }}</strong> has been <span class="status {{ application.status|lower }}">{{ application.status }}</span>.</p>
+                <p>Your application for <strong>{{ application.pet.name }}</strong> has been 
+                <span class="status {{ application.status|lower }}">{{ application.status }}</span>.</p>
+
                 {% if application.status == "approved" %}
                     <p>
                         Click <a href="{% url 'make_payment' application.id %}" class="payment-link">here</a> to make your payment.
                     </p>
                 {% endif %}
             </div>
+
+            <!-- Display feedback from admin if available -->
             {% if application.feedback %}
                 <div class="feedback">
                     Admin Message: {{ application.feedback }}
@@ -32,7 +39,8 @@
 
 <style>
     body {
-        background-color: #e89b9b; /* Light background color for the body */
+        background-color: #e89b9b; /* Light background color */
+        font-family: 'Arial', sans-serif; /* Consistent font across page */
     }
 
     h2 {
@@ -43,22 +51,40 @@
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
+    /* Back to Home Button Styling */
     .back-button {
         position: absolute;
-        top: 60px; /* Positioning from the top */
-        left: 20px; /* Positioning from the left */
+        top: 60px;
+        left: 20px;
         padding: 10px 20px;
-        background-color: transparent; /* Transparent background */
-        color: rgb(212, 202, 202); /* Text color */
-        text-decoration: none; /* No underline */
-        border: 1px solid rgb(245, 236, 236); /* White border */
-        border-radius: 5px; /* Rounded corners */
-        font-size: 16px; /* Font size */
-        transition: background-color 0.3s ease; /* Transition for background color */
+        background-color: #df9389;
+        color: #e5d2d2;
+        text-decoration: none;
+        border: 1px solid #df9389;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
     }
 
     .back-button:hover {
-        background-color: rgba(255, 255, 255, 0.2); /* Light background on hover */
+        background-color: #df9389;
+        color: white;
+    }
+
+    /* Caretaker Bookings Link */
+    .caretaker-bookings-link {
+        display: block;
+        margin: 20px 0;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #2d1313;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .caretaker-bookings-link:hover {
+        color: #c16b6e;
     }
 
     .application-list {
@@ -69,8 +95,8 @@
     }
 
     .application-item {
-        background-color: #ffffff; /* Keeping items white for contrast */
-        border: 1px solid #df9389; /* Border color matching theme */
+        background-color: #fff;
+        border: 1px solid #df9389;
         padding: 20px;
         margin-bottom: 20px;
         border-radius: 12px;
@@ -83,7 +109,7 @@
     .application-item:hover {
         transform: translateY(-7px);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        background-color: #ffeef0; /* Light pink background on hover */
+        background-color: #ffeef0;
     }
 
     .application-header {
@@ -101,12 +127,12 @@
     }
 
     .status.approved {
-        background-color: #4CAF50; /* Green background for approved status */
+        background-color: #4CAF50; /* Green for approved */
         color: white;
     }
 
     .status.disapproved {
-        background-color: #FF5722; /* Disapproved status color */
+        background-color: #FF5722; /* Orange for disapproved */
         color: white;
     }
 
@@ -116,21 +142,38 @@
         background-color: #f9f9f9;
         padding: 10px;
         border-radius: 8px;
-        border-left: 4px solid #df9389; /* Feedback left border */
+        border-left: 4px solid #df9389;
         margin-top: 15px;
     }
 
+    /* Payment link style */
     .payment-link {
-        color: #df9389; /* Payment link color matching theme */
+        color: #df9389;
         font-weight: bold;
         text-decoration: underline;
         transition: color 0.3s;
     }
 
     .payment-link:hover {
-        color: #c16b6e; /* Darker shade on hover for link */
+        color: #c16b6e;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        h2 {
+            font-size: 1.8em;
+        }
+
+        .back-button {
+            font-size: 14px;
+        }
+
+        .caretaker-bookings-link {
+            font-size: 16px;
+        }
     }
 </style>
+
 {% block footer_layout %}
 <!-- Footer (Removed) -->
 {% endblock footer_layout %}

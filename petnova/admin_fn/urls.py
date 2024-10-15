@@ -133,6 +133,17 @@ path('booking-success/', views.booking_success, name='booking_success'),
 
     path('cancel_booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 
+
+
+    path('book_trainer_slot/<int:trainer_id>/', views.book_trainer_slot, name='book_trainer_slot'),
+
+
+    path('trainer/payment/<int:booking_id>/', views.trainer_payment_page, name='trainer_payment_page'),
+
+     path('my-trainer-bookings/', views.user_trainer_bookings, name='user_trainer_bookings'),
+    path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
+    path('trainer-bookings/', views.admin_user_trainer_view, name='admin_user_trainer_view'),  # Add this line
+
 ]
 
 # Static and Media Files Configuration

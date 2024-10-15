@@ -1,36 +1,172 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Trainers</title>
+    <title>Registered Trainers</title>
+    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    
     <style>
         body {
-            background-color: #f5f5f5;
             font-family: Arial, sans-serif;
+            background-image: url("{% static 'images/back_cat_3.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: center;
+            min-height: 100vh;
         }
+
+        /* Navigation Bar */
+        .admin-nav {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 15px 50px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-nav .logo img {
+            width: 150px;
+            height: auto;
+            border-radius: 50%;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .admin-nav ul li {
+            margin: 0 20px;
+        }
+
+        .admin-nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .admin-nav ul li a:hover {
+            color: #f0a500;
+        }
+
+        /* Main Content */
         .container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
+            padding-top: 140px; /* Increased padding-top to ensure content starts well below the navbar */
+            max-width: 90%; /* Set width to 90% to allow more space for buttons and form */
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .container h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 20px 0;
+            background-color: lightgrey; 
         }
+
         th, td {
-            padding: 10px;
+            padding: 15px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #333; 
+            color: #333;
+        }
+
+        th {
+            background-color: #333; 
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9; 
+        }
+
+        /* Buttons */
+        .action-btn {
+            padding: 10px 15px; /* Increased padding for bigger buttons */
+            margin: 0 5px;
+            border-radius: 4px;
+            background-color: black; 
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .action-btn:hover {
+            background-color: grey; 
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            th {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            td {
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                font-weight: bold;
+                text-align: left;
+            }
         }
     </style>
 </head>
+
 <body>
+    <!-- Navigation Bar -->
+    <nav class="admin-nav">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+        <ul>
+            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
+            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
+            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
+            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
     <div class="container">
         <h1>Registered Trainers</h1>
         <table>
@@ -48,31 +184,29 @@
             <tbody>
                 {% for trainer in trainers %}
                 <tr>
-                    <td>{{ trainer.trainer_name }}</td>
-                    <td>{{ trainer.email }}</td>
-                    <td>{{ trainer.phone }}</td>
-                    <td>{{ trainer.experience }}</td>
-                    <td>{{ trainer.specialization }}</td>
-                    <td>
+                    <td data-label="Name">{{ trainer.trainer_name }}</td>
+                    <td data-label="Email">{{ trainer.email }}</td>
+                    <td data-label="Phone">{{ trainer.phone }}</td>
+                    <td data-label="Experience">{{ trainer.experience }}</td>
+                    <td data-label="Specialization">{{ trainer.specialization }}</td>
+                    <td data-label="Status">
                         {% if trainer.is_active %}
                             Active
                         {% else %}
                             Inactive
                         {% endif %}
                     </td>
-                    <td>
+                    <td data-label="Actions">
                         {% if trainer.is_active %}
-                            <a href="{% url 'deactivate_trainer' trainer.id %}">Deactivate</a>
-                            <a href="{% url 'send_trainer_email' trainer.id %}">Send Email</a>
+                            <a href="{% url 'deactivate_trainer' trainer.id %}" class="action-btn">Deactivate</a>
+                            <a href="{% url 'send_trainer_email' trainer.id %}" class="action-btn">Send Email</a>
                         {% else %}
-                            <a href="{% url 'activate_trainer' trainer.id %}">Activate</a>
+                            <a href="{% url 'activate_trainer' trainer.id %}" class="action-btn">Activate</a>
                         {% endif %}
                     </td>
-                    
                 </tr>
                 {% endfor %}
             </tbody>
-            
         </table>
     </div>
 </body>

@@ -1,0 +1,147 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block banner %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Pet</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f1f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            text-align:start;
+            min-height: 80vh; /* Ensures form takes up enough height */
+            display: flex;
+            flex-direction: column;
+            justify-content:first baseline; /* Centers the form elements vertically */
+        }
+
+        h1 {
+            color: #df9389;
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        form {
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #df9389;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fdfdfd;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #c97f72;
+        }
+
+        button {
+            display: inline-block;
+            padding: 14px 40px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #df9389;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 25px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #c97f72;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #ffffff;
+            text-decoration: none;
+            border: 2px solid white;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(223, 147, 137, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+                margin: 50px auto;
+            }
+
+            button {
+                padding: 12px 25px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Back Button to User Pets List -->
+    <a href="{% url 'user_pets_list' %}" class="back-button"><< Back</a>
+
+    <div class="form-container">
+        <h1>Register Your Pet</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register Pet</button>
+        </form>
+    </div>
+<br>
+<br>
+</body>
+</html>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

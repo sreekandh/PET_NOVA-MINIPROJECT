@@ -1,16 +1,108 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9; /* Light grey background */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Reset default margin */
+        }
+
+        .payment-success-header {
+            background-color: #df9389; /* Header background color */
+            color: white; /* Header text color */
+            padding: 10px; /* Padding around header */
+            text-align: center; /* Center the header text */
+        }
+
+        .payment-success-title {
+            margin: 0; /* Remove margin for h1 */
+            font-size: 2em; /* Increase font size */
+        }
+
+        .return-home-link {
+            display: inline-block; /* Make link like a button */
+            padding: 10px 20px; /* Padding for button */
+            background-color: #df9389; /* Button background color */
+            color: white; /* Button text color */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            text-decoration: none; /* Remove underline */
+            font-size: 16px; /* Button font size */
+            transition: background-color 0.3s; /* Smooth transition for background color */
+            margin: 20px auto; /* Centered button with margin above and below */
+        }
+
+        .return-home-link:hover {
+            background-color: #c1786d; /* Darker shade on hover */
+        }
+
+        .payment-success-paragraph {
+            color: #555; /* Paragraph text color */
+            line-height: 1.6; /* Line height for readability */
+            margin: 20px auto; /* Centered paragraph margin */
+            text-align: center; /* Center text */
+            max-width: 800px; /* Limit text width for readability */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .payment-success-title {
+                font-size: 2em; /* Adjust title font size */
+            }
+
+            .return-home-link {
+                font-size: 14px; /* Adjust button font size */
+            }
+        }
+    </style>
 </head>
 <body>
+<br><br>
+<header class="payment-success-header">
+    <h1 class="payment-success-title">Payment Successful!</h1>
+</header>
+<br><br>
+<a class="return-home-link" href="{% url 'user_view_caretaker' %}">Return to Home</a>
 
-    <h1>Payment Successful!</h1>
-    <p>Thank you for your payment. Your caretaker booking is confirmed.</p>
-
-    <a href="{% url 'home' %}">Return to Home</a>
-
+<p class="payment-success-paragraph">
+    Thank you for your payment. Your caretaker booking is confirmed.
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </body>
 </html>
+{% block footer_layout %} 
+<!-- Footer (Removed) --> 
+{% endblock footer_layout %}
+{% endblock banner %}

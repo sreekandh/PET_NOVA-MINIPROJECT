@@ -1,0 +1,52 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page - Pet Nova</title>
+    <style>
+        /* Add your styles here */
+    </style>
+</head>
+
+<body>
+
+    <h1>Complete Your Payment</h1>
+
+    <!-- Display the booking and price information -->
+    <p>Booking for: {{ booking.trainer.trainer_name }}</p>
+    <p>Service: {{ booking.service }}</p>
+    <p>Total Price: {{ booking.total_price }} USD</p>
+
+    <form class="payment-form" method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="card_number">Card Number:</label>
+            <input type="text" id="card_number" name="card_number" required maxlength="16" placeholder="1234 5678 9012 3456">
+        </div>
+
+        <div class="form-group">
+            <label for="expiry_date">Expiry Date (MM/YY):</label>
+            <input type="text" id="expiry_date" name="expiry_date" required pattern="\d{2}/\d{2}" placeholder="MM/YY">
+        </div>
+
+        <div class="form-group">
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" required maxlength="3" placeholder="123">
+        </div>
+
+        <button type="submit">Pay Now</button>
+        <a href="{% url 'booking_cancel' booking.id %}">Cancel</a>
+    </form>
+
+    <script>
+        // Add any JavaScript validation you need here
+    </script>
+</body>
+</html>
+{% endblock banner %}

@@ -1,10 +1,106 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Page</title>
+    <title>Payment Page - Pet Nova</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 0; /* Added padding for page spacing */
+            margin: 0; /* Reset default margin */
+        }
+
+        h1 {
+            color: #242323;
+            text-align: center;
+        }
+
+        p {
+            color: #323030;
+            line-height: 1.6;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: justify;
+        }
+
+        /* Styles for the payment form */
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: 20px auto; /* Centering form in the page */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px; /* Padding for the form area */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s; /* Smooth transition for border color */
+        }
+
+        input:focus {
+            border-color: #df9389; /* Change border color on focus */
+            outline: none; /* Remove default outline */
+        }
+
+        button {
+            padding: 10px;
+            background-color: #df9389;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s; /* Smooth transition for background color */
+        }
+
+        button:hover {
+            background-color: #c1786d;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            text-align: center;
+            color: #df9389; /* Link color */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em; /* Adjust h1 font size */
+            }
+
+            button {
+                font-size: 14px; /* Adjust button font size */
+            }
+        }
+    </style>
 </head>
+
 <body>
 
     <h1>Complete Your Payment</h1>
@@ -14,23 +110,29 @@
     <p>Service: {{ booking.service }}</p>
     <p>Total Price: {{ booking.total_price }} USD</p>
 
-    <form id="paymentForm" method="post" onsubmit="return validatePaymentForm()">
+    <form class="payment-form" id="paymentForm" method="post" onsubmit="return validatePaymentForm()">
         {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="card_number">Card Number:</label>
+            <input type="text" id="card_number" name="card_number" required maxlength="16" placeholder="1234 5678 9012 3456">
+        </div>
 
-        <!-- Payment fields -->
-        <label for="card_number">Card Number:</label>
-        <input type="text" id="card_number" name="card_number" required maxlength="16" placeholder="1234 5678 9012 3456"><br>
+        <div class="form-group">
+            <label for="expiry_date">Expiry Date (MM/YY):</label>
+            <input type="text" id="expiry_date" name="expiry_date" required pattern="\d{2}/\d{2}" placeholder="MM/YY">
+        </div>
 
-        <label for="expiry_date">Expiry Date (MM/YY):</label>
-        <input type="text" id="expiry_date" name="expiry_date" required pattern="\d{2}/\d{2}" placeholder="MM/YY"><br>
-
-        <label for="cvv">CVV:</label>
-        <input type="text" id="cvv" name="cvv" required maxlength="3" placeholder="123"><br>
+        <div class="form-group">
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" required maxlength="3" placeholder="123">
+        </div>
 
         <!-- Option to pay or cancel -->
         <button type="submit">Pay Now</button>
         <a href="{% url 'booking_cancel' booking.id %}">Cancel</a>
     </form>
+
     <script>
         function validatePaymentForm() {
             const cardNumber = document.getElementById('card_number').value;
@@ -72,6 +174,13 @@
             return true; // Allow the form to be submitted if everything is valid
         }
     </script>
-    
+
 </body>
+<br><br><br>
+<br><br><br>
+
 </html>
+{% block footer_layout %} 
+<!-- Footer (Removed) --> 
+{% endblock footer_layout %}
+{% endblock banner %}

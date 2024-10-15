@@ -11,4 +11,6 @@ urlpatterns = [
     path('caretaker/',views.caretaker_service,name='caretaker_service'),
 path('about/',views.about_page,name='about_page'),
 path('contact_page/',views.contact_page,name='contact_page'),
+    path('admin/messages/', views.view_contact_messages, name='view_contact_messages'),
+
 ]

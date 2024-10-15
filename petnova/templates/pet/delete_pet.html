@@ -1,0 +1,6 @@
+<p>Are you sure you want to delete {{ pet.pet_name }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+</form>
+<a href="{% url 'user_pets_list' %}">Cancel</a>

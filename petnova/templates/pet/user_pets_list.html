@@ -1,0 +1,153 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Pets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f1f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pets-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #df9389; /* Updated color */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #df9389;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #df9389; /* Header background color */
+            color: white; /* Header text color */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Zebra striping for rows */
+        }
+
+        .pet-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .pet-actions a {
+            background-color: #df9389; /* Updated color */
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            margin-left: 5px; /* Space between buttons */
+        }
+
+        .pet-actions a:hover {
+            background-color: #c97f72; /* Darker shade for hover */
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #ffffff; /* Updated color */
+            text-decoration: none;
+            border: 1px solid hsl(0, 0%, 100%); /* Updated color */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(223, 147, 137, 0.2); /* Lighter hover effect */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button to Home Page -->
+    <a href="{% url 'home' %}" class="back-button"><< Back</a>
+
+    <div class="pets-container">
+        <h2>Your Pets</h2>
+        {% if pets %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Breed</th>
+                    <th>Species</th>
+                    <th>Age (years)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pet in pets %}
+                <tr>
+                    <td><img src="{{ pet.pet_image.url }}" alt="{{ pet.pet_name }}" style="width: 100px; border-radius: 5px;"></td>
+                    <td>{{ pet.pet_name }}</td>
+                    <td>{{ pet.pet_breed }}</td>
+                    <td>{{ pet.pet_species }}</td>
+                    <td>{{ pet.pet_age }} year</td>
+                    <td class="pet-actions">
+                        <a href="{% url 'edit_pet' pet.id %}">Edit</a>
+                        <a href="{% url 'delete_pet' pet.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No pets registered yet.</p>
+        {% endif %}
+    </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

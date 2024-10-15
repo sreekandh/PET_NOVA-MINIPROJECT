@@ -99,3 +99,55 @@ def app_view(request):
     applications = AdoptionApplication.objects.filter(user=request.user)
     return render(request, 'pet/app_view.html', {'applications': applications})
 
+
+
+
+#############################################################3
+
+#user pet #######################
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .models import UserPet
+from .forms import UserPetForm
+
+# List all user pets
+def user_pets_list(request):
+    pets = UserPet.objects.filter(user=request.user)
+    return render(request, 'pet/user_pets_list.html', {'pets': pets})
+
+# Register a new pet
+def register_pet(request):
+    if request.method == 'POST':
+        form = UserPetForm(request.POST, request.FILES)
+        if form.is_valid():
+            pet = form.save(commit=False)
+            pet.user = request.user  # Assign the pet to the logged-in user
+            pet.save()
+            messages.success(request, "Pet registered successfully.")
+            return redirect('user_pets_list')
+    else:
+        form = UserPetForm()
+    return render(request, 'pet/register_pet.html', {'form': form})
+
+# Update pet details
+def edit_pet(request, pet_id):
+    pet = get_object_or_404(UserPet, id=pet_id, user=request.user)
+    if request.method == 'POST':
+        form = UserPetForm(request.POST, request.FILES, instance=pet)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Pet updated successfully.")
+            return redirect('user_pets_list')
+    else:
+        form = UserPetForm(instance=pet)
+    return render(request, 'pet/edit_pet.html', {'form': form})
+
+# Delete a pet
+def delete_pet(request, pet_id):
+    pet = get_object_or_404(UserPet, id=pet_id, user=request.user)
+    if request.method == 'POST':
+        pet.delete()
+        messages.success(request, "Pet deleted successfully.")
+        return redirect('user_pets_list')
+    return render(request, 'pet/delete_pet.html', {'pet': pet})

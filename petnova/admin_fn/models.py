@@ -100,7 +100,8 @@ from django.conf import settings
 class AdoptionApplication(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     pet = models.ForeignKey('Cat' or 'Dog', on_delete=models.CASCADE)  # Depending on which pet type
-    full_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     phone = models.CharField(max_length=15)
     email = models.EmailField()
     address = models.TextField()
@@ -282,3 +283,32 @@ class CaretakerSlotBooking(models.Model):
 
     def __str__(self):
         return f'{self.user} booked {self.caretaker} for {self.service}'
+
+
+
+
+class TrainerSlotBooking(models.Model):
+    STATUS_CHOICES = [
+        ('confirmed', 'Confirmed'),
+        ('canceled', 'Canceled'),
+    ]
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, related_name='bookings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainer_bookings')
+    service = models.CharField(max_length=255)
+    duration = models.PositiveIntegerField()
+    additional_notes = models.TextField(blank=True, null=True)
+    booking_date = models.DateTimeField(auto_now_add=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    # Pet details
+    pet_name = models.CharField(max_length=100)
+    pet_breed = models.CharField(max_length=100)
+    pet_species = models.CharField(max_length=100)
+    pet_age = models.PositiveIntegerField()
+    pet_image = models.ImageField(upload_to='pet_images/', blank=True, null=True)
+    service_start_date = models.DateTimeField(default=timezone.now)
+    
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='confirmed')
+
+    def __str__(self):
+        return f'{self.user} booked {self.trainer} for {self.service}'
