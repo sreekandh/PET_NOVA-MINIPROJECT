@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'petnova.wsgi.application'
+WSGI_APPLICATION = 'petnova.wsgi'
 
 
 # Database
