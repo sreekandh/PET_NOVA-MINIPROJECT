@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-as!dr2^lg_ltnhy)+c*px%ldedbb7)c_s@7*2#(a2&96_y^lm8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'petnova.wsgi'
+WSGI_APPLICATION = 'petnova.wsgi.application'
 
 
 # Database
