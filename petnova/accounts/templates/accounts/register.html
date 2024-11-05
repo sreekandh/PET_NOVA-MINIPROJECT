@@ -32,6 +32,14 @@
                 {% endfor %}
             </ul>
         {% endif %}
+        {% if messages %}
+    {% for message in messages %}
+        <div class="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
         
         <button type="submit" name="register" class="btn">Register</button>
         <a href="{% url 'login' %}">Already have an account?</a>

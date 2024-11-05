@@ -1,172 +1,92 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Trainers</title>
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-
+{% block banner %}
     <style>
-        body {
+        /* Ensure body takes up full height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background-image: url("{% static 'images/back_cat_3.jpg' %}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: #333;
-            height: 100vh;
+            background-color: #F2968F;
         }
 
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 15px 50px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Logo */
-        .admin-nav .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .admin-nav .logo img {
-            width: 150px;
-            height: auto;
-            border-radius: 50%;
-            margin-right: 20px;
-        }
-
-        /* Navigation Links */
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .admin-nav ul li {
-            margin: 0 20px;
-        }
-
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s;
-        }
-
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
-
-        /* Main Content */
+        /* Main content styling */
         .main-content {
-            padding-top: 120px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Buttons Styling */
-        .action-links {
-            list-style-type: none;
-            padding: 0;
-            margin: 20px 0;
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            background-color: #F2968F;
+        }
+
+        /* Container for action links */
+        .action-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Action links styling */
+        .action-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .action-links li {
-            margin: 0 15px;
+            background-color: #F2968F;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .action-links li a {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.2em;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s, color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .action-links li a:hover {
-            background-color: #f0a500;
-            color: #fff;
+        .action-links li:hover {
+            background-color: #df9389;
             transform: translateY(-5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .admin-nav ul {
-                flex-direction: column;
-                align-items: flex-end;
-            }
+        .action-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
 
-            .admin-nav ul li {
-                margin: 10px 0;
-            }
-
-            .action-links {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .action-links li {
-                margin: 10px 0;
-            }
+        .action-links a:hover {
+            color: #ffffff;
         }
     </style>
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <!-- Logo Section -->
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-            <h1 style="color: #fff;">Pet Nova</h1>
-        </div>
-        
-        <!-- Navigation Links -->
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
 
     <!-- Main Content -->
     <div class="main-content">
-        <ul class="action-links">
-            
-            <li>
-                <a href="{% url 'view_trainers' %}">Trainers List</a>
-            </li> <li>
-                <a href="{% url 'register_trainer' %}">register trainer </a>
-            </li>
-            <li><a href="{% url 'admin_user_trainer_view' %}">user's trainer bookings</a></li>
-
-        </ul>
+        <div class="action-container">
+            <ul class="action-links">
+                <li>
+                    <a href="{% url 'view_trainers' %}">Trainers List</a>
+                </li> 
+                <li>
+                    <a href="{% url 'register_trainer' %}">Register Trainer</a>
+                </li>
+                <li>
+                    <a href="{% url 'admin_user_trainer_view' %}">User's Trainer Bookings</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</body>
-</html>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

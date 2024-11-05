@@ -1,186 +1,126 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - View Trainer Bookings</title>
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa; /* Light grey background */
-            color: #333;
-            height: 100vh;
-            overflow: auto; /* Allow scrolling if needed */
-            margin: 0;
-            padding: 0;
-        }
-    
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.9); /* Darker background */
-            padding: 15px 50px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-    
-        .admin-nav .logo img {
-            width: 150px;
-            height: auto;
-            border-radius: 50%;
-            margin-right: 20px;
-        }
-    
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-    
-        .admin-nav ul li {
-            margin: 0 20px;
-        }
-    
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s;
-        }
-    
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
-    
-        /* Main Content */
-        .main-content {
-            padding-top: 150px; /* Space for the navbar */
-            max-width: 1200px; /* Increased max width for the content */
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.9); /* White background with some transparency */
-            border-radius: 8px; /* Rounded corners */
-            padding: 30px; /* Add some padding inside the content */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-        }
-    
-        .admin-heading {
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center; /* Center heading */
-        }
-    
-        table {
-            width: 100%; /* Full width */
-            border-collapse: collapse;
-            margin-top: 20px; /* Space below navbar */
-        }
+{% block banner %}
+<style>
+    /* Styling for the layout container */
+    .layout-container {
+        display: flex; /* Flexbox for sidebar and content area */
+        max-width: 1200px; /* Max width for layout */
+        margin: 50px auto; /* Center the layout */
+        height: auto; /* Height adjusted for content */
+    }
 
-        th, td {
-            padding: 12px; /* Increased padding for readability */
-            text-align: left;
-            border: 1px solid #dee2e6; /* Border for table cells */
-        }
+    /* Sidebar styling */
+    .sidebar-menu {
+    flex: 0 0 250px; /* Fixed width for sidebar (adjust value as needed) */
+    background-color: #df9389; /* Sidebar background color */
+    padding: 20px; /* Padding around sidebar items */
+    color: white; /* Text color */
+    border-radius: 8px; /* Rounded corners */
+    margin-right: 20px; /* Space between sidebar and content */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    height: fit-content; /* Adjust height for content */
+}
 
-        th {
-            background-color: #e9ecef; /* Light grey background for headers */
-        }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2; /* Alternating row colors */
-        }
+    .sidebar-menu h2 {
+        font-size: 24px; /* Size of the sidebar heading */
+        margin-bottom: 20px; /* Space below heading */
+    }
 
-        .pagination {
-            margin-top: 20px;
-            text-align: center; /* Center pagination */
-        }
+    .sidebar-menu a {
+        display: block; /* Block display for links */
+        color: white; /* Link color */
+        text-decoration: none; /* No underline */
+        padding: 10px 0; /* Padding for links */
+        transition: background-color 0.3s; /* Transition effect */
+    }
 
-        .pagination a {
-            margin: 0 5px;
-            text-decoration: none;
-            color: #007BFF;
-            padding: 5px 10px; /* Padding for links */
-            border: 1px solid #007BFF; /* Border for links */
-            border-radius: 5px; /* Rounded corners */
-            transition: background-color 0.3s, color 0.3s;
-        }
+    .sidebar-menu a:hover {
+        background-color: #4CAF50; /* Change background on hover */
+    }
 
-        .pagination a:hover {
-            background-color: #007BFF; /* Change background on hover */
-            color: #fff; /* Change text color on hover */
-        }
+    /* Styling for the main content area */
+    .main-content {
+        flex: 3; /* Main content takes 3 parts of the flex container */
+        background-color: #fff; /* White background */
+        padding: 30px; /* Add padding to the content */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        font-family: Arial, sans-serif; /* Use a clean font */
+    }
 
-        .pagination span.current {
-            font-weight: bold;
-            padding: 5px 10px; /* Padding for current page */
-            border: 1px solid #007BFF; /* Border for current page */
-            border-radius: 5px; /* Rounded corners */
-            background-color: #e9ecef; /* Light grey background */
-        }
+    /* Header styling */
+    .main-content h1 {
+        font-size: 28px; /* Size of the heading */
+        text-align: center; /* Center the heading */
+        color: #333; /* Dark color for the heading */
+        margin-bottom: 20px; /* Space below the heading */
+    }
 
-        .no-bookings {
-            text-align: center;
-            font-weight: bold;
-            padding: 20px;
-        }
+    /* Table styling */
+    table {
+        width: 100%; /* Full width table */
+        border-collapse: collapse; /* Collapse borders */
+        margin-top: 20px; /* Space above table */
+    }
 
-        /* Back Button */
-        .back-button-container {
-            margin: 20px 0;
-            text-align: center; /* Center back button */
-        }
+    th, td {
+        padding: 10px; /* Padding for cells */
+        border: 1px solid #ddd; /* Light border */
+        text-align: left; /* Align text to the left */
+    }
 
-        .admin-back-button {
-            padding: 10px 20px;
-            background-color: #007BFF; /* Blue background */
-            color: #fff; /* White text */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.2em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, transform 0.2s;
-        }
+    th {
+        background-color: #f2f2f2; /* Light grey background for header */
+        color: #333; /* Dark color for header text */
+    }
 
-        .admin-back-button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-            transform: translateY(-2px);
-        }
-    </style>
-    
-</head>
+    /* Error message styling */
+    .error {
+        color: #f44336; /* Red color for error messages */
+        font-size: 13px; /* Smaller font for errors */
+        margin-top: 5px; /* Space above errors */
+    }
+
+    /* Pagination controls styling */
+    .pagination {
+        margin-top: 20px; /* Space above pagination */
+        text-align: center; /* Center pagination */
+    }
+
+    .pagination a {
+        margin: 0 5px; /* Space between links */
+        text-decoration: none; /* No underline */
+        color: #4CAF50; /* Green color */
+    }
+
+    .current {
+        font-weight: bold; /* Bold for current page */
+    }
+
+    /* No bookings message styling */
+    .no-bookings {
+        text-align: center; /* Center align */
+        color: #777; /* Light grey color */
+        font-style: italic; /* Italic style */
+    }
+</style>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-        </div>
-        
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
+<!-- Main Layout -->
+<div class="layout-container">
+    <!-- Sidebar -->
+    <div class="sidebar-menu">
+        <h2>Menu</h2>
+        <a href="{% url 'view_trainers' %}">View Trainers</a>
+        <a href="{% url 'register_trainer' %}">Register Trainer</a>
+        <a href="{% url 'admin_user_trainer_view' %}">Bookings</a>
+    </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <h1 class="admin-heading">Trainer Bookings</h1>
-
+        <h1>Trainer Bookings</h1>
         <table>
             <thead>
                 <tr>
@@ -192,9 +132,7 @@
                     <th>Total Price (USD)</th>
                     <th>Booking Date</th>
                     <th>Additional Notes</th>
-                    <th>Pet Name</th>
                     <th>Pet Breed</th>
-                    <th>Pet Species</th>
                     <th>Pet Age</th>
                 </tr>
             </thead>
@@ -209,9 +147,7 @@
                     <td>{{ booking.total_price }} USD</td>
                     <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
                     <td>{{ booking.additional_notes|default:"None" }}</td>
-                    <td>{{ booking.pet_name }}</td>
                     <td>{{ booking.pet_breed }}</td>
-                    <td>{{ booking.pet_species }}</td>
                     <td>{{ booking.pet_age }} years</td>
                 </tr>
                 {% empty %}
@@ -229,11 +165,9 @@
                     <a href="?page=1">&laquo; First</a>
                     <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
                 {% endif %}
-
                 <span class="current">
                     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                 </span>
-
                 {% if page_obj.has_next %}
                     <a href="?page={{ page_obj.next_page_number }}">Next</a>
                     <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
@@ -241,5 +175,10 @@
             </span>
         </div>
     </div>
+</div>
+<br><br>
 </body>
-</html>
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

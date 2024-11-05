@@ -11,13 +11,70 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
         }
 
         h1 {
-            color: #333;
             text-align: center;
-            margin-bottom: 40px;
+            color: #333;
+            margin: 40px 0 20px;
+            font-size: 28px;
+        }
+
+        .filter-form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #e07d7d;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .filter-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .filter-form div {
+            display: flex;
+            flex-direction: column;
+            margin-right: 15px;
+        }
+
+        .filter-form label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .filter-form select, 
+        .filter-form input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            width: 180px; /* Set a fixed width for consistency */
+        }
+
+        .filter-form .btn {
+            background-color: #df9389;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            font-size: 16px;
+            align-self: flex-end; /* Align the button to the bottom */
+        }
+
+        .filter-form .btn:hover {
+            background-color: #c1786d;
         }
 
         .cat-list {
@@ -25,86 +82,162 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            padding: 0 20px;
         }
 
         .cat-item {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            width: 200px;
+            width: 250px;
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative; /* Added for absolute positioning of the button */
         }
 
         .cat-item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .cat-item img {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            border-bottom: 2px solid #df9389;
         }
 
         .cat-item h2 {
             margin: 15px 0;
-            font-size: 18px;
+            font-size: 20px;
             color: #333;
         }
 
+        .cat-item h4 {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .wishlist-btn {
+            position: absolute; /* Position the button absolutely */
+            top: 10px; /* Position it 10px from the top */
+            right: 10px; /* Position it 10px from the right */
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 24px; /* Increase the size of the heart */
+            color: #df9389; /* Set color for the button */
+        }
+
         .cat-item a {
+            display: block;
+            padding: 15px;
             text-decoration: none;
             color: #df9389;
             font-weight: bold;
-            display: block;
-            padding: 10px 0;
+            border-top: 1px solid #f0f0f0;
         }
 
         .cat-item a:hover {
+            background-color: #f9f9f9;
             color: #c1786d;
         }
-
     </style>
 </head>
 <body>
 
 <h1>All Cats</h1>
 
+<div class="filter-form-container">
+    <form method="GET" class="filter-form">
+        <div>
+            <label for="breed">Breed:</label>
+            <select name="breed" id="breed">
+                <option value="">All Breeds</option>
+                {% for value, label in filter_form.breed.field.choices %}
+                    <option value="{{ value }}" {% if value == filter_form.breed.value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="color">Color:</label>
+            <select name="color" id="color">
+                <option value="">All Colors</option>
+                {% for value, label in filter_form.color.field.choices %}
+                    <option value="{{ value }}" {% if value == filter_form.color.value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender">
+                <option value="">Any Gender</option>
+                {% for value, label in filter_form.gender.field.choices %}
+                    <option value="{{ value }}" {% if value == filter_form.gender.value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="min_age">Min Age:</label>
+            <input type="number" name="min_age" id="min_age" value="{{ filter_form.min_age.value }}">
+        </div>
+
+        <div>
+            <label for="max_age">Max Age:</label>
+            <input type="number" name="max_age" id="max_age" value="{{ filter_form.max_age.value }}">
+        </div>
+
+        <div>
+            <label for="min_price">Min Price:</label>
+            <input type="number" step="0.01" name="min_price" id="min_price" value="{{ filter_form.min_price.value }}">
+        </div>
+
+        <div>
+            <label for="max_price">Max Price:</label>
+            <input type="number" step="0.01" name="max_price" id="max_price" value="{{ filter_form.max_price.value }}">
+        </div>
+
+        <div>
+            <button type="submit" class="btn">Filter</button>
+            <a href="{% url 'cat_list' %}" class="btn" style="background-color: #ccc; color: black;">Clear Filters</a>
+            <a href="{% url 'user_wishlist' %}" class="btn" style="background-color: #ccc; color: black;">Wish</a>
+        </div>
+    </form>
+</div>
+
 <div class="cat-list">
     {% for cat in cats %}
-        <div class="cat-item">
-            <a href="{% url 'cat_detail' cat.id %}">
-                <img src="{{ cat.image.url }}" alt="{{ cat.name }}">
-                <h2>name :{{ cat.name }}</h2>
-                <h4>Breed :{{ cat.breed }}</h4>
-                <h4>Age :{{ cat.age }}</h4>
-                <h4>Price :{{ cat.price }}</h4>
-
-                
-            </a>
-        </div>
+        {% if cat.is_active %}
+            <div class="cat-item">
+                <a href="{% url 'cat_detail' cat.id %}">
+                    <div style="position: relative;"> <!-- New div for positioning -->
+                        {% if cat.image1 %}
+                            <img src="{{ cat.image1.url }}" alt="{{ cat.name }}">
+                        {% else %}
+                            <img src="{% static 'images/back_cat_3.jpg' %}" alt="No image available">
+                        {% endif %}
+                        <form method="POST" action="{% url 'add_to_wishlist' cat.id %}" style="display: inline;"> <!-- Inline form for button -->
+                            {% csrf_token %}
+                            <button type="submit" class="wishlist-btn">❤️</button>
+                        </form>
+                    </div>
+                    <h2>{{ cat.name }}</h2>
+                    <h4>Breed: {{ cat.breed }}</h4>
+                    <h4>Age: {{ cat.age }} years</h4>
+                    <h4>Price: ${{ cat.price }}</h4>
+                </a>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 </body>
 </html>
-{% block footer_layout %}
-<!-- Footer (Removed) -->
-{% endblock footer_layout %}
+
+{% block footer_layout %}{% endblock footer_layout %}
 {% endblock banner %}

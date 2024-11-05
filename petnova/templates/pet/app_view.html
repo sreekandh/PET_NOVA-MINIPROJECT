@@ -2,45 +2,83 @@
 {% load static %}
 {% block banner %}
 
-<h2>Your Adoption Applications</h2>
+<div class="custom-container">
+    <!-- Side Menu Bar -->
+    <div class="custom-sidebar">
+        <ul class="custom-menu-list">
+            <li><a href="{% url 'app_view' %}" class="custom-menu-item">My Adoption Bookings</a></li>
+            <li><a href="{% url 'user_caretaker_bookings' %}" class="custom-menu-item">My Caretaker Bookings</a></li>
+            <li><a href="{% url 'user_trainer_bookings' %}" class="custom-menu-item">My Trainer Bookings</a></li>
+        </ul>
+    </div>
 
-<!-- Back to Home Button -->
-<a href="{% url 'home' %}" class="back-button">Back to Home</a>
-<br>
-
-<!-- Caretaker bookings link -->
-<a href="{% url 'user_caretaker_bookings' %}" class="caretaker-bookings-link">My Caretaker Bookings</a>
-
-<a href="{% url 'user_trainer_bookings' %}" class="caretaker-bookings-link">My Trainer Bookings</a>
-
-<ul class="application-list">
-    {% for application in applications %}
-        <li class="application-item">
-            <div class="application-header">
-                <p>Your application for <strong>{{ application.pet.name }}</strong> has been 
-                <span class="status {{ application.status|lower }}">{{ application.status }}</span>.</p>
-
-                {% if application.status == "approved" %}
-                    <p>
-                        Click <a href="{% url 'make_payment' application.id %}" class="payment-link">here</a> to make your payment.
-                    </p>
-                {% endif %}
-            </div>
-
-            <!-- Display feedback from admin if available -->
-            {% if application.feedback %}
-                <div class="feedback">
-                    Admin Message: {{ application.feedback }}
-                </div>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
+    <!-- Main Content -->
+    <div class="custom-main-content">
+        <ul class="custom-application-list">
+            {% for application in applications %}
+                <li class="custom-application-item">
+                    <div class="custom-application-header">
+                        <p>Your application for <strong>{{ application.pet.name }}</strong> has been 
+                        <span class="custom-status {{ application.status|lower }}">{{ application.status }}</span>.</p>
+                        {% if application.status == "approved" %}
+                            <p>Click <a href="{% url 'make_payment' application.id %}" class="custom-payment-link">here</a> to make your payment.</p>
+                        {% endif %}
+                    </div>
+                    <!-- Display feedback from admin if available -->
+                    {% if application.feedback %}
+                        <div class="custom-feedback">Admin Message: {{ application.feedback }}</div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 
 <style>
     body {
-        background-color: #e89b9b; /* Light background color */
-        font-family: 'Arial', sans-serif; /* Consistent font across page */
+        background-color: #e89b9b;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .custom-container {
+        display: flex;
+    }
+
+    /* Sidebar styling */
+    .custom-sidebar {
+        width: 250px;
+        background-color: #df9389;
+        padding: 20px;
+        height: 40vh;
+        position:absolute;
+        padding-top: 30px;
+    }
+
+    .custom-menu-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .custom-menu-item {
+        display: block;
+        padding: 15px;
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-menu-item:hover {
+        background-color: #c1786d;
+        color: #fff;
+    }
+
+    /* Main content styling */
+    .custom-main-content {
+        margin-left: 270px; /* Give space for the sidebar */
+        padding: 20px;
+        flex-grow: 1;
     }
 
     h2 {
@@ -51,74 +89,36 @@
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
-    /* Back to Home Button Styling */
-    .back-button {
-        position: absolute;
-        top: 60px;
-        left: 20px;
-        padding: 10px 20px;
-        background-color: #df9389;
-        color: #e5d2d2;
-        text-decoration: none;
-        border: 1px solid #df9389;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-    }
-
-    .back-button:hover {
-        background-color: #df9389;
-        color: white;
-    }
-
-    /* Caretaker Bookings Link */
-    .caretaker-bookings-link {
-        display: block;
-        margin: 20px 0;
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        color: #2d1313;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .caretaker-bookings-link:hover {
-        color: #c16b6e;
-    }
-
-    .application-list {
+    .custom-application-list {
         list-style-type: none;
         padding: 0;
         max-width: 700px;
         margin: 0 auto;
     }
 
-    .application-item {
+    .custom-application-item {
         background-color: #fff;
         border: 1px solid #df9389;
         padding: 20px;
         margin-bottom: 20px;
         border-radius: 12px;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        text-align: left;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        position: relative;
     }
 
-    .application-item:hover {
+    .custom-application-item:hover {
         transform: translateY(-7px);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         background-color: #ffeef0;
     }
 
-    .application-header {
+    .custom-application-header {
         display: flex;
         flex-direction: column;
         margin-bottom: 10px;
     }
 
-    .status {
+    .custom-status {
         font-weight: bold;
         font-size: 1.2em;
         padding: 5px 10px;
@@ -126,17 +126,17 @@
         text-transform: capitalize;
     }
 
-    .status.approved {
-        background-color: #4CAF50; /* Green for approved */
+    .custom-status.approved {
+        background-color: #4CAF50;
         color: white;
     }
 
-    .status.disapproved {
-        background-color: #FF5722; /* Orange for disapproved */
+    .custom-status.disapproved {
+        background-color: #FF5722;
         color: white;
     }
 
-    .feedback {
+    .custom-feedback {
         color: #666;
         font-style: italic;
         background-color: #f9f9f9;
@@ -147,34 +147,18 @@
     }
 
     /* Payment link style */
-    .payment-link {
+    .custom-payment-link {
         color: #df9389;
         font-weight: bold;
         text-decoration: underline;
         transition: color 0.3s;
     }
 
-    .payment-link:hover {
+    .custom-payment-link:hover {
         color: #c16b6e;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 600px) {
-        h2 {
-            font-size: 1.8em;
-        }
-
-        .back-button {
-            font-size: 14px;
-        }
-
-        .caretaker-bookings-link {
-            font-size: 16px;
-        }
     }
 </style>
 
 {% block footer_layout %}
-<!-- Footer (Removed) -->
 {% endblock footer_layout %}
 {% endblock banner %}

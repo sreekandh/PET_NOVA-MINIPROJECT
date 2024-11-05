@@ -3,6 +3,7 @@
 {% block banner %}
 
 <center>
+
     <!-- Forgot Password Link -->
     <form>
         <a href="{% url 'password_reset' %}">Forgot Password?</a>
@@ -40,7 +41,7 @@
         {% endif %}
         
         <!-- Submit Button -->
-        <button type="submit" name="login" class="btn">Login</button>
+        <button type="submit"  name="login" class="btn">Login</button>
         <a href="{% url 'register' %}">Don't have an account? Sign up</a>
     </form>
     <br><br><br><br>

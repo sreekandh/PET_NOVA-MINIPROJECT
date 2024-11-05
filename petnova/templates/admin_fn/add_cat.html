@@ -1,4 +1,8 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
+
+{% block banner %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,78 +13,22 @@
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
 
     <style>
-       body {
-    font-family: Arial, sans-serif;
-    background-color: #d3d3d3; /* Light grey background */
-    background-image: url("{% static 'images/back_cat_5.jpg' %}"); /* Background image */
-    background-size: cover; /* Ensures the image covers the entire page */
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    color: #333;
-    min-height: 100vh; /* Ensures the background covers the entire viewport */
-    display: flex; /* Flexbox to center the form */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 5px 20px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        /* Navigation Links */
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .admin-nav ul li {
-            margin: 0 20px; /* Increased margin */
-        }
-
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em; /* Increased font size */
-            padding: 10px; /* Added padding */
-            transition: color 0.3s;
-        }
-
-        .admin-nav ul li a:hover {
-            color: #f0a500; /* Hover color */
-        }
+        /* Main Content */
         .main-content {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%; /* Ensure the form takes full width of the container */
-    margin: 100px 20px; /* Added margin-top to push the form down */
-}
-
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 700px; /* Increased width */
+            width: 100%; /* Ensure the form takes full width of the container */
+            margin: 100px auto; /* Center the form */
+        }
 
         h1 {
             font-size: 2em;
             color: #333;
             margin-bottom: 20px;
+            text-align: center; /* Center the heading */
         }
 
         form {
@@ -160,23 +108,6 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo" style="width: 180px; margin-right: 10px;">
-            <h1 style="color: #fff; font-size: 1.5em;"></h1> <!-- Added logo title -->
-        </div>
-        
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
-
     <!-- Main Content -->
     <div class="main-content">
         <h1>Add a New Cat</h1>
@@ -186,11 +117,22 @@
             <div class="form-errors">
                 {{ form.non_field_errors }}
             </div>
-            {{ form.as_p }}
+            {% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="form-errors">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
             <button type="submit">Add Cat</button>
-            <a href="{% url 'cat' %}" class="back-button">Cancel</a> <!-- Cancel button -->
+            <a href="{% url 'cat' %}" class="back-button">Cancel</a>
         </form>
     </div>
 
+<br><br><br><br>
 </body>
 </html>
+
+{% endblock banner %}

@@ -11,42 +11,79 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background-color: #f5f5f5;
             margin: 0;
-            padding: 0;
+          
         }
 
         h1 {
             text-align: center;
-            color: #ffffffe7;  /* Changed to match cat details */
-            margin-bottom: 20px;
+            color: #444;
+            margin-bottom: 40px;
+            font-size: 32px;
         }
 
-        .dog-image {
+        .slider {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;  /* Increased margin to match cat details */
+            align-items: center;
+            position: relative;
+            margin-bottom: 30px;
         }
 
-        .dog-image img {
-            width: 400px;  /* Increased width for consistency with cat image */
+        .slider img {
+            width: 400px;
+            height: auto;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .slider img:first-child {
+            display: block;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev {
+            left: 0;
         }
 
         .dog-details {
-            text-align: left;
-            font-size: 18px;
-            color: #fbf7f7;  /* Changed to match cat details */
+            margin: 0 auto;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .dog-details p {
-            line-height: 1.6;
+            line-height: 1.8;
             margin: 10px 0;
+            font-size: 18px;
+            color: #333;
         }
 
         .dog-details strong {
-            color: #333;
+            color: #666;
         }
 
         .adopt-btn {
@@ -54,22 +91,38 @@
             width: 100%;
             text-align: center;
             padding: 15px;
-            margin-top: 50px;  /* Increased margin to match cat details */
+            margin-top: 40px;
             background-color: #df9389;
             color: white;
             font-weight: bold;
             text-decoration: none;
-            border-radius: 8px;  /* Increased border radius for a softer look */
-            transition: background-color 0.3s ease, transform 0.3s ease;  /* Added transform transition */
-            font-size: 18px;  /* Increased font size for better visibility */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Added shadow for a lifted effect */
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .adopt-btn:hover {
             background-color: #c1786d;
-            transform: translateY(-2px);  /* Subtle upward movement on hover */
+            transform: translateY(-2px);
         }
 
+        .video-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .video-container video {
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-video {
+            text-align: center;
+            color: #777;
+        }
     </style>
 </head>
 <body>
@@ -77,35 +130,69 @@
 <div class="container">
     <h1>{{ dog.name }}'s Details</h1>
 
-    <div class="dog-image">
-        <img src="{{ dog.image.url }}" alt="{{ dog.name }}">
+    <!-- Image Slider -->
+    <div class="slider">
+        {% if dog.image1 %}
+            <img class="mySlides" src="{{ dog.image1.url }}" alt="{{ dog.name }}">
+        {% endif %}
+        {% if dog.image2 %}
+            <img class="mySlides" src="{{ dog.image2.url }}" alt="{{ dog.name }}">
+        {% endif %}
+        {% if dog.image3 %}
+            <img class="mySlides" src="{{ dog.image3.url }}" alt="{{ dog.name }}">
+        {% endif %}
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
 
+    <!-- Dog Details -->
     <div class="dog-details">
         <p><strong>Name:</strong> {{ dog.name }}</p>
         <p><strong>Age:</strong> {{ dog.age }} years</p>
-        <p><strong>Breed:</strong> {{ dog.breed }} years</p>
-        <p><strong>Description:</strong> {{ dog.description }}</p>  <!-- Removed duplicate breed line -->
+        <p><strong>Breed:</strong> {{ dog.get_breed_display }}</p>
+        <p><strong>Description:</strong> {{ dog.description }}</p>
+        <p><strong>Color:</strong> {{ dog.get_color_display }}</p>
+        <p><strong>Gender:</strong> {{ dog.get_gender_display }}</p>
+        <p><strong>Vaccinated:</strong> {{ dog.get_vaccinated_display }}</p>
+        <p><strong>Health Information:</strong> {{ dog.health }}</p>
+        <p><strong>Price:</strong> ₹{{ dog.price }}</p>
     </div>
 
+    <!-- Video Section -->
+    <div class="video-container">
+        {% if dog.video %}
+            <video controls>
+                <source src="{{ dog.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        {% else %}
+            <p class="no-video">No video available</p>
+        {% endif %}
+    </div>
+
+    <!-- Apply for Adoption Button -->
     <a href="{% url 'apply_for_adoption' dog.id 'dog' %}" class="adopt-btn">Apply for Adoption</a>
 </div>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        let slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+</script>
+
 </body>
 </html>
-
-{% block footer_layout %}
-<!-- Footer (Removed) -->
-{% endblock footer_layout %}
 {% endblock banner %}

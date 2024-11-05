@@ -1,40 +1,39 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adoption Application Successful</title>
+    <script>
+        // Prevent back navigation to this page
+        history.pushState(null, document.title, location.href);
+        window.addEventListener('popstate', function(event) {
+            history.pushState(null, document.title, location.href);
+        });
+    </script>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+      
 
-        .container {
-            max-width: 500px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+        
 
         h1 {
             color: #df9389;
             font-size: 24px;
             margin-bottom: 20px;
+            padding-left: 300px;
         }
 
         p {
             color: #555;
             font-size: 18px;
             margin-bottom: 30px;
+            padding-left: 250;
         }
 
         .back-button {
@@ -55,12 +54,32 @@
     </style>
 </head>
 <body>
-
+    <br>
+    <br><br>
+    <br>
+<br><br>
 <div class="container">
     <h1>Application Submitted</h1>
     <p>Your application for adoption has been successfully submitted. Thank you!</p>
-    <a href="{% url 'home' %}" class="back-button">Back to Home</a>
+    <a href="{% url 'home' %}" class="back-button">okay....</a>
 </div>
-
+<br>
+<br>
+<br><br>
+<br>
+<br><br>
+<br>
+<br><br>
+<br>
+<br><br>
+<br>
+<br><br>
+<br><br>
 </body>
 </html>
+
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

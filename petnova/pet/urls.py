@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from . import views
 from .views import cat_list, dog_list, cat_detail, dog_detail
+from .views import add_to_wishlist
 
 
 urlpatterns = [
@@ -25,6 +26,12 @@ urlpatterns = [
     path('dogs/', dog_list, name='dog_list'),
     path('cats/<int:cat_id>/', cat_detail, name='cat_detail'),
     path('dogs/<int:dog_id>/', dog_detail, name='dog_detail'),
+
+
+        path('add-to-wishlist/<int:cat_id>/', views.add_to_wishlist, name='add_to_wishlist'),
+    path('wishlist/', views.user_wishlist, name='user_wishlist'),
+path('remove_from_wishlist/<int:id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
+
 
      path('app_view/',views.app_view,name='app_view'),
          

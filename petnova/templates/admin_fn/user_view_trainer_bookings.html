@@ -1,147 +1,203 @@
 {% extends 'blank_layout.html' %}
 {% load static %}
-
 {% block banner %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Trainer Bookings</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5; /* Light background for better readability */
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
-            border-radius: 8px; /* Rounded corners */
-            overflow: hidden; /* Ensure rounded corners are applied */
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd; /* Light border for separation */
-        }
-        th {
-            background-color: #6c757d; /* Bootstrap's secondary color */
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9; /* Light grey for even rows */
-        }
-        tr:hover {
-            background-color: #e2e6ea; /* Slight highlight on hover */
-        }
-        .cancel-button {
-            background-color: #dc3545; /* Bootstrap's danger color */
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s; /* Smooth transition */
-        }
-        .cancel-button:hover {
-            background-color: #c82333; /* Darker shade on hover */
-        }
-        .status {
-            font-weight: bold;
-            color: #28a745; /* Green for confirmed */
-        }
-        .status.canceled {
-            color: #dc3545; /* Red for canceled */
-        }
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px; /* Smaller font size on mobile */
-            }
-            th, td {
-                padding: 10px; /* Smaller padding on mobile */
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>My Trainer Bookings</h1>
 
-    {% if bookings %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Trainer</th>
-                    <th>Service</th>
-                    <th>Duration</th>
-                    <th>Total Price</th>
-                    <th>Booking Date</th>
-                    <th>Service Start Date</th>
-                    <th>Pet Name</th>
-                    <th>Pet Breed</th>
-                    <th>Pet Species</th>
-                    <th>Pet Age</th>
-                    <th>Pet Image</th>
-                    <th>Additional Notes</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for booking in bookings %}
-                <tr>
-                    <td>{{ booking.trainer.trainer_name }}</td>
-                    <td>{{ booking.service }}</td>
-                    <td>{{ booking.duration }} days</td>
-                    <td>{{ booking.total_price }} rs</td>
-                    <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
-                    <td>{{ booking.service_start_date|date:"Y-m-d H:i" }}</td>
-                    <td>{{ booking.pet_name }}</td>
-                    <td>{{ booking.pet_breed }}</td>
-                    <td>{{ booking.pet_species }}</td>
-                    <td>{{ booking.pet_age }} years</td>
-                    <td>
-                        {% if booking.pet_image %}
-                            <img src="{{ booking.pet_image.url }}" alt="{{ booking.pet_name }}" style="width: 100px; height: auto; border-radius: 5px;">
-                        {% else %}
-                            No image available
-                        {% endif %}
-                    </td>
-                    <td>{{ booking.additional_notes|default:"No notes provided" }}</td>
-                    <td>
-                        <span class="status {% if booking.status == 'canceled' %}canceled{% endif %}">
-                            {{ booking.status|capfirst }} 
-                        </span>
-                    </td>
-                    <td>
-                        {% if booking.status == 'confirmed' %}
-                            <form action="{% url 'cancel_booking' booking.id %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="cancel-button">Cancel</button>
-                            </form>
-                        {% else %}
-                            <span>N/A</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>You have no trainer bookings yet.</p>
-    {% endif %}
-</body>
-<br><br><br>
-<br><br><br>
-<br><br><br>
-<br><br><br>
-</html>
-{% block footer_layout %} 
-<!-- Footer (Removed) --> 
+<div class="custom-container">
+    <!-- Side Menu Bar -->
+    <div class="custom-sidebar">
+        <ul class="custom-menu-list">
+            <li><a href="{% url 'app_view' %}" class="custom-menu-item">My Adoption Bookings</a></li>
+            <li><a href="{% url 'user_caretaker_bookings' %}" class="custom-menu-item">My Caretaker Bookings</a></li>
+            <li><a href="{% url 'user_trainer_bookings' %}" class="custom-menu-item">My Trainer Bookings</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="custom-main-content">
+        <h1>My Trainer Bookings</h1>
+
+        {% if bookings %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Trainer</th>
+                        <th>Service</th>
+                        <th>Duration</th>
+                        <th>Total Price</th>
+                        <th>Booking Date</th>
+                        <th>Service Start Date</th>
+                        <th>Pet Name</th>
+                        <th>Pet Image</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr class="custom-application-item">
+                        <td>{{ booking.trainer.trainer_name }}</td>
+                        <td>{{ booking.service }}</td>
+                        <td>{{ booking.duration }} days</td>
+                        <td>{{ booking.total_price }} Rs</td>
+                        <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
+                        <td>{{ booking.service_start_date|date:"Y-m-d H:i" }}</td>
+                        <td>{{ booking.pet_name }}</td>
+                        <td>
+                            {% if booking.pet_image %}
+                                <img src="{{ booking.pet_image.url }}" alt="{{ booking.pet_name }}" class="custom-image">
+                            {% else %}
+                                No image available
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="custom-status {% if booking.status == 'canceled' %}disapproved{% else %}approved{% endif %}">
+                                {{ booking.status|capfirst }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if booking.status == 'confirmed' %}
+                                <form action="{% url 'cancel_booking' booking.id %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="cancel-button">Cancel</button>
+                                </form>
+                            {% else %}
+                                <span>N/A</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You have no trainer bookings yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #e89b9b;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .custom-container {
+        display: flex;
+    }
+
+    /* Sidebar styling */
+    .custom-sidebar {
+        width: 250px;
+        background-color: #df9389;
+        padding: 20px;
+        height: 40vh;
+        position: absolute;
+        padding-top: 60px;
+    }
+
+    .custom-menu-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .custom-menu-item {
+        display: block;
+        padding: 15px;
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-menu-item:hover {
+        background-color: #c1786d;
+        color: #fff;
+    }
+
+    /* Main content styling */
+    .custom-main-content {
+        margin-left: 270px; /* Space for the sidebar */
+        padding: 20px;
+        flex-grow: 1;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 2.2em;
+        margin-bottom: 25px;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #ffeef0;
+    }
+
+    .cancel-button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .cancel-button:hover {
+        background-color: #c82333;
+    }
+
+    .custom-status {
+        font-weight: bold;
+        font-size: 1.2em;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-transform: capitalize;
+    }
+
+    .custom-status.approved {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .custom-status.disapproved {
+        background-color: #FF5722;
+        color: white;
+    }
+
+    .custom-image {
+        width: 100px;
+        height: auto;
+        border-radius: 5px;
+    }
+
+</style>
+
+{% block footer_layout %}
 {% endblock footer_layout %}
 {% endblock banner %}

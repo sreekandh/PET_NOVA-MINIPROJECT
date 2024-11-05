@@ -1,34 +1,216 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Other head elements -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <style>
+        /* Main navbar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-<div class="navbar">
-    <div class="logo">
-        <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="logo" width="125px"></a>
-    </div>
-    <nav>
-        <ul id="MenuItems">
-            
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'pet_details' %}">Pets</a></li>
-            <li><a href="{% url 'about_page' %}">About</a></li>
-            <li><a href="{% url 'contact_page' %}">Contact</a></li>
+        .navbar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .navbar nav ul li {
+            margin-right: 25px;
+            position: relative;
+        }
+
+        .navbar nav ul li:last-child {
+            margin-right: 0;
+        }
+
+        /* Dropdown menu styles */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #F2968F;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            flex-direction: column;
+            width: 150px;
+            border-radius: 4px;
+            padding: 8px 0;
+        }
+
+        .dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dropdown ul li {
+            margin: 0;
+            width: 100%;
+        }
+
+        /* Hover over parent item to show dropdown */
+        .navbar nav ul li:hover > .dropdown {
+            display: flex;
+        }
+
+        /* Nested dropdowns styling */
+        .dropdown .dropdown {
+            left: 100%;
+            top: 0;
+            display: none;
+            flex-direction: column;
+            background-color: #F2968F;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hover to show nested dropdown */
+        .navbar nav ul li:hover > .dropdown {
+            display: flex;
+        }
+
+        /* Link styles inside dropdown */
+        .dropdown a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+            width: 100%;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 16px;
+        }
+
+        .dropdown a:hover {
+            background-color: white;
+            color: #F2968F;
+            border-radius: 2px;
+        }
+
+        /* Hover effects for primary dropdown */
+        .navbar nav ul li:hover > a {
+            color: #F2968F;
+        }
+
+        /* Additional styles for navigation */
+        #MenuItems li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+        }
+
+        #MenuItems li a:hover {
+            color: #F2968F;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="logo" width="125px"></a>
+        </div>
+        <nav>
+            {% if user.is_authenticated %}
+                {% if user.is_admin %}
+                    <!-- Admin Navigation -->
+                    <ul>
+                        <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
+                        <li>
+                            <a href="#"><i class="fas fa-paw"></i> Pets</a>
+                            <div class="dropdown">
+                                <ul>
+                                    <li>
+                                        <a href="#">Cats</a>
+                                        <div class="dropdown">
+                                            <ul>
+                                                <li><a href="{% url 'view_cats' %}">View</a></li>
+                                                <li><a href="{% url 'add_cat' %}">Add</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="#">Dogs</a>
+                                        <div class="dropdown">
+                                            <ul>
+                                                <li><a href="{% url 'view_dogs' %}">View</a></li>
+                                                <li><a href="{% url 'add_dog' %}">Add</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-users"></i> Staff</a>
+                            <div class="dropdown">
+                                <ul>
+                                    <li><a href="{% url 'view_trainers' %}">Trainer</a></li>
+                                    <li><a href="{% url 'view_caretakers' %}">Caretaker</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+                        <li><a href="{% url 'apply_control' %}"><i class="fas fa-folder-open"></i></a></li>
+                        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a></li>
+                    </ul>
+                {% else %}
+                    <!-- Regular User Navigation -->
+                    <ul id="MenuItems">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li>
+                            <a href="#"><i class="fas fa-paw"></i> Pets</a>
+                            <div class="dropdown">
+                                <ul>
+                                    <li><a href="{% url 'cat_list' %}">Cats</a></li>
+                                    <li><a href="{% url 'dog_list' %}">Dogs</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{% url 'about_page' %}">About</a></li>
+                        <li><a href="{% url 'contact_page' %}">Contact</a></li>
+                        <li><a href="{% url 'user_profile' %}">Profile</a></li>
+                        <li>
+                            <a href="#">Services</a>
+                            <div class="dropdown">
+                                <ul>
+                                    <li><a href="{% url 'user_view_trainers' %}">Trainer Service</a></li>
+                                    <li><a href="{% url 'user_view_caretaker' %}">Caretaker Service</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
 
-            
-            
-            <li><a href="{% url 'login' %}">Login</a></li>
-            <li><a href="{% url 'register' %}">Signup</a></li>
-            <li><a href="{% url 'user_profile' %}">profile</a></li>
-            <li><a href="{% url 'staff_info' %}">services</a></li>
-            <li>{% if user.is_authenticated %}
-                <li><a href="{% url 'app_view' %}">notification</a></li>
-                <li> <a href="{% url 'logout' %}">Logout</a></li>
+                        <li><a href="{% url 'app_view' %}">Notification</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                {% endif %}
+            {% else %}
+                <!-- Guest Navigation -->
+                <ul id="MenuItems">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li>
+                        <a href="#"><i class="fas fa-paw"></i> Pets</a>
+                        <div class="dropdown">
+                            <ul>
+                                <li><a href="{% url 'cat_list' %}">Cats</a></li>
+                                <li><a href="{% url 'dog_list' %}">Dogs</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="{% url 'about_page' %}">About</a></li>
+                    <li><a href="{% url 'contact_page' %}">Contact</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Signup</a></li>
+                </ul>
             {% endif %}
-            </li>
-           
-
-
-        </ul>
-    </nav>
-    
-</div>
-
+        </nav>
+    </div>
+</body>
+</html>

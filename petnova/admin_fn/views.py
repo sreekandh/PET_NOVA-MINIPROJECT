@@ -74,62 +74,60 @@ def admin_users(request):
 
 
 ##################################################
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Cat
 from .forms import CatForm
 
+# Add a new cat
 @login_required
-def view_cats(request):
-    cats = Cat.objects.all()
-    return render(request, 'admin_fn/view_cats.html', {'cats': cats})
-
-
-from django.shortcuts import render
-from .forms import CatForm
-
-
 def add_cat(request):
     if request.method == 'POST':
         form = CatForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Cat added successfully!')
             return redirect('view_cats')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = CatForm()
-    return render(request, 'admin_fn/add_cat.html', {'form': form})  # Ensure this path is correct
+    
+    return render(request, 'admin_fn/add_cat.html', {'form': form})
 
+# View all cats
+@login_required
+def view_cats(request):
+    cats = Cat.objects.all()
+    return render(request, 'admin_fn/view_cats.html', {'cats': cats})
 
-
-
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Cat
-from .forms import CatForm
-
+# Edit an existing cat
 @login_required
 def edit_cat(request, cat_id):
     cat = get_object_or_404(Cat, id=cat_id)
     if request.method == 'POST':
-        form = CatForm(request.POST, instance=cat)
+        form = CatForm(request.POST, request.FILES, instance=cat)
         if form.is_valid():
             form.save()
-            return redirect('view_cats')  # Adjust the redirect URL to your URL name
+            messages.success(request, 'Cat details updated successfully!')
+            return redirect('view_cats')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = CatForm(instance=cat)
+    
+    return render(request, 'admin_fn/edit_cat.html', {'form': form, 'cat': cat})
 
-    return render(request, 'admin_fn/edit_cat.html', {'form': form})
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Cat
+# Delete a cat
 @login_required
 def delete_cat(request, cat_id):
     cat = get_object_or_404(Cat, id=cat_id)
     
     if request.method == 'POST':
         cat.delete()
-        return redirect('view_cats')  # Redirect after deletion
+        messages.success(request, 'Cat deleted successfully!')
+        return redirect('view_cats')
     
     return render(request, 'admin_fn/delete_cat.html', {'cat': cat})
 
@@ -137,11 +135,14 @@ def delete_cat(request, cat_id):
 
 
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Dog
 from .forms import DogForm
 
+# Add a new dog
+@login_required
 def add_dog(request):
     if request.method == 'POST':
         form = DogForm(request.POST, request.FILES)
@@ -150,55 +151,47 @@ def add_dog(request):
             messages.success(request, 'Dog added successfully!')
             return redirect('view_dogs')  # Redirect to the view displaying all dogs
         else:
-            messages.error(request, 'Please correct the error below.')
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = DogForm()
     
     return render(request, 'admin_fn/add_dog.html', {'form': form})
 
-# views.py
-from .models import Dog
-from .forms import DogForm
-
+# View all dogs
 @login_required
 def view_dogs(request):
     dogs = Dog.objects.all()
     return render(request, 'admin_fn/view_dogs.html', {'dogs': dogs})
 
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Dog
-from .forms import DogForm
-
-
+# Edit an existing dog
 @login_required
 def edit_dog(request, dog_id):
     dog = get_object_or_404(Dog, id=dog_id)
     if request.method == 'POST':
         form = DogForm(request.POST, request.FILES, instance=dog)
         if form.is_valid():
-            form.save()
-            return redirect('view_dogs')  # Adjust the redirection as per your need
+            form.save()  # Save the updates to the dog object
+            messages.success(request, 'Dog details updated successfully!')
+            return redirect('view_dogs')  # Redirect after updating
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = DogForm(instance=dog)
     
-    return render(request, 'admin_fn/edit_dog.html', {'form': form})
+    return render(request, 'admin_fn/edit_dog.html', {'form': form, 'dog': dog})
 
-
-
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Dog
+# Delete a dog
 @login_required
 def delete_dog(request, dog_id):
     dog = get_object_or_404(Dog, id=dog_id)
     
     if request.method == 'POST':
         dog.delete()
-        return redirect('view_dogs')  # Adjust the redirect as necessary
+        messages.success(request, 'Dog deleted successfully!')
+        return redirect('view_dogs')  # Redirect after deletion
     
     return render(request, 'admin_fn/delete_dog.html', {'dog': dog})
+
 
 
 #########################################################
@@ -227,7 +220,6 @@ def disapprove_application(request, application_id):
     application.save()
     return redirect('admin_home')
 
-
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Cat, Dog, AdoptionApplication
 from .forms import AdoptionApplicationForm
@@ -236,6 +228,10 @@ def apply_for_adoption(request, pet_id, pet_type):
     pet_model = Cat if pet_type == 'cat' else Dog
     pet = get_object_or_404(pet_model, id=pet_id)
     
+    # Check if the user has already submitted an application
+    if request.session.get('adoption_application_submitted', False):
+        return redirect('adoption_success')
+    
     if request.method == 'POST':
         form = AdoptionApplicationForm(request.POST)
         if form.is_valid():
@@ -243,6 +239,10 @@ def apply_for_adoption(request, pet_id, pet_type):
             application.user = request.user
             application.pet = pet
             application.save()
+            
+            # Set session variable to indicate the application has been submitted
+            request.session['adoption_application_submitted'] = True
+            
             # Redirect to a success page
             return redirect('adoption_success')
     else:
@@ -256,13 +256,15 @@ def apply_for_adoption(request, pet_id, pet_type):
         }
         form = AdoptionApplicationForm(initial=initial_data)
     
-    return render(request, 'pet/adopt_form.html', {'form': form, 'pet': pet})
+    return render(request, 'pet/adopt_form.html', {'form': form, 'pet': pet}) 
 
 
 from django.shortcuts import render
 
 def adoption_success(request):
-    return render(request, 'pet/adoption_success.html')  # Create this template
+    # Optionally, you can clear the session variable here or when the user logs out
+    # request.session.pop('adoption_application_submitted', None)
+    return render(request, 'pet/adoption_success.html') 
 
 from django.shortcuts import render
 from .models import AdoptionApplication
@@ -942,6 +944,8 @@ from .models import Caretaker, CaretakerSlotBooking
 from .forms import CaretakerSlotBookingForm
 from .models import Caretaker, CaretakerSlotBooking  # Assuming a Pet model exists
 from pet.models import UserPet
+
+@login_required
 def book_caretaker_slot(request, caretaker_id):
     caretaker = get_object_or_404(Caretaker, id=caretaker_id)
     
@@ -1122,7 +1126,7 @@ def booking_cancel(request, booking_id):
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import CaretakerSlotBooking  # Adjust this import based on your models
-
+@login_required
 def cancel_booking(request, booking_id):
     if request.method == 'POST':
         booking = get_object_or_404(CaretakerSlotBooking, id=booking_id)
@@ -1165,6 +1169,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Trainer, TrainerSlotBooking
 from .forms import TrainerSlotBookingForm
 
+@login_required
 def book_trainer_slot(request, trainer_id):
     trainer = get_object_or_404(Trainer, id=trainer_id)
     
@@ -1179,6 +1184,7 @@ def book_trainer_slot(request, trainer_id):
             booking.service = ', '.join(form.cleaned_data['service'])
             booking.total_price = form.calculate_price()
             booking.save()
+            request.session['booking_made'] = True  # Set session variable
             return redirect('trainer_payment_page', booking_id=booking.id)
     else:
         if pet:
@@ -1195,20 +1201,22 @@ def book_trainer_slot(request, trainer_id):
     return render(request, 'admin_fn/trainer_booking_form.html', {'trainer': trainer, 'form': form})
 
 
-
-
-
-
 import re
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import TrainerSlotBooking, Trainer  # Make sure to replace with your actual model names
+from .models import TrainerSlotBooking, Trainer
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+
+@login_required
 
 def trainer_payment_page(request, booking_id):
     booking = get_object_or_404(TrainerSlotBooking, id=booking_id)  # Change to TrainerSlotBooking
     trainer = booking.trainer  # Get the trainer details
+
+    if not request.session.get('booking_made', False):
+        return redirect('book_trainer_slot') 
 
     if request.method == 'POST':
         card_number = request.POST.get('card_number')
@@ -1237,6 +1245,7 @@ def trainer_payment_page(request, booking_id):
 
         # Assuming payment is successful
         send_trainer_booking_email(booking)
+        del request.session['booking_made'] 
 
         return redirect('payment_success')
 
@@ -1273,4 +1282,21 @@ def send_trainer_booking_email(booking):
 def payment_success(request):
     return render(request, 'admin_fn/payment_success.html')
 
+
+def admin_dashboard(request):
+    return render(request ,'admin_fn/admin_dashboard.html')
+
+
+def view_cat_trainer(request):
+    return render(request,'admin_fn/view_cat_trainer.html')
+
+def view_dog_trainer(request):
+    return render(request,'admin_fn/view_dog_trainer.html')
+
+
+def view_cat_caretaker(request):
+    return render(request,'admin_fn/view_cat_caretaker.html')
+
+def view_dog_caretaker(request):
+    return render(request,'admin_fn/view_dog_caretaker.html')
 

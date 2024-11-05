@@ -1,3 +1,11 @@
+
+
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +16,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            
             background-color: #f7f7f7;
         }
 
@@ -116,3 +124,6 @@
     <a href="{% url 'home' %}" class="cancel-btn">Cancel</a>
 </body>
 </html>
+
+
+{% endblock banner %}

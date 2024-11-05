@@ -1,226 +1,132 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoption Applications</title>
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+{% block banner %}
 
+<div class="container">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url("{% static 'images/back_cat_3.jpg' %}"); /* Set your background image */
-            background-size: cover; /* Cover the entire viewport */
-            background-position: center; /* Center the image */
-            background-repeat: no-repeat; /* Prevent image from repeating */
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: #333;
-            height: 100vh;
-            overflow: hidden; /* Prevent scrollbars if the image is larger than the viewport */
-        }
-
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 5px 20px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        /* Logo */
-        .admin-nav .logo img {
-            width: 180px; /* Set the width of the logo */
-            height: auto; /* Maintain aspect ratio */
-        }
-
-        /* Navigation Links */
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .admin-nav ul li {
-            margin: 0 20px; /* Increased margin */
-        }
-
-        .admin-nav ul li a {
-            color: #fff;
+        /* Button Styling */
+        .new-app-button {
+            background-color: #F2968F;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-transform: uppercase;
             text-decoration: none;
-            font-size: 1.5em; /* Increased font size */
-            padding: 10px; /* Added padding */
-            transition: color 0.3s;
-        }
-
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
-
-        /* Main Content */
-        .container {
-            padding-top: 190px; /* Adjusted padding for the nav */
-            max-width: 800px; /* Width limit for the table */
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for contrast */
-            padding: 90px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2em;
-            color: #333;
+            transition: background-color 0.3s ease;
+            display: inline-block;
             margin-bottom: 20px;
         }
 
+        .new-app-button:hover {
+            background-color: #df9389;
+        }
+
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+        table thead th {
+            background-color: #F2968F;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border-bottom: 2px solid #e0e0e0;
             text-align: left;
         }
 
-        th {
-            background-color: #333; /* Black header color */
-            color: white;
+        table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+            font-size: 14px;
         }
 
-        tr:nth-child(even) {
-            background-color: #d3d3d3; /* Light grey for even rows */
-        }
-
-        tr:nth-child(odd) {
-            background-color: #ffffff; /* White background for odd rows */
-        }
-
-        td {
-            background-color: #f5f5f5; /* Light grey background for table cells */
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center; /* Center buttons */
-            width: 100%; /* Full width for the button container */
-            margin: 20px 0; /* Margin above and below */
-        }
-
-        .back-button,
-        .new-app-button {
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 0 10px; /* Space between buttons */
-            background-color: #e0e0e0; /* Light grey background */
-            color: #333; /* Darker text color */
-            border: 1px solid #ccc; /* Light border */
-        }
-
-        .back-button:hover,
-        .new-app-button:hover {
-            background-color: #d0d0d0; /* Slightly darker grey on hover */
-        }
-
-        /* Status colors */
+        /* Status Styles */
         .status-pending {
-            color: blue;
+            color: #ff9800;
             font-weight: bold;
         }
+
         .status-approved {
-            color: green;
+            color: #4caf50;
             font-weight: bold;
         }
+
         .status-disapproved {
-            color: red;
+            color: #f44336;
             font-weight: bold;
+        }
+
+        /* Table Row Hover */
+        table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* No Applications Found */
+        table tbody tr td[colspan="5"] {
+            text-align: center;
+            color: #999;
+            padding: 20px;
         }
     </style>
-</head>
-<body>
 
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-        </div>
-        
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
+    <h1>Adoption Applications</h1>
 
-    <div class="container">
-        <h1>Adoption Applications</h1>
-        
-        <!-- Button Container Above the Table -->
-        <div class="button-container">
-            <a href="{% url 'apply_control' %}" class="new-app-button">New Applications</a>
-        </div>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Full Name</th>
-                    <th>Pet Name</th>
-                    <th>Application Date</th>
-                    <th>Feedback</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for application in applications %}
-                <tr>
-                    <td>{{ application.full_name }}</td>
-                    <td>{{ application.pet.name }}</td>
-                    <td>{{ application.application_date }}</td>
-                    <td>{{ application.feedback }}</td>
-                    <td>
-                        <span style="display: none;">{{ application.status }}</span>
-                        {% if application.status == 'Pending' %}
-                            <span class="status-pending">Pending</span>
-                        {% elif application.status == 'approved' %}
-                            <span class="status-approved">Approved</span>
-                        {% elif application.status == 'disapproved' %}
-                            <span class="status-disapproved">Disapproved</span>
-                        {% else %}
-                            <span class="status-pending">Unknown Status</span> <!-- Fallback for debugging -->
-                        {% endif %}
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" style="text-align: center;">No applications found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Button Container Above the Table -->
+    <div class="button-container">
+        <a href="{% url 'apply_control' %}" class="new-app-button">New Applications</a>
     </div>
 
-</body>
-</html>
+    <!-- Table for displaying applications -->
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Pet Name</th>
+                <th>Application Date</th>
+                <th>Feedback</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+            <tr>
+                <td>{{ application.first_name }}</td>
+                <td>{{ application.pet.name }}</td>
+                <td>{{ application.application_date }}</td>
+                <td>{{ application.feedback }}</td>
+                <td>
+                    {% if application.status == 'Pending' %}
+                        <span class="status-pending">Pending</span>
+                    {% elif application.status == 'approved' %}
+                        <span class="status-approved">Approved</span>
+                    {% elif application.status == 'disapproved' %}
+                        <span class="status-disapproved">Disapproved</span>
+                    {% else %}
+                        <span class="status-pending">Unknown Status</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No applications found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

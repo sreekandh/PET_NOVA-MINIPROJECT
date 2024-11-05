@@ -8,11 +8,17 @@ from .forms import RegistrationForm, LoginForm
 from admin_fn.forms import TrainerForm
 
 def register(request):
+    if request.session.get('registered'):
+        messages.info(request, "You have already registered.")
+        return redirect('login')  # Redirect to login or any other page
+
+    # Same logic for processing form submission
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Registration successful. You can now log in.')
+            request.session['registered'] = True  # Set session variable for registration
             return redirect('login')
         else:
             messages.error(request, 'Please correct the errors below.')
@@ -30,6 +36,19 @@ from django.contrib.auth import get_user_model
 User = get_user_model()  # Get the custom user model defined in your project
 
 def login(request):
+    # Check if the user is already authenticated
+    if request.user.is_authenticated:
+        # Redirect the user to their appropriate home page based on their role
+        if request.user.is_admin:
+            return redirect('admin_home')
+        elif request.user.is_caretaker:
+            return redirect('caretaker_home')
+        else:
+            return redirect('home')
+    
+    # Clear any existing session data at the start of login
+    request.session.flush()
+
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -41,6 +60,11 @@ def login(request):
             
             if user is not None:
                 auth_login(request, user)
+                
+                # Store user details in session (if needed)
+                request.session['user_id'] = user.id
+                request.session['user_name'] = user.first_name
+                
                 # Check user roles and redirect accordingly
                 if user.is_admin:
                     return redirect('admin_home')
@@ -83,6 +107,8 @@ def login(request):
 
     return render(request, 'accounts/login.html', {'form': form})
 
+
+
 def trainer_logout(request):
     """Logout the trainer manually by clearing the session."""
     auth_logout(request)  # This will clear the session for the User (if logged in)
@@ -107,7 +133,16 @@ def logout_view(request):
 
 @login_required
 def user_profile(request):
-    return render(request, 'accounts/user_profile.html', {'user': request.user})
+    profile_edited = request.session.get('profile_edited', False)
+    
+    # Clear the session variable after checking it
+    if profile_edited:
+        del request.session['profile_edited']
+    
+    return render(request, 'accounts/user_profile.html', {
+        'user': request.user,
+        'profile_edited': profile_edited
+    })
 
 @login_required
 def admin_home(request):
@@ -122,6 +157,7 @@ def caretaker_home(request):
     return render(request, 'caretaker_fn/caretaker_home.html')
 
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import EditProfileForm
 
@@ -132,9 +168,10 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('user_profile')  # Redirect to a profile page or another relevant page
+            # Set session variable to indicate the profile has been edited
+            request.session['profile_edited'] = True
+            return redirect('user_profile')  # Redirect to the user profile page
     else:
         form = EditProfileForm(instance=user)
 
     return render(request, 'accounts/edit_profile.html', {'form': form})
-

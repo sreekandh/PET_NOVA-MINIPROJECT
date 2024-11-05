@@ -1,170 +1,158 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
 
+{% block banner %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
-    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url("{% static 'images/back_cat_3.jpg' %}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
+            background-color: #f9f9f9; /* Light grey background */
+            margin: 0; /* Reset default margin */
+            padding: 0; /* Remove default padding */
+        }
+
+        /* Header styling */
+        .admin-header {
+            background-color: #df9389; /* Header background color */
+            color: white; /* Header text color */
+            padding: 20px;
             text-align: center;
-            color: #333;
-            height: 100vh;
         }
 
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 15px 50px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Logo */
-        .admin-nav .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .admin-nav .logo img {
-            width: 150px; /* Match size with View Pets */
-            height: auto;
-            border-radius: 50%; /* Optional: make the logo round */
-            margin-right: 20px;
-        }
-
-        /* Navigation Links */
-        .admin-nav ul {
-            list-style-type: none;
+        .admin-title {
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .admin-nav ul li {
-            margin: 0 20px;
-        }
-
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s;
-        }
-
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
-
-        /* Main Content */
-        .main-content {
-            padding-top: 120px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .admin-heading {
             font-size: 2.5em;
-            color: #333;
-            margin-bottom: 30px;
         }
 
-        /* Back Button */
-        .back-button-container {
-            margin: 20px 0;
+        /* Admin button container */
+        .button-container {
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
 
-        .admin-back-button {
-            padding: 10px 20px;
-            background-color: #dcdcdc;
-            color: #333;
+        /* Admin button styling */
+        .admin-button {
+            background-color: #df9389;
+            color: white;
             border: none;
+            padding: 15px 30px;
+            font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1.2em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .admin-back-button:hover {
-            background-color: #c0c0c0;
-            transform: translateY(-2px);
+        .admin-button:hover {
+            background-color: #c86b66;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .admin-nav ul {
-                flex-direction: column;
-                align-items: flex-end;
+        /* Slideshow container */
+        .slideshow-container {
+            margin: 20px auto;
+            max-width: 80%;
+            position: relative;
+        }
+
+        /* Image slides */
+        .mySlides {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0.8; /* Adjust transparency here */
+            transition: opacity 0.5s ease; /* Smooth transition for opacity */
+        }
+
+        .mySlides:hover {
+            opacity: 1; /* Full opacity when hovered */
+        }
+
+        /* Dots/controls */
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active {
+            background-color: #717171;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .admin-title {
+                font-size: 2em; /* Adjust header font size */
             }
 
-            .admin-nav ul li {
-                margin: 10px 0;
+            .admin-button {
+                padding: 10px 20px;
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo"> <!-- Update logo path -->
-            <h1 style="color: #fff;"></h1>
-        </div>
-        
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <h1 class="admin-heading"></h1>
-
-        <div class="back-button-container">
-            <a href="{% url 'home' %}">
-                <button class="admin-back-button">Back to Home</button>
-
-
-            </a>
-
-            <a href="{% url 'view_contact_messages' %}">
-                <button class="admin-back-button">messages</button>
-
-
-            </a>
-
-        </div>
-
-    </div>
-
-    
+<div class="slideshow-container">
+    <img class="mySlides" src="{% static 'images/back_2.jpg' %}" alt="Slide 1">
+    <img class="mySlides" src="{% static 'images/back_cat_4.jpg' %}" alt="Slide 2">
+    <img class="mySlides" src="{% static 'images/back_dog_6.jpg' %}" alt="Slide 3">
 </div>
 
+<div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
 </div>
+
+<div class="button-container">
+    <a href="{% url 'home' %}"><button class="admin-button">Admin Dash</button></a>
+    <a href="{% url 'view_contact_messages' %}"><button class="admin-button">Messages</button></a>
+</div>
+
+<script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        setTimeout(showSlides, 3000); // Change image every 3 seconds
+    }
+
+    function currentSlide(n) {
+        slideIndex = n - 1; // Adjusting the slide index
+        showSlides(); // Showing the chosen slide
+    }
+</script>
+
+<footer class="admin-header">
+    &copy; 2024 Pet Nova Admin. All Rights Reserved.
+</footer>
 
 </body>
 </html>
+{% endblock banner %}

@@ -4,58 +4,94 @@ from .models import Cat, Dog
 
 
 
-
-# Form for Cat model
 from django import forms
 from .models import Cat
-import re
 
 class CatForm(forms.ModelForm):
     class Meta:
         model = Cat
-        fields = ['name', 'age', 'breed', 'description', 'image', 'price']
+        fields = [
+            'name', 'age', 'breed', 'description', 'color', 'gender', 'vaccinated',
+            'health', 'image1', 'image2', 'image3', 'video', 'price', 'is_active'
+        ]
 
     def clean(self):
         cleaned_data = super().clean()
         name = cleaned_data.get("name")
         age = cleaned_data.get("age")
         price = cleaned_data.get("price")
-        
+        image1 = cleaned_data.get("image1")
+        image2 = cleaned_data.get("image2")
+        image3 = cleaned_data.get("image3")
+        video = cleaned_data.get("video")
+
         # Validate that name is unique, excluding the current instance if editing
-        if self.instance.pk:  # Check if form is updating an existing instance
+        if self.instance.pk:
             if Cat.objects.filter(name=name).exclude(pk=self.instance.pk).exists():
                 self.add_error('name', 'A cat with this name already exists.')
         else:
             if Cat.objects.filter(name=name).exists():
                 self.add_error('name', 'A cat with this name already exists.')
 
-        # Validate that age is non-negative
         if age is not None and age < 0:
             self.add_error('age', 'Age cannot be negative.')
 
-        # Validate that price is non-negative
         if price is not None and price < 0:
             self.add_error('price', 'Price cannot be negative.')
 
-        # Validate that breed contains only letters and spaces
-        breed = cleaned_data.get("breed")
-        if breed and not re.match(r"^[A-Za-z\s]*$", breed):  # Use raw string here
-            self.add_error('breed', 'Breed should only contain letters and spaces.')
+        for image in [image1, image2, image3]:
+            if image and not image.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+                self.add_error('image1', 'Only image files are allowed (PNG, JPG, JPEG, GIF).')
+
+        if video and not video.name.lower().endswith(('.mp4', '.mov', '.avi', '.wmv')):
+            self.add_error('video', 'Only video files are allowed (MP4, MOV, AVI, WMV).')
 
         return cleaned_data
 
 
+
+
+from django import forms
+from .models import Cat
+
+class CatFilterForm(forms.Form):
+    BREED_CHOICES = Cat.BREED_CHOICES
+    COLOR_CHOICES = Cat.COLOR_CHOICES
+    GENDER_CHOICES = Cat.GENDER_CHOICES
+    
+    breed = forms.ChoiceField(choices=BREED_CHOICES, required=False, label="Breed")
+    color = forms.ChoiceField(choices=COLOR_CHOICES, required=False, label="Color")
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, required=False, label="Gender")
+    min_age = forms.IntegerField(required=False, label="Min Age")
+    max_age = forms.IntegerField(required=False, label="Max Age")
+    min_price = forms.DecimalField(required=False, label="Min Price")
+    max_price = forms.DecimalField(required=False, label="Max Price")
+
+
+
+
+
+from django import forms
+from .models import Dog
+
 class DogForm(forms.ModelForm):
     class Meta:
         model = Dog
-        fields = ['name', 'age', 'breed', 'description', 'image', 'price']  # Include price
+        fields = [
+            'name', 'age', 'breed', 'description', 'color', 'gender', 'vaccinated',
+            'health', 'image1', 'image2', 'image3', 'video', 'price', 'is_active'
+        ]
 
     def clean(self):
         cleaned_data = super().clean()
         name = cleaned_data.get("name")
         age = cleaned_data.get("age")
         price = cleaned_data.get("price")
-        
+        image1 = cleaned_data.get("image1")
+        image2 = cleaned_data.get("image2")
+        image3 = cleaned_data.get("image3")
+        video = cleaned_data.get("video")
+
         # Validate that name is unique, excluding the current instance if editing
         if self.instance.pk:  # Check if form is updating an existing instance
             if Dog.objects.filter(name=name).exclude(pk=self.instance.pk).exists():
@@ -72,14 +108,33 @@ class DogForm(forms.ModelForm):
         if price is not None and price < 0:
             self.add_error('price', 'Price cannot be negative.')
 
-        # Validate that name and breed contain only letters
-        if name and not name.isalpha():
-            self.add_error('name', 'Name should contain only letters.')
-        breed = cleaned_data.get("breed")
-        if breed and not breed.isalpha():
-            self.add_error('breed', 'Breed should contain only letters.')
+        # Validate image file types
+        for image in [image1, image2, image3]:
+            if image and not image.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+                self.add_error('image1', 'Only image files are allowed (PNG, JPG, JPEG, GIF).')
+
+        # Validate video file type
+        if video and not video.name.lower().endswith(('.mp4', '.mov', '.avi', '.wmv')):
+            self.add_error('video', 'Only video files are allowed (MP4, MOV, AVI, WMV).')
 
         return cleaned_data
+
+
+
+# forms.py
+from django import forms
+from .models import Dog
+
+class DogFilterForm(forms.Form):
+    breed = forms.ChoiceField(choices=[('', 'All Breeds')] + Dog.BREED_CHOICES, required=False)
+    color = forms.ChoiceField(choices=[('', 'All Colors')] + Dog.COLOR_CHOICES, required=False)
+    gender = forms.ChoiceField(choices=[('', 'All Genders')] + Dog.GENDER_CHOICES, required=False)
+    age = forms.IntegerField(required=False, min_value=0, label="Max Age")
+
+
+
+
+
 
 
 from django import forms

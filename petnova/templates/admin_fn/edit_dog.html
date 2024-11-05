@@ -1,200 +1,85 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
 
+{% block banner %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Dog</title>
+    <title>Edit Dog Details</title>
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Grey background color */
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: #333;
-            height: 100vh;
-        }
-
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 5px 20px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        /* Navigation Links */
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .admin-nav ul li {
-            margin: 0 20px; /* Increased margin */
-        }
-
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em; /* Increased font size */
-            padding: 10px; /* Added padding */
-            transition: color 0.3s;
-        }
-
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
-
-        /* Main Content */
         .main-content {
-            padding-top: 100px; /* Adjusted padding for the nav */
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #d3d3d3; /* Light grey for the main content */
-            padding: 40px;
-            border-radius: 8px;
+            max-width: 600px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
         }
 
         h1 {
-            font-size: 2em;
+            text-align: center;
+            font-size: 2.5em;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         form {
             display: flex;
             flex-direction: column;
+            gap: 15px;
         }
 
-        label {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        textarea {
-            padding: 10px;
-            border: 1px solid #666; /* Dark grey border */
-            border-radius: 4px;
-            margin-bottom: 15px;
-            font-size: 16px;
+        input[type="text"], input[type="number"], input[type="file"], select {
             width: 100%;
-            background-color: #f9f9f9; /* Light grey background for input */
-            color: #333; /* Dark text color */
-        }
-
-        button {
             padding: 10px;
-            background-color: #261a18; /* Theme color */
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
         }
 
-        button:hover {
-            background-color: #261b19; /* Lighter shade for hover effect */
+        button[type="submit"] {
+            background-color: #f0a500;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #d48800;
         }
 
         .cancel-button {
-            background-color: #402423; /* Red color for cancel button */
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 16px;
-            text-decoration: none; /* Remove underline */
+            display: inline-block;
+            text-align: center;
+            padding: 10px 20px;
+            background-color: #ddd;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
         .cancel-button:hover {
-            background-color: #3f2d2c; /* Darker red for hover effect */
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            width: 180px; /* Increased logo size */
-            margin-right: 10px;
-        }
-
-        /* Back Button */
-        .back-button {
-            margin-top: 120px; /* Adjust margin to separate from nav */
-            padding-left: 20px;
-            text-align: left;
-        }
-
-        .back-button a {
-            background-color: #4f4f4d; /* Color for the back button */
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            text-decoration: none; /* Remove underline */
-        }
-
-        .back-button a:hover {
-            background-color: #716d66; /* Darker shade for hover */
-        }
-
-        .back-button i {
-            margin-right: 5px; /* Space between icon and text */
+            background-color: #bbb;
         }
     </style>
 </head>
+
 <body>
-
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-            <h1 style="color: #fff; font-size: 1.5em;"></h1>
-        </div>
-        
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
-
-    <!-- Back Button -->
-    <div class="back-button">
-        <a href="{% url 'view_dogs' %}">
-            <i class="fas fa-dog"></i> 
-        </a>
-    </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <h1>Edit Dog Details</h1>
@@ -205,6 +90,6 @@
             <a href="{% url 'view_dogs' %}" class="cancel-button">Cancel</a>
         </form>
     </div>
-
 </body>
 </html>
+{% endblock banner %}

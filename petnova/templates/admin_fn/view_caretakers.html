@@ -1,174 +1,132 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
+{% block banner %}
+<style>
+    /* Ensure body takes up full height */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #F2968F; /* Background color matching theme */
+    }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registered Caretakers</title>
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-    
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url("{% static 'images/back_cat_3.jpg' %}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            text-align: center;
-            min-height: 100vh;
-        }
+    /* Main layout styling */
+    .layout-container {
+        display: flex;
+        min-height: 100vh;
+        padding: 0;
+    }
 
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 15px 50px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    /* Sidebar styling */
+    .sidebar-menu {
+        width: 200px;
+        background-color: #df9389;
+        padding: 20px;
+        color: white;
+        border-radius: 8px;
+        margin-right: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+    }
 
-        .admin-nav .logo img {
-            width: 150px;
-            height: auto;
-            border-radius: 50%;
-        }
+    .sidebar-menu h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+    .sidebar-menu a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 10px 0;
+        transition: background-color 0.3s;
+    }
 
-        .admin-nav ul li {
-            margin: 0 20px;
-        }
+    .sidebar-menu a:hover {
+        background-color: #4CAF50;
+    }
 
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s;
-        }
+    /* Main content styling */
+    .content-area {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px;
+        background-color: #F2968F;
+    }
 
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
+    /* Header styling */
+    h1 {
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 36px;
+        text-align: center;
+    }
 
-        /* Main Content */
-        .container {
-            padding-top: 120px; /* Increased padding-top to ensure content starts well below the navbar */
-            max-width: 90%; /* Set width to 90% to allow more space for buttons and form */
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    /* Table styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-        .container h1 {
-            font-size: 2.5em;
-            margin: 20px 0; /* Adjust margin as needed */
-            color: #333;
-            padding-top: 20px; /* Optional: Add padding for more space */
-        }
+    thead {
+        background-color: #df9389;
+        color: white;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: lightgrey; 
-        }
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #333; 
-            color: #333;
-        }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
 
-        th {
-            background-color: #333; 
-            color: white;
-        }
+    /* Button styles */
+    .btn-action {
+        display: inline-block;
+        padding: 8px 12px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 8px;
+        transition: background-color 0.3s ease;
+    }
 
-        td {
-            background-color: #f9f9f9; 
-        }
+    .btn-action:hover {
+        background-color: #45a049;
+    }
 
-        /* Buttons */
-        .action-btn {
-            padding: 10px 15px; /* Increased padding for bigger buttons */
-            margin: 0 5px;
-            border-radius: 4px;
-            background-color: black; 
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
+    /* Special styles for deactivate button */
+    .btn-action.deactivate {
+        background-color: #f44336;
+    }
 
-        .action-btn:hover {
-            background-color: grey; 
-        }
+    .btn-action.deactivate:hover {
+        background-color: #d32f2f;
+    }
+</style>
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
-
-            th {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-
-            td {
-                position: relative;
-                padding-left: 50%;
-                text-align: right;
-            }
-
-            td:before {
-                content: attr(data-label);
-                position: absolute;
-                left: 10px;
-                font-weight: bold;
-                text-align: left;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-        </div>
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </nav>
+<!-- Main Layout -->
+<div class="layout-container">
+    <!-- Sidebar -->
+    <div class="sidebar-menu">
+        <h2>Menu</h2>
+        <a href="{% url 'view_trainers' %}">View Trainers</a>
+        <a href="{% url 'register_trainer' %}">Register Trainer</a>
+        <a href="{% url 'admin_user_trainer_view' %}">Bookings</a>
+    </div>
 
     <!-- Main Content -->
-    <div class="container">
+    <div class="content-area">
         <h1>Registered Caretakers</h1>
         <table>
             <thead>
@@ -193,16 +151,24 @@
                     </td>
                     <td data-label="Actions">
                         {% if caretaker.is_active %}
-                            <a href="{% url 'deactivate_caretaker' caretaker.id %}" class="action-btn">Deactivate</a>
-                            <a href="{% url 'send_caretaker_email' caretaker.id %}" class="action-btn">Send Email</a>
+                            <a href="{% url 'deactivate_caretaker' caretaker.id %}" class="btn-action deactivate">Deactivate</a>
+                            <a href="{% url 'send_caretaker_email' caretaker.id %}" class="btn-action">Send Email</a>
                         {% else %}
-                            <a href="{% url 'activate_caretaker' caretaker.id %}" class="action-btn">Activate</a>
+                            <a href="{% url 'activate_caretaker' caretaker.id %}" class="btn-action">Activate</a>
                         {% endif %}
                     </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">No caretakers found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-</body>
-</html>
+</div>
+
+{% block footer_layout %}
+<!-- Footer (optional if needed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

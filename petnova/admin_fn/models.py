@@ -27,29 +27,106 @@ class User(AbstractBaseUser):
 
 
 
-
-
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator
-import re
 
 def validate_text(value):
-    if not re.match("^[A-Za-z\s]*$", value):  # Only letters and spaces allowed
-        raise ValidationError('This field should only contain letters and spaces.')
+    if not value.isalpha():
+        raise ValidationError('This field should only contain letters.')
+
 
 class Cat(models.Model):
+    COLOR_CHOICES = [
+        ('white', 'White'),
+        ('black', 'Black'),
+        ('grey', 'Grey'),
+        ('cream', 'Cream'),
+        ('yellow', 'Yellow'),
+        ('golden', 'Golden'),
+        ('orange', 'Orange'),
+        ('brown', 'Brown'),
+        ('red', 'Red'),
+    ]
+
+    BREED_CHOICES = [
+        ('american shorthair', 'American Shorthair'),
+        ('bengal', 'Bengal'),
+        ('birman', 'Birman'),
+        ('british shorthair', 'British Shorthair'),
+        ('egyptian mau', 'Egyptian Mau'),
+        ('himalayan', 'Himalayan'),
+        ('maine coon', 'Maine Coon'),
+        ('manx', 'Manx'),
+        ('norwegian forest cat', 'Norwegian Forest Cat'),
+        ('oriental shorthair', 'Oriental Shorthair'),
+        ('persian', 'Persian'),
+        ('russian blue', 'Russian Blue'),
+        ('scottish fold', 'Scottish Fold'),
+        ('siamese', 'Siamese'),
+        ('siberian', 'Siberian'),
+        ('sphynx', 'Sphynx'),
+    ]
+
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+    ]
+
+    VACCINATED_CHOICES = [
+        ('yes', 'Yes'),
+        ('no', 'No'),
+    ]
+
     name = models.CharField(max_length=100, unique=True)
-    age = models.IntegerField(validators=[MinValueValidator(0)])  # Age cannot be below 0
-    breed = models.CharField(max_length=100, validators=[validate_text])  # Only text allowed
+    age = models.IntegerField()
+    breed = models.CharField(max_length=20, choices=BREED_CHOICES)
     description = models.TextField()
-    image = models.ImageField(upload_to='cat_images/')  # Only image uploads
-    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])  # Price cannot be negative
+    color = models.CharField(max_length=10, choices=COLOR_CHOICES)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
+    vaccinated = models.CharField(max_length=3, choices=VACCINATED_CHOICES)
+    health = models.TextField()
+    image1 = models.ImageField(upload_to='cat_images/', verbose_name="Primary Image", null=True, blank=True)
+    image2 = models.ImageField(upload_to='cat_images/', null=True, blank=True, verbose_name="Secondary Image")
+    image3 = models.ImageField(upload_to='cat_images/', null=True, blank=True, verbose_name="Third Image")
+    video = models.FileField(upload_to='cat_videos/', null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
 
+    def clean(self):
+        if self.age < 0:
+            raise ValidationError('Age cannot be negative.')
 
+        if self.price < 0:
+            raise ValidationError('Price cannot be negative.')
+
+        if not self.name.isalpha():
+            raise ValidationError('Name should contain only letters.')
+
+        for image in [self.image1, self.image2, self.image3]:
+            if image and not image.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+                raise ValidationError('Only image files are allowed (PNG, JPG, JPEG, GIF).')
+
+        if self.video and not self.video.name.lower().endswith(('.mp4', '.mov', '.avi', '.wmv')):
+            raise ValidationError('Only video files are allowed (MP4, MOV, AVI, WMV).')
+
+
+from django.db import models
+from django.conf import settings
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    cat = models.ForeignKey(Cat, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'cat')  # Prevent duplicate entries for the same user and cat
+
+    def __str__(self):
+        return f"{self.user}'s Wishlist: {self.cat.name}"
 
 
 
@@ -59,35 +136,79 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 class Dog(models.Model):
+    COLOR_CHOICES = [
+        ('white', 'White'),
+        ('black', 'Black'),
+        ('grey', 'Grey'),
+        ('cream', 'Cream'),
+        ('golden', 'Golden'),
+        ('orange', 'Orange'),
+        ('brown', 'Brown'),
+        ('red', 'Red'),
+    ]
+    
+    BREED_CHOICES = [  # Added predefined breed choices
+        ('doberman', 'Doberman'),
+        ('border', 'Border'),
+        ('pitbull', 'Pitbull'),
+        ('husky', 'Husky'),
+        ('labrador', 'Labrador'),
+        ('rottweiler', 'Rottweiler'),
+        ('beagle', 'Beagle'),
+        ('bulldog', 'Bulldog'),
+        ('german shepherd', 'German Shepherd'),
+        ('poodle', 'Poodle'),
+        ('boxer', 'Boxer'),
+        ('pug', 'Pug'),
+        ('pomeranian', 'Pomeranian'),
+        ('chihuahua', 'Chihuahua'),
+    ]
+
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+    ]
+    
+    VACCINATED_CHOICES = [
+        ('yes', 'Yes'),
+        ('no', 'No'),
+    ]
+    
     name = models.CharField(max_length=100, unique=True)
     age = models.IntegerField()
-    breed = models.CharField(max_length=100)
+    breed = models.CharField(max_length=20, choices=BREED_CHOICES)  # Updated to use choices
     description = models.TextField()
-    image = models.ImageField(upload_to='dog_images/')
-    price = models.DecimalField(max_digits=10, decimal_places=2)  # Price field
-
+    color = models.CharField(max_length=10, choices=COLOR_CHOICES)  
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)  
+    vaccinated = models.CharField(max_length=3, choices=VACCINATED_CHOICES)  
+    health = models.TextField()  
+    image1 = models.ImageField(upload_to='dog_images/', verbose_name="Primary Image", null=True, blank=True)  
+    image2 = models.ImageField(upload_to='dog_images/', null=True, blank=True, verbose_name="Secondary Image")  
+    image3 = models.ImageField(upload_to='dog_images/', null=True, blank=True, verbose_name="Third Image")  
+    video = models.FileField(upload_to='dog_videos/', null=True, blank=True)  
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    is_active = models.BooleanField(default=True)  
+    
     def __str__(self):
         return self.name
 
     def clean(self):
-        # Validate age
         if self.age < 0:
             raise ValidationError('Age cannot be negative.')
-        
-        # Validate price
+
         if self.price < 0:
             raise ValidationError('Price cannot be negative.')
 
-        # Validate name and breed
         if not self.name.isalpha():
             raise ValidationError('Name should contain only letters.')
-        if not self.breed.isalpha():
-            raise ValidationError('Breed should contain only letters.')
+        # Removed breed validation since it will be enforced by choices
 
-        # Validate image file type
-        if not self.image.name.endswith(('.png', '.jpg', '.jpeg', '.gif')):
-            raise ValidationError('Only image files are allowed (PNG, JPG, JPEG, GIF).')
+        for image in [self.image1, self.image2, self.image3]:
+            if image and not image.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+                raise ValidationError('Only image files are allowed (PNG, JPG, JPEG, GIF).')
 
+        if self.video and not self.video.name.lower().endswith(('.mp4', '.mov', '.avi', '.wmv')):
+            raise ValidationError('Only video files are allowed (MP4, MOV, AVI, WMV).')
 
 
 

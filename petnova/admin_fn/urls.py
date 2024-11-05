@@ -144,6 +144,19 @@ path('booking-success/', views.booking_success, name='booking_success'),
     path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
     path('trainer-bookings/', views.admin_user_trainer_view, name='admin_user_trainer_view'),  # Add this line
 
+
+path('admin_dashboard/',views.admin_dashboard,name='admin_dashboard'),
+
+
+path('view_cat_trainer/',views.view_cat_trainer,name='view_cat_trainer'),
+path('view_dog_trainer/',views.view_cat_trainer,name='view_dog_trainer'),
+path('view_cat_caretaker/',views.view_cat_caretaker,name='view_cat_caretaker'),
+path('view_dog_caretaker/',views.view_dog_caretaker,name='view_dog_caretaker'),
+
+
+
+
+
 ]
 
 # Static and Media Files Configuration
