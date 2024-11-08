@@ -144,11 +144,11 @@
                     <td>{{ booking.trainer.trainer_name }}</td>
                     <td>{{ booking.service }}</td>
                     <td>{{ booking.duration }}</td>
-                    <td>{{ booking.total_price }} USD</td>
+                    <td>₹{{ booking.total_price }}</td>
                     <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
                     <td>{{ booking.additional_notes|default:"None" }}</td>
                     <td>{{ booking.pet_breed }}</td>
-                    <td>{{ booking.pet_age }} years</td>
+                    <td>{{ booking.pet_age }} year</td>
                 </tr>
                 {% empty %}
                 <tr>

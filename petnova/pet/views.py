@@ -78,7 +78,10 @@ from admin_fn.forms import DogFilterForm
 from django.shortcuts import render
 from admin_fn.forms import CatFilterForm
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def add_to_wishlist(request, cat_id):
     cat = get_object_or_404(Cat, id=cat_id)
     if request.method == "POST":

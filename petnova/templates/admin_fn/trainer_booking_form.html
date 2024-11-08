@@ -127,15 +127,15 @@
         {% endfor %}
     </div>
 
-    <div class="form-group">
-        <label for="duration">Duration:</label>
-        {{ form.duration }} 
-    </div>
 
     <div class="form-group">
         <label for="service_start_date">Service Start Date:</label>
         {{ form.service_start_date }}<br>
         {{ form.service_start_date.errors }}  
+    </div>
+    <div class="form-group">
+        <label for="duration">Duration:</label>
+        {{ form.duration }} 
     </div>
 
     <p>Total Price: <span id="total-price">0</span> Rs</p>

@@ -223,7 +223,9 @@ def disapprove_application(request, application_id):
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Cat, Dog, AdoptionApplication
 from .forms import AdoptionApplicationForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def apply_for_adoption(request, pet_id, pet_type):
     pet_model = Cat if pet_type == 'cat' else Dog
     pet = get_object_or_404(pet_model, id=pet_id)

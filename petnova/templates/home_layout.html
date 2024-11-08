@@ -1,92 +1,133 @@
 {% load static %}
+
+<style>
+    /* General Page Styling */
+    .title {
+        color: #df9389;
+        font-size: 2em;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    /* Featured Pets Section */
+    .categories {
+        padding: 40px 20px;
+        background-color: #e2c3be;
+    }
+    .row {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    .col-3, .col-4 {
+        flex: 0 0 30%;
+        margin: 10px;
+        text-align: center;
+    }
+    .pet-image, .service-image {
+        border-radius: 10px;
+        max-width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+    .pet-image:hover, .service-image:hover {
+        transform: scale(1.05);
+    }
+    .pet-link {
+        color: #333;
+        text-decoration: none;
+    }
+    .pet-link span {
+        display: block;
+        margin-top: 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    /* Services Section */
+    .services-section {
+        background-color: #f9f9f9;
+        padding: 40px 20px;
+    }
+    .service-box {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: box-shadow 0.3s ease;
+    }
+    .service-box:hover {
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    .service-description {
+        color: #666;
+        margin-top: 15px;
+        font-size: 0.95em;
+    }
+    /* Adoption Description Section */
+    .adoption-description {
+        background-color: #f0f4f8;
+        color: #333;
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+</style>
+
 <div class="categories">
     <div class="small-container">
+        <h2 class="title">Featured Pets</h2>
         <div class="row">
             <div class="col-3">
-                <img src="{% static 'images/dog_husky.jpeg' %}" alt="Husky">
+                <a href="{% url 'cat_list' %}" class="pet-link">
+                    <img src="{% static 'images/cat_balinese.jpg' %}" alt="Cats" class="pet-image">
+                    <span>Cats</span>
+                </a>
             </div>
             <div class="col-3">
-                <img src="{% static 'images/cat_balinese.jpg' %}" alt="Balinese Cat">
-            </div>
-            <div class="col-3">
-                <img src="{% static 'images/dog_labrador.jpg' %}" alt="Labrador">
+                <a href="{% url 'dog_list' %}" class="pet-link">
+                    <img src="{% static 'images/dog_husky.jpeg' %}" alt="Dogs" class="pet-image">
+                    <span>Dogs</span>
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Featured Pets -->
-
-<div class="small-container">
-    <h2 class="title">Featured Pets</h2>
+<div class="services-section">
+    <h2 class="title">Services</h2>
     <div class="row">
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'american_short_hair' %}">
-                <img src="{% static 'images/cat_american_short.jpg' %}" alt="American Short Hair">
+        <div class="col-4 service-box">
+            <a href="{% url 'trainer_con' %}">
+                <img src="{% static 'images/trainer.jpg' %}" alt="Trainer" class="service-image">
             </a>
-            <h4>American Short Hair</h4>
-            <p>Age: 2 years</p>
-            <p>Price: $50.00</p>
+            <div class="image-label">Trainer Services</div>
+            <p class="service-description">
+                Our experienced trainers offer tailored training sessions for pets of all ages,
+                helping them develop good habits, obedience skills, and improve their quality of life.
+            </p>
         </div>
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'husky' %}">
-                <img src="{% static 'images/dog_husky.jpeg' %}" alt="Husky">
-            </a>
-            <h4>Husky</h4>
-            <p>Age: 3 years</p>
-            <p>Price: $300.00</p>
-        </div>
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'labrador' %}">
-                <img src="{% static 'images/dog_labrador.jpg' %}" alt="Labrador">
-            </a>
-            <h4>Labrador</h4>
-            <p>Age: 4 years</p>
-            <p>Price: $250.00</p>
-        </div>
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'balinese' %}">
-                <img src="{% static 'images/cat_balinese.jpg' %}" alt="Balinese Cat">
-            </a>
-            <h4>Balinese Cat</h4>
-            <p>Age: 1 year</p>
-            <p>Price: $100.00</p>
-        </div>
-    </div>
 
-    <h2 class="title">Latest Arrivals</h2>
-    <div class="row">
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'tiffany' %}">
-                <img src="{% static 'images/cat_tiffany.jpeg' %}" alt="tiffany Cat">
+        <div class="col-4 service-box">
+            <a href="{% url 'caretaker_con' %}">
+                <img src="{% static 'images/pet_grooming.jpg' %}" alt="Caretaker" class="service-image">
             </a>
-            <h4>tiffany Cat</h4>
-            <p>Age: 2 years</p>
-            <p>Price: $150.00</p>
-        </div>
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'beagle' %}">
-                <img src="{% static 'images/dog_beagle.jpeg' %}" alt="Beagle">
-            </a>
-            <h4>Beagle</h4>
-            <p>Age: 3 years</p>
-            <p>Price: $200.00</p>
-        </div>
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'rottweiler' %}">
-                <img src="{% static 'images/dog_rottweiler.jpg' %}" alt="rottweiler">
-            </a>
-            <h4>rottweiler</h4>
-            <p>Age: 2 years</p>
-            <p>Price: $250.00</p>
-        </div>
-        <div class="col-4">
-            <a href="{% url 'pet_details' 'siberian' %}">
-                <img src="{% static 'images/cat_siberian.jpg' %}" alt="siberian Cat">
-            </a>
-            <h4>siberian Cat</h4>
-            <p>Age: 1 year</p>
-            <p>Price: $80.00</p>
+            <div class="image-label">Caretaker Services</div>
+            <p class="service-description">
+                Our caretakers provide top-notch grooming, walking, and care services to ensure your pet
+                stays happy, healthy, and well-cared for when you're away.
+            </p>
         </div>
     </div>
 </div>
+
+<section class="adoption-description">
+    <h2>The Joy of Adopting a Pet</h2>
+    <p>
+        Pets bring unconditional love, joy, and companionship into our lives. Adopting a pet can greatly enhance your life,
+        providing a loyal friend and adding warmth to your home. Pets can improve mental health, encourage physical activity,
+        and bring structure to daily life. By adopting, you not only gain a loving companion but also save a life, helping pets
+        find a forever home and reducing overpopulation in shelters.
+    </p>
+</section>

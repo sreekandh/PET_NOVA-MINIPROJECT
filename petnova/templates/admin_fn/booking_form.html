@@ -2,14 +2,91 @@
 {% load static %}
 
 {% block banner %}
+<style>
+    /* Styles for the booking form */
+    .booking-form {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-form h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="file"],
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-group input[type="number"],
+    .form-group input[type="date"] {
+        width: 50%;
+    }
+
+    .service-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .service-options label {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .service-options input[type="checkbox"] {
+        transform: scale(0.8);
+        margin-right: 5px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #df9389;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #c5737a;
+    }
+
+    p {
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
 <h1>Book Caretaker Slot</h1>
 <form class="booking-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    
-    <div class="form-group">
-        <label for="duration">Duration:</label>
-        {{ form.duration }} 
-    </div>
 
     <h2>Service:</h2>
     <div class="form-group service-options">
@@ -24,37 +101,42 @@
     <div class="form-group">
         <label for="pet_name">Pet Name:</label>
         {{ form.pet_name }}<br>
-        {{ form.pet_name.errors }}  
+        {{ form.pet_name.errors }}
     </div>
     <div class="form-group">
         <label for="pet_breed">Breed:</label>
         {{ form.pet_breed }}<br>
-        {{ form.pet_breed.errors }}  
+        {{ form.pet_breed.errors }}
     </div>
     <div class="form-group">
         <label for="pet_species">Species:</label>
         {{ form.pet_species }}<br>
-        {{ form.pet_species.errors }}  
+        {{ form.pet_species.errors }}
     </div>
     <div class="form-group">
         <label for="pet_age">Age:</label>
         {{ form.pet_age }}<br>
-        {{ form.pet_age.errors }}  
+        {{ form.pet_age.errors }}
     </div>
     <div class="form-group">
         <label for="pet_image">Image:</label>
         {{ form.pet_image }}<br>
-        {{ form.pet_image.errors }}  
+        {{ form.pet_image.errors }}
     </div>
     <div class="form-group">
         <label for="service_start_date">Service Start Date:</label>
         {{ form.service_start_date }}<br>
-        {{ form.service_start_date.errors }}  
+        {{ form.service_start_date.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="duration">Duration:</label>
+        {{ form.duration }}
     </div>
     <div class="form-group">
         <label for="additional_notes">Additional Information:</label>
         {{ form.additional_notes }}<br>
-        {{ form.additional_notes.errors }}  
+        {{ form.additional_notes.errors }}
     </div>
 
     <p>Total Price: <span id="total-price">0</span> Rs</p>

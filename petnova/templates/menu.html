@@ -157,6 +157,7 @@
                             </div>
                         </li>
                         <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
+                        <li><a href="{% url 'view_contact_messages' %}"><i class="fas fa-message"></i></a></li>
                         <li><a href="{% url 'apply_control' %}"><i class="fas fa-folder-open"></i></a></li>
                         <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a></li>
                     </ul>
@@ -176,6 +177,8 @@
                         <li><a href="{% url 'about_page' %}">About</a></li>
                         <li><a href="{% url 'contact_page' %}">Contact</a></li>
                         <li><a href="{% url 'user_profile' %}">Profile</a></li>
+                        <li><a href="{% url 'user_wishlist' %}">WishList</a></li>
+
                         <li>
                             <a href="#">Services</a>
                             <div class="dropdown">
@@ -187,7 +190,7 @@
                         </li>
 
 
-                        <li><a href="{% url 'app_view' %}">Notification</a></li>
+                        <li><a href="{% url 'app_view' %}">Notifications</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     </ul>
                 {% endif %}

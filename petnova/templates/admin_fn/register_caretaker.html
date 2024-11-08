@@ -1,171 +1,135 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Caretaker</title>
-    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url("{% static 'images/back_cat_3.jpg' %}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: #333;
-            height: 100vh;
-        }
 
-        /* Navigation Bar */
-        .admin-nav {
-            background-color: rgba(34, 34, 34, 0.8);
-            padding: 15px 50px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+{% block banner %}
+<style>
+    /* Styling for the layout container */
+    .layout-container {
+        display: flex; /* Flexbox for sidebar and content area */
+        max-width: 1200px; /* Max width for layout */
+        margin: 50px auto; /* Center the layout */
+        height: auto; /* Height adjusted for content */
+    }
 
-        /* Logo */
-        .admin-nav .logo {
-            display: flex;
-            align-items: center;
-        }
+    /* Sidebar styling */
+    .sidebar-menu {
+        flex: 1; /* Sidebar takes 1 part of the flex container */
+        background-color: #df9389; /* Sidebar background color */
+        padding: 20px; /* Padding around sidebar items */
+        color: white; /* Text color */
+        border-radius: 8px; /* Rounded corners */
+        margin-right: 20px; /* Space between sidebar and content */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        height: fit-content; /* Adjust height for content */
+    }
 
-        .admin-nav .logo img {
-            width: 150px; /* Match size with View Pets */
-            height: auto;
-            border-radius: 50%; /* Optional: make the logo round */
-            margin-right: 20px;
-        }
+    .sidebar-menu h2 {
+        font-size: 24px; /* Size of the sidebar heading */
+        margin-bottom: 20px; /* Space below heading */
+    }
 
-        /* Navigation Links */
-        .admin-nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
+    .sidebar-menu a {
+        display: block; /* Block display for links */
+        color: white; /* Link color */
+        text-decoration: none; /* No underline */
+        padding: 10px 0; /* Padding for links */
+        transition: background-color 0.3s; /* Transition effect */
+    }
 
-        .admin-nav ul li {
-            margin: 0 20px;
-        }
+    .sidebar-menu a:hover {
+        background-color: #4CAF50; /* Change background on hover */
+    }
 
-        .admin-nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s;
-        }
+    /* Styling for the main content area */
+    .main-content {
+        flex: 3; /* Main content takes 3 parts of the flex container */
+        background-color: #fff; /* White background */
+        padding: 30px; /* Add padding to the content */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        font-family: Arial, sans-serif; /* Use a clean font */
+    }
 
-        .admin-nav ul li a:hover {
-            color: #f0a500;
-        }
+    /* Header styling */
+    .main-content h1 {
+        font-size: 28px; /* Size of the heading */
+        text-align: center; /* Center the heading */
+        color: #333; /* Dark color for the heading */
+        margin-bottom: 20px; /* Space below the heading */
+    }
 
-        /* Main Content */
-        .main-content {
-            padding-top: 120px; /* Adjusting for fixed navbar */
-            width: 500px;
-            margin: 50px auto;
-            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    /* Form field styling */
+    .main-content form div {
+        margin-bottom: 20px; /* Add space between form fields */
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+    .main-content label {
+        display: block; /* Ensure labels are on separate lines */
+        font-weight: bold; /* Make labels bold */
+        margin-bottom: 5px; /* Space below labels */
+        color: #555; /* Subtle color for labels */
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .main-content input[type="text"],
+    .main-content input[type="email"],
+    .main-content input[type="file"],
+    .main-content input[type="password"],
+    .main-content select {
+        width: 100%; /* Full width input fields */
+        padding: 10px; /* Add padding inside the fields */
+        border: 1px solid #ddd; /* Light border */
+        border-radius: 4px; /* Rounded corners */
+        box-sizing: border-box; /* Ensure padding is inside the width */
+        font-size: 14px; /* Font size for inputs */
+    }
 
-        input[type="text"], input[type="email"], input[type="number"], input[type="file"], select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
+    /* Error message styling */
+    .main-content .error {
+        color: #f44336; /* Red color for error messages */
+        font-size: 13px; /* Smaller font for errors */
+        margin-top: 5px; /* Space above errors */
+    }
 
-        button {
-            padding: 10px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    /* Button styling */
+    .main-content button {
+        width: 100%; /* Full width button */
+        padding: 12px; /* Padding for the button */
+        background-color: #4CAF50; /* Green background */
+        color: white; /* White text */
+        border: none; /* Remove borders */
+        border-radius: 4px; /* Rounded corners */
+        font-size: 16px; /* Larger font for the button */
+        cursor: pointer; /* Pointer cursor */
+    }
 
-        button:hover {
-            background-color: #555;
-        }
+    /* Button hover effect */
+    .main-content button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
 
-        .error {
-            color: red;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
+    /* Back link styling */
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+    }
 
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-            display: block;
-            color: #007BFF;
-            text-decoration: none;
-        }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
 
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .admin-nav ul {
-                flex-direction: column;
-                align-items: flex-end;
-            }
-
-            .admin-nav ul li {
-                margin: 10px 0;
-            }
-
-            .main-content {
-                width: 90%; /* Responsive width for mobile */
-            }
-        }
-    </style>
-</head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="admin-nav">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo"> <!-- Update logo path -->
-            <h1 style="color: #fff;"></h1>
-        </div>
-        
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a></li>
-        </ul>
-    </nav>
+<!-- Main Layout -->
+<div class="layout-container">
+    <!-- Sidebar -->
+    <div class="sidebar-menu">
+        <h2>Menu</h2>
+        <a href="{% url 'view_caretakers' %}">View Caretakers</a>
+        <a href="{% url 'register_caretaker' %}">Register Caretaker</a>
+        <a href="{% url 'admin_user_caretaker_view' %}">Bookings</a>
+    </div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -239,5 +203,9 @@
         </form>
         <a class="back-link" href="{% url 'caretaker_con' %}">Cancel</a>
     </div>
+</div>
 </body>
-</html>
+{% block footer_layout %}
+<!-- Footer (Removed) -->
+{% endblock footer_layout %}
+{% endblock banner %}

@@ -90,8 +90,8 @@
                 {% endif %}
                 <h2>{{ item.cat.name }}</h2>
                 <h4>Breed: {{ item.cat.breed }}</h4>
-                <h4>Age: {{ item.cat.age }} years</h4>
-                <h4>Price: ${{ item.cat.price }}</h4>
+                <h4>Age: {{ item.cat.age }} year</h4>
+                <h4>Price: ₹{{ item.cat.price }}</h4>
             </a>
             <form method="POST" action="{% url 'remove_from_wishlist' item.id %}">
                 {% csrf_token %}
@@ -105,6 +105,12 @@
 
 </body>
 <br><br><br><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </html>
 {% block footer_layout %}{% endblock footer_layout %}
 {% endblock banner %}

@@ -1,158 +1,144 @@
+{% extends 'blank_layout.html' %}
 {% load static %}
+{% block banner %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Dog</title>
-    <!-- Font Awesome (loaded locally) -->
+    <title>Pet Management</title>
+    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-    
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Light grey background */
+        /* General Page Styling */
+        body.pet-management-body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
             margin: 0;
             padding: 0;
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column; /* Stack children vertically */
-            align-items: center; /* Center horizontally */
-            justify-content: center; /* Center vertically */
-        }
-    
-        .navbar {
-            background-color: rgba(34, 34, 34, 0.8); /* Updated navbar color */
-            color: #fff;
-            padding: 15px 30px; /* Increased padding for navbar */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-        }
-    
-        .navbar .logo img {
-            max-height: 60px; /* Increased logo size */
-        }
-    
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-        }
-    
-        .navbar ul li {
-            margin: 0 20px; /* Increased margin for space between icons */
-        }
-    
-        .navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px; /* Increased icon size */
-            padding: 10px; /* Added padding to anchor tags */
-            transition: color 0.3s;
-        }
-    
-        .navbar ul li a:hover {
-            color: #ccc; /* Light grey hover */
         }
 
-        .container {
-            max-width: 400px;
+        .pet-management-container {
             width: 100%;
-            background-color: #fff; /* White background for content */
-            padding: 30px 20px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            max-width: 700px;
+            margin: 100px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin: 100px auto; /* Space for navbar */
         }
 
-        h1 {
-            font-size: 24px;
-            color: #333; /* Dark grey for heading */
+        .pet-management-title {
+            font-size: 2rem;
+            color: #333;
             margin-bottom: 20px;
         }
 
-        p {
-            font-size: 18px;
-            color: #666; /* Medium grey */
-            margin-bottom: 30px;
+        .pet-management-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin: 20px auto;
         }
 
-        .pet-image {
-            width: 100%; /* Make the image responsive */
-            height: auto;
-            border-radius: 8px; /* Rounded corners for the image */
-            margin-bottom: 20px; /* Space below the image */
+        /* Form Styling */
+        .pet-management-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #000; /* Black button */
+        .pet-management-label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .pet-management-input,
+        .pet-management-select,
+        .pet-management-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            color: #333;
+            transition: border-color 0.3s;
+        }
+
+        .pet-management-input:focus,
+        .pet-management-select:focus,
+        .pet-management-textarea:focus {
+            border-color: #f0a500;
+            outline: none;
+        }
+
+        /* Button Styling */
+        .pet-management-button, .pet-management-cancel-btn, .pet-management-back-btn {
+            padding: 12px 25px;
+            background-color: #180d0b;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        button:hover {
-            background-color: #444; /* Dark grey hover */
-            transform: scale(1.05);
-        }
-
-        .cancel-btn {
+            margin-top: 15px;
+            text-align: center;
+            transition: background-color 0.3s;
             display: inline-block;
-            margin-top: 20px;
-            color: #333;
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s, transform 0.2s;
         }
 
-        .cancel-btn:hover {
-            color: #999; /* Light grey hover */
-            transform: translateY(-2px);
+        .pet-management-button:hover, .pet-management-cancel-btn:hover, .pet-management-back-btn:hover {
+            background-color: #2e1d1a;
+        }
+
+        .pet-management-cancel-btn,
+        .pet-management-back-btn {
+            background-color: #4f4f4d;
+        }
+
+        .pet-management-cancel-btn:hover, .pet-management-back-btn:hover {
+            background-color: #716d66;
+        }
+
+        /* Error & Success Message Styling */
+        .pet-management-form-errors {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .pet-management-success-message {
+            color: green;
+            margin-top: 15px;
+            font-weight: bold;
         }
     </style>
-    
 </head>
-<body>
+<body class="pet-management-body">
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-        </div>
-        <ul>
-            <li><a href="{% url 'admin_home' %}"><i class="fas fa-home"></i></a></li>
-            <li><a href="{% url 'view_pets' %}"><i class="fas fa-paw"></i></a></li>
-            <li><a href="{% url 'staff_control' %}"><i class="fas fa-users"></i></a></li>
-            <li><a href="{% url 'admin_users' %}"><i class="fas fa-user"></i></a></li>
-            <li><a href="{% url 'view_applications' %}"><i class="fas fa-folder-open"></i></a></li>
-            <li>{% if user.is_authenticated %}<a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>{% endif %}</li>
-        </ul>
-    </div>
-
-    <!-- Delete Confirmation Container -->
-    <div class="container">
-        <h1>Confirm Delete</h1>
-        <img src="{{ dog.image.url }}" alt="Image of {{ dog.name }}" class="pet-image"> <!-- Dog image -->
+    <!-- Delete Confirmation Section -->
+    <div class="pet-management-container">
+        <h1 class="pet-management-title">Confirm Delete</h1>
+        <img src="{{ dog.image1.url }}" alt="Image of {{ dog.name }}" class="pet-management-image">
         <p>Are you sure you want to delete the dog "{{ dog.name }}"?</p>
-        <form method="post">
+        <form method="post" class="pet-management-form">
             {% csrf_token %}
-            <button type="submit">Delete</button>
+            <button type="submit" class="pet-management-button">Delete</button>
         </form>
-        <a href="{% url 'view_dogs' %}" class="cancel-btn">Cancel</a>
+        <a href="{% url 'view_dogs' %}" class="pet-management-cancel-btn">Cancel</a>
     </div>
-
+    <br><br><br><br>
 </body>
 </html>
+
+{% endblock banner %}
