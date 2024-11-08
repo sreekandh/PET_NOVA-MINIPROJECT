@@ -1,7 +1,12 @@
+
+
+
 {% extends 'blank_layout.html' %}
 {% load static %}
 
 {% block banner %}
+
+
 <style>
     /* Styling for the layout container */
     .layout-container {
@@ -121,9 +126,7 @@
 </style>
 
 <body>
-<!-- Main Layout -->
 <div class="layout-container">
-    <!-- Sidebar -->
     <div class="sidebar-menu">
         <h2>Menu</h2>
         <a href="{% url 'view_caretakers' %}">View Caretakers</a>
@@ -131,7 +134,6 @@
         <a href="{% url 'admin_user_caretaker_view' %}">Bookings</a>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <h1>Register Caretaker</h1>
         <form method="POST" enctype="multipart/form-data">
@@ -199,6 +201,5 @@
 </div>
 </body>
 {% block footer_layout %}
-<!-- Footer (Removed) -->
 {% endblock footer_layout %}
 {% endblock banner %}
