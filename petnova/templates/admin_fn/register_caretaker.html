@@ -137,17 +137,10 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div>
-                {{ form.first_name.label_tag }}
-                {{ form.first_name }}
-                {% if form.first_name.errors %}
-                    <div class="error">{{ form.first_name.errors }}</div>
-                {% endif %}
-            </div>
-            <div>
-                {{ form.last_name.label_tag }}
-                {{ form.last_name }}
-                {% if form.last_name.errors %}
-                    <div class="error">{{ form.last_name.errors }}</div>
+                {{ form.caretaker_name.label_tag }}
+                {{ form.caretaker_name }}
+                {% if form.caretaker_name.errors %}
+                    <div class="error">{{ form.caretaker_name.errors }}</div>
                 {% endif %}
             </div>
             <div>
