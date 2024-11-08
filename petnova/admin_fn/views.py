@@ -231,8 +231,8 @@ def apply_for_adoption(request, pet_id, pet_type):
     pet = get_object_or_404(pet_model, id=pet_id)
     
     # Check if the user has already submitted an application
-    if request.session.get('adoption_application_submitted', False):
-        return redirect('adoption_success')
+    # if request.session.get('adoption_application_submitted', False):
+    #     return redirect('adoption_success')
     
     if request.method == 'POST':
         form = AdoptionApplicationForm(request.POST)
